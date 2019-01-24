@@ -26,22 +26,3 @@ const users = {
 }
 
 module.exports = users
-
-
-
-
-
-/*
-const mongoose = require('mongoose');
-mongoose.connect("mongodb://admin:mittnamn87@ds157844.mlab.com:57844/scoreandgametime");
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-});
-
-var kittySchema = new mongoose.Schema({
-  name: String
-});
-*/
