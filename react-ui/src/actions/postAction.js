@@ -1,7 +1,5 @@
 import { FETCH_POSTS, NEW_POSTS } from './types';
-
 import games from './fakedata';
-import axios from 'axios';
 
 export const fetchPosts = () => dispatch => {
     /*

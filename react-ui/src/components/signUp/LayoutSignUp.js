@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import HeaderAppBar from '../header';
 import HeadSignText from './HeadSignText'
 import GoogleButtonWrap from './GoogleButtonWrap'
 import CreateAccount from './CreateAccount'
@@ -20,7 +19,6 @@ class LayoutSignUp extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <HeaderAppBar/>
                 <Grid className={classes.root}>
                     <HeadSignText/>
                     <GoogleButtonWrap/>

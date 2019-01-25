@@ -2,8 +2,6 @@ import { auth } from '../Firebase.js'
 export const GET_USER = 'get_user';
 export const RESET_USER = 'reset_user';
 
-var user = auth.currentUser;
-
 export function getUser() {
     return dispatch => {
         auth.onAuthStateChanged((user) => {

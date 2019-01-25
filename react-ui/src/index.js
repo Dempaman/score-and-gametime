@@ -19,6 +19,7 @@ const theme = createMuiTheme({
             main: '#33323A',
             blue01: '#2C6BC8',
             blue02: '#438BC8',
+            blue03: '#36A9CE',
         },
         secondary: {
             main: '#2B2A32',
@@ -127,6 +128,11 @@ const theme = createMuiTheme({
                 color: '#fff',
             },
         },
+        MuiCircularProgress: {
+            colorPrimary: {
+                color: '#438BC8',
+            }
+        }
     }
     //**** ------   **** ///
 

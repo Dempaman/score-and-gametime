@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import LoginAccount from './LoginAccount'
-import HeadLoginText from './HeadLoginText'
+import HeaderBackground from './HeaderBackground';
+import SearchResult from './SearchResult';
 
 class Layout extends Component {
     render(){
         return (
             <div>
-                <HeadLoginText/>
-                <LoginAccount/>
+                <HeaderBackground />
+                <SearchResult />
             </div>
         )
     }

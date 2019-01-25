@@ -8,6 +8,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import history from '../history.js';
 import Login from '../components/login';
 import SignUp from '../components/signUp';
+import AddGameSearchResult from '../components/addGameSearchResult';
 
 const styles = theme => ({
     root: {
@@ -30,23 +31,26 @@ class App extends Component {
     componentDidMount() {
         this.connecToServer();
     }
-    
+
     render() {
         const { classes } = this.props;
         return (
-            <Router history={history}>
-                <Switch>
-                    <Route path="/signup" component={SignUp}/>
-                    <Route path="/login" component={Login}/>
-                    <Route path='/'>
-                        <Grid className={classes.root}>
-                            <HeaderAppBar/>
-                            <Posts/>
-                            <PostForm/>
-                        </Grid>
-                    </Route>
-                </Switch>
-            </Router>
+            <div>
+                <HeaderAppBar/>
+                <Router history={history}>
+                    <Switch>
+                        <Route path="/signup" component={SignUp}/>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/addgame_search" component={AddGameSearchResult}/>
+                        <Route path='/'>
+                            <Grid className={classes.root}>
+                                <Posts/>
+                                <PostForm/>
+                            </Grid>
+                        </Route>
+                    </Switch>
+                </Router>
+            </div>
         );
     }
 }
