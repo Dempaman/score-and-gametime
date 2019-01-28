@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import HeaderLinkButton from './HeaderLinkButton';
 import { getUser, logout } from '../../actions/UserActions';
 import SearchBar from './SearchBar'
+import history from '../../history.js';
 
 const styles = theme => ({
   root: {
@@ -166,7 +167,11 @@ class HeaderAppBar extends React.Component {
             </Typography>
             <SearchBar placeholder="Search..." inputWidth='inputL'/>
             <div className={classes.sectionDesktop}>
-              <Button size="large" className={classes.headerButton}>
+              <Button size="large" className={classes.headerButton}
+                  onClick={ () => {
+                      history.push('/addgame_search')
+                  }}
+              >
                 <Typography variant='button'>Add Game</Typography>
               </Button>
             </div>

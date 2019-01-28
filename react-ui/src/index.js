@@ -23,13 +23,17 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: '#2B2A32',
-            orangeButton: 'linear-gradient(top, #f27449 0%,#fb9f33 100%)'
+            orangeButton: 'linear-gradient(top, #f27449 0%,#fb9f33 100%)',
+            divider: 'rgba(255, 255, 255, 0.12)'
         }
     },
     typography: {
         fontFamily: 'Lato, sans-serif',
         headline:{
             color: '#fff',
+        },
+        body1: {
+            color: '#747480'
         },
         subtitle1: {
             color: '#fff',

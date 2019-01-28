@@ -15,8 +15,25 @@ let games = [
                 "name": "Adventure"
             }
         ],
+        "involved_companies": [
+            {
+                "id": 54028,
+                "company": {
+                    "id": 421,
+                    "name": "Nintendo EAD"
+                },
+                "developer": true
+            },
+            {
+                "id": 54029,
+                "company": {
+                    "id": 70,
+                    "name": "Nintendo"
+                },
+                "developer": false
+            }
+        ],
         "name": "Zelda II: The Adventure of Link",
-        "popularity": 3.267622647391186,
         "release_dates": [
             {
                 "id": 2502,
@@ -112,7 +129,8 @@ let games = [
                 "id": 179236,
                 "url": "//images.igdb.com/igdb/image/upload/t_thumb/d1ho6mr2gmnb3okbhbsl.jpg"
             }
-        ]
+        ],
+        "summary": "The land of Hyrule is in chaos. As Link, you’ll be sent on a treacherous journey to return six precious Crystals to their origins in six stone statues. Only by defeating the guardians of the six palaces will you gain passage to the seventh palace, take on the ultimate challenge that awaits you, and wake the Princess Zelda from her sleeping spell. On your way, helpful villagers you encounter will offer clues and secret messages invaluable in your quest. As you guide Link through the levels of Hyrule, close-ups and overviews will enhance your video vision. Are you up to the challenge?"
     },
     {
         "id": 1029,
@@ -138,8 +156,25 @@ let games = [
                 "name": "Adventure"
             }
         ],
+        "involved_companies": [
+            {
+                "id": 23213,
+                "company": {
+                    "id": 70,
+                    "name": "Nintendo"
+                },
+                "developer": false
+            },
+            {
+                "id": 23214,
+                "company": {
+                    "id": 421,
+                    "name": "Nintendo EAD"
+                },
+                "developer": true
+            }
+        ],
         "name": "The Legend of Zelda: Ocarina of Time",
-        "popularity": 29.8312022311165,
         "release_dates": [
             {
                 "id": 2513,
@@ -195,7 +230,8 @@ let games = [
                 "id": 24107,
                 "url": "//images.igdb.com/igdb/image/upload/t_thumb/id65ty6ulps9twunpb0r.jpg"
             }
-        ]
+        ],
+        "summary": "The Legend of Zelda: Ocarina of Time reveals the genesis of the fantasy land of Hyrule, the origin of the Triforce, and the tale of the first exploits of Princess Zelda and the heroic adventurer Link. Vibrant, real-time 3-D graphics transport you into the fantasy world of Hyrule. Your quest takes you through dense forests and across wind-whipped deserts. Swim raging rivers, climb treacherous mountains, dash on horseback across rolling hills, and delve into dungeons full of creatures that fight to the finish to put an end to your adventures. With immersive graphics, a sweeping story line, swashbuckling adventure, mind-bending puzzles, and a touch of humor, The Legend of Zelda: Ocarina of Time is one of Nintendo's most epic challenges ever."
     },
     {
         "id": 1034,
@@ -209,8 +245,25 @@ let games = [
                 "name": "Adventure"
             }
         ],
+        "involved_companies": [
+            {
+                "id": 2471,
+                "company": {
+                    "id": 70,
+                    "name": "Nintendo"
+                },
+                "developer": false
+            },
+            {
+                "id": 51699,
+                "company": {
+                    "id": 1366,
+                    "name": "Nintendo EAD Group No. 3"
+                },
+                "developer": true
+            }
+        ],
         "name": "The Legend of Zelda: Four Swords Adventures",
-        "popularity": 1.647899711648724,
         "release_dates": [
             {
                 "id": 88936,
@@ -278,7 +331,8 @@ let games = [
                 "id": 176263,
                 "url": "//images.igdb.com/igdb/image/upload/t_thumb/kfa3tmykxsy9f92of1wh.jpg"
             }
-        ]
+        ],
+        "summary": "The game begins with the land of Hyrule in a state of fear because of strange happenings that have occurred recently. On a stormy night, Princess Zelda and the shrine maidens fear that the reason for these events is that Vaati's seal is weakening. She summons Link and brings him to the castle so he can protect her and the other maidens while they open the portal to the Four Sword Sanctuary. When they do, however, a shadowy figure appears from the portal. This figure was Shadow Link, who then kidnapped the shrine maidens and sealed them in crystals. Link follows him to the sanctuary where he retrieves the Four Sword to destroy this doppelganger. The Four Sword is a magical sword that splits the wielder into three clones of himself. Vaati is once again released and wreaks havoc on the once peaceful kingdom."
     },
     {
         "id": 1030,
@@ -296,8 +350,25 @@ let games = [
                 "name": "Adventure"
             }
         ],
+        "involved_companies": [
+            {
+                "id": 2463,
+                "company": {
+                    "id": 70,
+                    "name": "Nintendo"
+                },
+                "developer": false
+            },
+            {
+                "id": 2464,
+                "company": {
+                    "id": 421,
+                    "name": "Nintendo EAD"
+                },
+                "developer": true
+            }
+        ],
         "name": "The Legend of Zelda: Majora's Mask",
-        "popularity": 12.98600542192484,
         "release_dates": [
             {
                 "id": 2517,
@@ -381,7 +452,8 @@ let games = [
                 "id": 176292,
                 "url": "//images.igdb.com/igdb/image/upload/t_thumb/eidrdj08p58ctb0cyucq.jpg"
             }
-        ]
+        ],
+        "summary": "After the events of The Legend of Zelda: Ocarina of Time (1998), Link is assaulted by an imp named Skull Kid under the control of the evil Majora's Mask and gets stuck in a troubled land called Termina. Link must repeat the same 3 days, take on the identities of deceased people from other races, collect numerous masks and rid the land of evil to stop Majora from destroying the world in this third-person action/adventure game."
     },
     {
         "id": 1026,
@@ -399,8 +471,25 @@ let games = [
                 "name": "Adventure"
             }
         ],
+        "involved_companies": [
+            {
+                "id": 20581,
+                "company": {
+                    "id": 70,
+                    "name": "Nintendo"
+                },
+                "developer": false
+            },
+            {
+                "id": 20582,
+                "company": {
+                    "id": 421,
+                    "name": "Nintendo EAD"
+                },
+                "developer": true
+            }
+        ],
         "name": "The Legend of Zelda: A Link to the Past",
-        "popularity": 22.38044210397404,
         "release_dates": [
             {
                 "id": 24413,
@@ -516,7 +605,9 @@ let games = [
                 "id": 176249,
                 "url": "//images.igdb.com/igdb/image/upload/t_thumb/zsxzq9l0kl5l96mtm9c1.jpg"
             }
-        ]
+        ],
+        "storyline": "The plot of A Link to the Past focuses on Link as he travels on a journey to save Hyrule, defeat Ganon and rescue the seven descendants of the Sages. A Link to the Past uses a 3/4 top-down perspective similar to that of the original The Legend of Zelda, dropping the side scrolling elements of Zelda II: The Adventure of Link. A Link to the Past introduced elements to the series that are still commonplace today, such as the concept of an alternate or parallel world, the Master Sword and other new weapons and items.",
+        "summary": "Link, a blacksmith's nephew living in Hyrule, must free the land from the evildoings of Ganon. Link must take up the mythical Master Sword and collect the three Triforces in order to free the Seven Maidens, including the princess of Hyrule, Zelda, from the dungeons and castles of the Dark World to stop Ganon."
     }
 ]
 
