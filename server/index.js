@@ -1,5 +1,4 @@
 const express = require('express');
-//import axios from 'axios';
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
@@ -40,26 +39,6 @@ if (!isDev && cluster.isMaster) {
       res.send(getAllUsers);
     })
   })
-
-  /*
-  app.get("/addgame_", (req, res) => {
-
-
-      axios({
-          url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,summary,storyline,cover.url, screenshots.url,involved_companies.developer,involved_companies.company.name`,
-          method: 'GET',
-          data: "fields alpha_channel,animated,height,image_id,url,width;"
-      })
-      .then(res => {
-          this.props.searchResult(res.data)
-          this.props.loading(true)
-
-      })
-      .catch(err => {
-          console.error(err);
-      });
-  })
-  */
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
