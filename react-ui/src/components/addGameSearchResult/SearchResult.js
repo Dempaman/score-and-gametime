@@ -33,7 +33,6 @@ class SearchResult extends Component {
         super(props)
             this.state = {
                 email: '',
-                clickedGame: []
             }
     }
 
@@ -44,7 +43,7 @@ class SearchResult extends Component {
     render(){
         const { classes } = this.props;
         //games = this.props.searchResult.item
-        const postItems = games.map(game => (
+        const postItems = this.props.searchResult.item.map(game => (
             <Grid
                 key={game.id}
                 onClick={ () => this.setClickedGame(game) }
