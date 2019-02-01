@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 
 import games from './fakedata.js'
+import history from '../../history.js';
 import { searchResultClicked } from '../../actions/SearchActions';
 
 const styles = theme => ({
@@ -29,15 +30,10 @@ const styles = theme => ({
 });
 
 class SearchResult extends Component {
-    constructor(props) {
-        super(props)
-            this.state = {
-                email: '',
-            }
-    }
 
-    setClickedGame = (game) => {
+    setClickedGame = (game, id) => {
         this.props.searchResultClicked(game)
+        history.push(`/submitgame_form/game/${id}`)
     }
 
     render(){
@@ -46,7 +42,7 @@ class SearchResult extends Component {
         const postItems = this.props.searchResult.item.map(game => (
             <Grid
                 key={game.id}
-                onClick={ () => this.setClickedGame(game) }
+                onClick={ () => this.setClickedGame(game, game.id) }
             >
                 <Grid
                     container
@@ -54,7 +50,7 @@ class SearchResult extends Component {
                     alignItems="center"
                     >
                     <Grid>
-                        <img className={classes.image} src={game.cover.url.replace('t_thumb', 't_cover_big')} />
+                        <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
                     </Grid>
                     <Grid>
                         <Typography variant="subtitle1" >
@@ -69,10 +65,12 @@ class SearchResult extends Component {
                             }
                         </Typography>
                         <Typography variant="body1" >
-                            {
+                            {game.involved_companies ?
                                 game.involved_companies.find(obj => {
                                     return obj.developer === true
                                 }).company.name
+                                :
+                                "No company name found"
                             }
                         </Typography>
                     </Grid>
@@ -88,12 +86,9 @@ class SearchResult extends Component {
                 className={classes.root}
             >
                 {!this.props.searchResult.loading ?
-                    <CircularProgress className={classes.progress} />
+                    <CircularProgress/>
                     :
-                    <Grid
-
-                        className={classes.gameWrapper}
-                    >
+                    <Grid className={classes.gameWrapper}>
                         {postItems}
                     </Grid>
                 }

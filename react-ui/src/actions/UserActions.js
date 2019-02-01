@@ -1,4 +1,5 @@
-import { auth } from '../Firebase.js'
+import { auth } from '../Firebase.js';
+import axios from 'axios';
 export const GET_USER = 'get_user';
 export const RESET_USER = 'reset_user';
 
@@ -6,10 +7,21 @@ export function getUser() {
     return dispatch => {
         auth.onAuthStateChanged((user) => {
             if(user){
-                dispatch({
-                    type: GET_USER,
-                    payload: user,
+                axios({
+                    url: `http://localhost:5000/api/create_user?uid=${user.uid}`,
+                    method: 'PUT',
                 })
+                .then(res => {
+                    console.log(res.data);
+                    dispatch({
+                        type: GET_USER,
+                        payload: user,
+                    })
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+
             }
         })
     };

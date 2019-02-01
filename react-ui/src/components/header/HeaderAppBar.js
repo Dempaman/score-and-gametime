@@ -72,10 +72,6 @@ class HeaderAppBar extends React.Component {
         this.props.getUser();
     }
 
-  handleProfileMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
     this.handleMobileMenuClose();
@@ -116,18 +112,59 @@ class HeaderAppBar extends React.Component {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <p>Profile</p>
-        </MenuItem>
-        <MenuItem >
-          <p>Login</p>
-        </MenuItem>
-        <MenuItem >
-          <p>Sign Up</p>
-        </MenuItem>
-        <MenuItem >
-          <p>Add Game</p>
-        </MenuItem>
+      {this.props.user.email ?
+          <div>
+              <MenuItem>
+                  <p>Profile</p>
+              </MenuItem>
+              <MenuItem>
+                  <p
+                      onClick={() => {this.props.logout()}}
+                      >
+                      Sign Out
+                  </p>
+              </MenuItem>
+              <MenuItem >
+                  <p
+                      onClick={ () => {
+                          history.push('/addgame_search')
+                      }}
+                      >
+                      Add Game
+                  </p>
+              </MenuItem>
+          </div>
+        :
+        <div>
+            <MenuItem >
+                <p
+                    onClick={ () => {
+                        history.push('/login')
+                    }}
+                    >
+                    Login
+                </p>
+            </MenuItem>
+            <MenuItem >
+                <p
+                    onClick={ () => {
+                        history.push('/signup')
+                    }}
+                    >
+                    Sign Up
+                </p>
+            </MenuItem>
+            <MenuItem >
+                <p
+                    onClick={ () => {
+                        history.push('/addgame_search')
+                    }}
+                    >
+                    Add Game
+                </p>
+            </MenuItem>
+        </div>
+      }
       </Menu>
     );
 

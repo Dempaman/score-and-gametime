@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SearchBar from './SearchBar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -46,7 +45,6 @@ class HeaderBackground extends Component {
                         <Grid container justify="center">
                             <Typography className={classes.textStyle} variant="h4">Share Your Playthroughs</Typography>
                         </Grid>
-                        <SearchBar placeholder="Search For Game Title"/>
                     </div>
                 </div>
                 <Divider className={classes.dividerStyle}/>

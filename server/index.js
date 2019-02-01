@@ -2,11 +2,14 @@ const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const axios = require('axios');
+const cors = require("cors")
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
 const users = require("./mongoClient.js")
+
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -25,20 +28,25 @@ if (!isDev && cluster.isMaster) {
   const app = express();
 
   // Priority serve any static files.
+  app.use(cors())
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
-  // Answer API requests.
-  app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
-  });
+  app.get("/game:id", (req, res) => {
+      res.send(req.params.id)
+  })
 
   app.get("/api/users", (req, res) => {
     users.getAll(function(getAllUsers) {
-        console.log(getAllUsers)
       res.send(getAllUsers);
     })
   })
+
+  app.put("/api/create_user", (req, res) => {
+    users.createOrUpdate(req, function(data) {
+        res.send(data)
+        //console.log(data.upsertedId)
+    })
+})
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {

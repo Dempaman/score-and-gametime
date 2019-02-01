@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import Posts from '../components/Posts';
 import PostForm from '../components/Postform';
 import HeaderAppBar from '../components/header';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { Router, Switch, Route } from 'react-router-dom';
+
 import history from '../history.js';
 import Login from '../components/login';
 import SignUp from '../components/signUp';
 import AddGameSearchResult from '../components/addGameSearchResult';
+import SubmitGameForm from '../components/SubmitGameForm';
+import { searchResultClicked } from '.././actions/SearchActions';
 
 const styles = theme => ({
     root: {
@@ -34,6 +39,7 @@ class App extends Component {
 
     render() {
         const { classes } = this.props;
+        const id = history.location.pathname.split("/submitgame_form/game/")[1]
         return (
             <div>
                 <HeaderAppBar/>
@@ -42,6 +48,7 @@ class App extends Component {
                         <Route path="/signup" component={SignUp}/>
                         <Route path="/login" component={Login}/>
                         <Route path="/addgame_search" component={AddGameSearchResult}/>
+                        <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
                         <Route path='/'>
                             <Grid className={classes.root}>
                                 <Posts/>
@@ -55,4 +62,11 @@ class App extends Component {
     }
 }
 
-export default withStyles(styles)(App);
+const mapStateToProps = (state, ownProps) => ({
+    searchResult: state.searchResult,
+})
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, {searchResultClicked})
+)(App);

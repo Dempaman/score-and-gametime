@@ -79,12 +79,7 @@ class CreateAccount extends Component {
         };
     ////**** -------------- *****////
 
-    componentWillMount() {
-        //this.props.getUser();
-    }
-
     submitAccount(event) {
-        console.log('here?');
         event.preventDefault();
         if (!this.isValid()) {
             return;
@@ -92,6 +87,7 @@ class CreateAccount extends Component {
         this.props.createAccount(this.state.email, this.state.password)
         .then(() => {
             history.replace('/')
+
         })
         .catch(err => {
             this.setState({

@@ -84,7 +84,6 @@ class SearchBar extends Component {
             .catch(err => {
                 console.error(err);
             });
-            // CODE HERE
         event.preventDefault();
         }
     }

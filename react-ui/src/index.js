@@ -20,6 +20,8 @@ const theme = createMuiTheme({
             blue01: '#2C6BC8',
             blue02: '#438BC8',
             blue03: '#36A9CE',
+            dark01: '#222327',
+            dark02: '#131417',
         },
         secondary: {
             main: '#2B2A32',
@@ -34,6 +36,15 @@ const theme = createMuiTheme({
         },
         body1: {
             color: '#747480'
+        },
+        body2: {
+            color: '#fff',
+            fontWeight: '300',
+            lineHeight: 0.6
+        },
+        body3: {
+            color: '#747480',
+            fontWeight: '700',
         },
         subtitle1: {
             color: '#fff',
@@ -56,6 +67,16 @@ const theme = createMuiTheme({
             color: '#fff',
             fontWeight: 400,
         },
+        h5: {
+            color: '#fff',
+            fontWeight: 400,
+            fontSize: "1.2rem",
+        },
+        display4: {
+            color: '#fff',
+            fontWeight: 700,
+            fontSize: "3rem",
+        },
     },
     shadows: ["none"],
 
@@ -64,6 +85,7 @@ const theme = createMuiTheme({
         MuiMenu: {
             paper: {
                 borderRadius: 0,
+                color: '#131417',
             }
         },
         MuiDivider: {
@@ -74,6 +96,7 @@ const theme = createMuiTheme({
         MuiButton: {
             root: {
                 borderRadius: 0,
+                color: "#fff",
             },
         },
         MuiInput: {
@@ -122,6 +145,11 @@ const theme = createMuiTheme({
                 color: 'rgba(255, 255, 255, 0.2)',
             },
         },
+        MuiFormHelperText: {
+            root: {
+                color: '#fff',
+            }
+        },
         MuiInputBase: {
             input: {
                 color: '#fff'
@@ -136,7 +164,15 @@ const theme = createMuiTheme({
             colorPrimary: {
                 color: '#438BC8',
             }
-        }
+        },
+        MuiMobileStepper: {
+            root: {
+                backgroundColor: "#438BC8"
+            },
+            dot: {
+                backgroundColor: "#fff"
+            }
+        },
     }
     //**** ------   **** ///
 
