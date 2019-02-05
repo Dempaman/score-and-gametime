@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import classNames from 'classnames';
@@ -21,6 +22,7 @@ import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pic
 import history from '../../history.js';
 import { searchResultClicked, loading  } from '../../actions/SearchActions';
 import { submitGame, submitGameTime  } from '../../actions/SubmitGameActions';
+import SnackbarContentWrapper from '../snackbarContentWrapper/SnackbarContentWrapper'
 
 const styles = theme => ({
     root: {
@@ -149,7 +151,7 @@ class Form extends Component {
     constructor(props) {
         super(props)
             this.state = {
-                platform: 'EUR',
+                platform: 'Nintendo Switch',
                 selectedDate: new Date(),
                 activeStep: 0,
                 MainStoryHours: '',
@@ -161,8 +163,19 @@ class Form extends Component {
                 CompletionistHours: '',
                 CompletionistMin: '',
                 CompletionistSec: '',
+                open: false,
+                error: ''
             }
     }
+
+    handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      this.setState({
+          open: false
+      });
+    };
 
     componentDidMount() {
         if(!this.props.searchResult.clicked.id){
@@ -210,46 +223,46 @@ class Form extends Component {
 
     submitAccount(event) {
         event.preventDefault();
-        const submit = {
-            id: this.props.clicked.id,
-            platform: this.state.platform,
-            score: (this.state.activeStep + 1)*10,
-            date: this.state.selectedDate,
-            mainStory: {
-                h: this.state.MainStoryHours,
-                m: this.state.MainStoryMin,
-                s: this.state.MainStorySec
-            },
-            mainStoryBonus: {
-                h: this.state.MainStoryBonusHours,
-                m: this.state.MainStoryBonusMin,
-                s: this.state.MainStoryBonusSec
-            },
-            completionist : {
-                h: this.state.CompletionistHours,
-                m: this.state.CompletionistMin,
-                s: this.state.CompletionistSec
-            }
+        if (this.props.user.uid) {
+            const uid = this.props.user.uid
+            const submit =
+                {
+                    gameId: this.props.clicked.id,
+                    platform: this.state.platform,
+                    score: (this.state.activeStep + 1)*10,
+                    date: this.state.selectedDate,
+                    mainStory: {
+                        h: this.state.MainStoryHours,
+                        m: this.state.MainStoryMin,
+                        s: this.state.MainStorySec
+                    },
+                    mainStoryBonus: {
+                        h: this.state.MainStoryBonusHours,
+                        m: this.state.MainStoryBonusMin,
+                        s: this.state.MainStoryBonusSec
+                    },
+                    completionist : {
+                        h: this.state.CompletionistHours,
+                        m: this.state.CompletionistMin,
+                        s: this.state.CompletionistSec
+                    }
 
-        }
-        this.props.submitGame(submit)
-        //this.props.submitGameTime(gameTime)
-        /*.then(() => {
-            history.replace('/')
-        })
-        .catch(err => {
+                }
+            this.props.submitGame(submit, uid)
+            //history.replace('/')
+
+        } else {
             this.setState({
-                error: err.message,
-                open: true,
+              error: 'You need to login or create an account to submit',
+              open: true
             });
-        }) */
+        }
     }
 
     render(){
         const { classes, theme } = this.props
         const game = this.props.clicked
         const { selectedDate } = this.state
-        console.log(this.props.clicked)
         return (
             <Grid className={classes.root}>
                     { this.props.clicked.id ?
@@ -347,7 +360,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ MainStoryHours: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ MainStoryHours: '' })
+                                                                } else {
+                                                                    this.setState({ MainStoryHours: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
@@ -360,7 +378,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ MainStoryMin: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ MainStoryMin: '' })
+                                                                } else {
+                                                                    this.setState({ MainStoryMin: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
@@ -373,7 +396,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ MainStorySec: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ MainStorySec: '' })
+                                                                } else {
+                                                                    this.setState({ MainStorySec: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                     </Grid>
 
@@ -391,7 +419,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ MainStoryBonusHours: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ MainStoryBonusHours: '' })
+                                                                } else {
+                                                                    this.setState({ MainStoryBonusHours: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
@@ -404,7 +437,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ MainStoryBonusMin: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ MainStoryBonusMin: '' })
+                                                                } else {
+                                                                    this.setState({ MainStoryBonusMin: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
@@ -417,7 +455,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ MainStoryBonusSec: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ MainStoryBonusSec: '' })
+                                                                } else {
+                                                                    this.setState({ MainStoryBonusSec: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                     </Grid>
 
@@ -435,7 +478,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ CompletionistHours: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ CompletionistHours: '' })
+                                                                } else {
+                                                                    this.setState({ CompletionistHours: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
@@ -448,7 +496,12 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ CompletionistMin: event.target.value })}
+                                                            onChange={(event) =>  { if (event.target.value <= 0) {
+                                                                    this.setState({ CompletionistMin: '' })
+                                                                } else {
+                                                                    this.setState({ CompletionistMin: Number(event.target.value) })
+                                                                }
+                                                                }}
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
@@ -461,7 +514,13 @@ class Form extends Component {
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
-                                                            onChange={(event) => this.setState({ CompletionistSec: event.target.value })}
+                                                            onChange={(event) => { if (event.target.value <= 0) {
+                                                                    this.setState({ CompletionistSec: '' })
+                                                                } else {
+                                                                    this.setState({ CompletionistSec: Number(event.target.value) })
+                                                                }
+                                                                }
+                                                            }
                                                         />
                                                     </Grid>
 
@@ -531,6 +590,24 @@ class Form extends Component {
                                                 <Typography variant="button">Submit</Typography>
                                             </Button>
                                         </Grid>
+                                        {this.state.error &&
+                                            (<Snackbar
+                                                anchorOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'right',
+                                                }}
+                                                open={this.state.open}
+                                                autoHideDuration={6000}
+                                                onClose={this.handleClose}
+
+                                                >
+                                                <SnackbarContentWrapper
+                                                    onClose={this.handleClose}
+                                                    variant="warning"
+                                                    message={this.state.error}
+                                                    />
+                                            </Snackbar>)
+                                        }
 
                                     </Grid>
                                 </form>
@@ -548,6 +625,7 @@ class Form extends Component {
 const mapStateToProps = (state, ownProps) => ({
     searchResult: state.searchResult,
     clicked: state.searchResult.clicked,
+    user: state.user
 })
 
 export default compose(

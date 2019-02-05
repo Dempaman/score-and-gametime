@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import history from '../../history.js';
 
 import { getUser } from '../../actions/UserActions';
 
@@ -68,6 +69,9 @@ class SearchBar extends Component {
                     <SearchIcon />
                 </div>
                 <InputBase
+                    onClick={ () => {
+                        history.push('/search')
+                    }}
                     placeholder={placeholder}
                     classes={{
                         root: classes.inputRoot,

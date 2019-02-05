@@ -3,20 +3,23 @@ import axios from 'axios';
 export const GET_USER = 'get_user';
 export const RESET_USER = 'reset_user';
 
+const PORT = process.env.PORT || 'http://localhost:5000';
+
 export function getUser() {
     return dispatch => {
         auth.onAuthStateChanged((user) => {
             if(user){
                 axios({
-                    url: `http://localhost:5000/api/create_user?uid=${user.uid}`,
+                    url: `${PORT}/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${user.displayName}&photoURL=${user.photoURL}`,
                     method: 'PUT',
                 })
                 .then(res => {
-                    console.log(res.data);
-                    dispatch({
-                        type: GET_USER,
-                        payload: user,
-                    })
+                    if (res) {
+                        dispatch({
+                            type: GET_USER,
+                            payload: user,
+                        })
+                    }
                 })
                 .catch(err => {
                     console.error(err);

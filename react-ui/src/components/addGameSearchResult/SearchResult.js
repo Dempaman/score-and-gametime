@@ -57,11 +57,13 @@ class SearchResult extends Component {
                             {game.name}
                         </Typography>
                         <Typography variant="button">
-                            {
+                            {game.release_dates ?
                                 Math.min.apply(game.release_dates, game.release_dates.map(find =>(
-                                    find.y
+                                        find.y
                                     ))
                                 )
+                                :
+                                "No release date found"
                             }
                         </Typography>
                         <Typography variant="body1" >

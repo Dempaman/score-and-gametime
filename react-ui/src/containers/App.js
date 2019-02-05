@@ -12,7 +12,8 @@ import history from '../history.js';
 import Login from '../components/login';
 import SignUp from '../components/signUp';
 import AddGameSearchResult from '../components/addGameSearchResult';
-import SubmitGameForm from '../components/SubmitGameForm';
+import SubmitGameForm from '../components/submitGameForm';
+import Search from '../components/searchResult';
 import { searchResultClicked } from '.././actions/SearchActions';
 
 const styles = theme => ({
@@ -49,6 +50,7 @@ class App extends Component {
                         <Route path="/login" component={Login}/>
                         <Route path="/addgame_search" component={AddGameSearchResult}/>
                         <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
+                        <Route path={`/Search`} component={Search}/>
                         <Route path='/'>
                             <Grid className={classes.root}>
                                 <Posts/>

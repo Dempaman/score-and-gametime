@@ -15,7 +15,6 @@ const users = {
             let resultArray = [];
             let cursor = collection.find({}).limit(100);
 
-            console.log("does this run?")
                 cursor.forEach(function(doc, err){
                 resultArray.push(doc);
             }, function(){
@@ -24,12 +23,86 @@ const users = {
             });
         });
     },
+    getGames: function(callback) {
+        Client.connect(url, { useNewUrlParser: true }, function(err, client) {
+            const db = client.db("scoreandgametime")
+            const collection = db.collection("users")
 
-    createOrUpdate: function(req, callback) {
-        console.log(req.body)
+            let resultArray = [];
+            //let cursor = collection.aggregate([{ $project: { items: { $setUnion: "$games" } } }])
+            let cursor = collection.aggregate({
+                    $unwind: "$games"
+                },
+                {
+                    $group:
+                        {
+                            _id: "$games.gameId",
+                            count: {
+                                $sum: 1
+                            },
+                            "totalAvgScore": {
+                                $avg: "$games.score"
+                            },
+
+                            //MainStory
+                            "avgMainStoryHours": {
+                                $avg: "$games.mainStory.h"
+                            },
+                            "avgMainStoryMin": {
+                                $avg: "$games.mainStory.m"
+                            },
+                            "avgMainStorySec": {
+                                $avg: "$games.mainStory.s"
+                            },
+
+                            //MainStoryBonus
+                            "avgMainStoryBonusHours": {
+                                $avg: "$games.mainStoryBonus.h"
+                            },
+                            "avgMainStoryBonusMin": {
+                                $avg: "$games.mainStoryBonus.m"
+                            },
+                            "avgMainStoryBonusSec": {
+                                $avg: "$games.mainStoryBonus.s"
+                            },
+
+                            //Completionist
+                            "completionistHours": {
+                                $avg: "$games.completionist.h"
+                            },
+                            "completionistMin": {
+                                $avg: "$games.completionist.m"
+                            },
+                            "completionistSec": {
+                                $avg: "$games.completionist.s"
+                            },
+
+                            games: { $push: "$games" }
+                        }
+                },
+                { $project:
+                    {
+                        _id: 0, games: { $reduce: { input: "$games", initialValue: [],
+                        in: { $concatArrays: ["$$this","$$value"] } } },
+                    }
+                }
+            )
+
+            cursor.forEach(function(doc, err){
+                resultArray.push(doc);
+            }, function(){
+                client.close();
+                callback(resultArray[0]);
+            });
+        })
+    },
+
+    createOrUpdateUser: function(req, callback) {
         let status = {
-            _id: req.query._id || null,
             uid: req.query.uid,
+            email: req.query.email,
+            displayName: req.query.displayName,
+            photoURL: req.query.photoURL,
         }
         let query;
 
@@ -45,7 +118,7 @@ const users = {
             query = {uid: status.uid};
 
             collection.updateOne(query, {
-                $set: { uid: status.uid, /*imestamp: status.timestamp, likes: status.likes, comments: status.comments */}
+                $set: { uid: status.uid, email: status.email, displayName: status.displayName, photoURL: status.displayName }
             }, { upsert: true }, function(err, res) {
                 if(err) {
                     callback(error(err.message))
@@ -55,6 +128,38 @@ const users = {
                 callback(res)
                 client.close()
             })
+        });
+    },
+
+    submitGame: function(req, callback) {
+        let status = {
+            uid: req.query.uid,
+            games: req.body
+        }
+        let query;
+
+        Client.connect(url, { useNewUrlParser: true }, (err, client) => {
+            if(err) {
+                callback(error(err.message))
+                client.close()
+                return true
+            }
+            const db = client.db("scoreandgametime")
+            const collection = db.collection("users")
+
+            query = {uid: status.uid};
+            gameId = { games: status.games.gameId }
+
+            collection.updateOne(query,
+                { $pull: { games: {gameId: status.games.gameId} }},
+                { $push: { games: status.games }})
+
+            collection.updateOne(query,
+                { $push: { games: status.games }},(res) => {
+                callback(res)
+            })
+
+            client.close()
         });
     }
 }
