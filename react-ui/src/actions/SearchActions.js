@@ -20,7 +20,7 @@ export function searchResult(searchResult) {
 export function searchResultHead(searchData) {
     return dispatch => {
             axios({
-                url: `${PORT}/api/searchresult`,
+                url: `/api/searchresult`,
                 method: 'GET',
             })
             .then(res => {

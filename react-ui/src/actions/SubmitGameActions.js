@@ -10,7 +10,7 @@ export function submitGame(data, uid) {
         console.log(data)
         console.log(uid)
         axios({
-            url: `${PORT}/api/submitgame?uid=${uid}`,
+            url: `/api/submitgame?uid=${uid}`,
             method: 'PUT',
             data: data
         })

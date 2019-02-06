@@ -10,7 +10,7 @@ export function getUser() {
         auth.onAuthStateChanged((user) => {
             if(user){
                 axios({
-                    url: `${PORT}/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${user.displayName}&photoURL=${user.photoURL}`,
+                    url: `/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${user.displayName}&photoURL=${user.photoURL}`,
                     method: 'PUT',
                 })
                 .then(res => {
