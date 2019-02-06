@@ -7,7 +7,6 @@ import HeaderAppBar from '../components/header';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { Router, Switch, Route } from 'react-router-dom';
-
 import history from '../history.js';
 import Login from '../components/login';
 import SignUp from '../components/signUp';
