@@ -77,7 +77,6 @@ class LoginAccount extends Component {
 
     render(){
         const { classes } = this.props;
-        const { checked } = this.state;
         return (
             <Grid
                 container

@@ -28,7 +28,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-              
+
         }
         this.connecToServer = this.connecToServer.bind(this);
     }
@@ -44,7 +44,6 @@ class App extends Component {
 
     render() {
         const { classes } = this.props;
-        const { checked } = this.state;
         const id = history.location.pathname.split("/submitgame_form/game/")[1]
         return (
             <div>
