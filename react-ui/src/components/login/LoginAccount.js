@@ -39,7 +39,7 @@ class LoginAccount extends Component {
                 email: '',
                 password: '',
                 error: '',
-                open: false
+                open: false,
             }
     }
 
@@ -77,6 +77,7 @@ class LoginAccount extends Component {
 
     render(){
         const { classes } = this.props;
+        const { checked } = this.state;
         return (
             <Grid
                 container

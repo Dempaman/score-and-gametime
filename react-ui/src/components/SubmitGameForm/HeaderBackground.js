@@ -30,7 +30,7 @@ const styles = theme => ({
         },
     },
     dividerStyle: {
-        height: 2,
+        height: 4,
         backgroundColor: theme.palette.primary.blue03
     }
 });

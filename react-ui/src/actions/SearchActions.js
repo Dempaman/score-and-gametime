@@ -3,6 +3,7 @@ import axios from 'axios';
 export const SEARCH_RESULT = 'SEARCH_RESULT';
 export const SEARCH_RESULT_CLICKED = 'SEARCH_RESULT_CLICKED'
 export const SEARCH_RESULT_HEAD = 'SEARCH_RESULT_HEAD';
+export const SEARCH_RESULT_NAME_HEAD = 'SEARCH_RESULT_NAME_HEAD';
 export const LOADING = 'LOADING';
 
 const PORT = process.env.PORT || 'http://localhost:5000';
@@ -16,7 +17,7 @@ export function searchResult(searchResult) {
                 })
     };
 }
-export function searchResultHead() {
+export function searchResultHead(searchData) {
     return dispatch => {
             axios({
                 url: `${PORT}/api/searchresult`,
@@ -27,16 +28,22 @@ export function searchResultHead() {
                     type: SEARCH_RESULT_HEAD,
                     payload: res.data,
                 })
-                console.log(res.data);
-
             })
             .catch(err => {
                 console.error(err);
             });
-
-
     };
 }
+
+export function searchResultNameHead(searchData) {
+    return dispatch => {
+        dispatch({
+            type: SEARCH_RESULT_NAME_HEAD,
+            payload: searchData,
+        })
+    };
+}
+
 export function loading(setBool) {
     return dispatch => {
                 dispatch({

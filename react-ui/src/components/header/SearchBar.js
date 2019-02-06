@@ -8,6 +8,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import history from '../../history.js';
 
 import { getUser } from '../../actions/UserActions';
+import { searchResultNameHead, searchResultHead } from '../../actions/SearchActions';
 
 
 const styles = theme => ({
@@ -61,6 +62,21 @@ class SearchBar extends Component {
             }
     }
 
+    updateSearch = (event) => {
+        this.setState({search: event.target.value })
+        const result = this.props.searchResult.filter((game) => {
+            return game.games[0].gameData.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+        })
+        this.props.searchResultNameHead(result)
+    }
+
+    keyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.props.searchResultHead();
+            event.preventDefault();
+        }
+    }
+
     render(){
         const { classes, placeholder } = this.props;
         return (
@@ -72,6 +88,8 @@ class SearchBar extends Component {
                     onClick={ () => {
                         history.push('/search')
                     }}
+                    onChange={this.updateSearch}
+                    onKeyPress={this.keyPress}
                     placeholder={placeholder}
                     classes={{
                         root: classes.inputRoot,
@@ -84,10 +102,11 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    user: state.user
+    user: state.user,
+    searchResult: state.searchResult.items
 })
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, { getUser })
+  connect(mapStateToProps, { getUser, searchResultNameHead, searchResultHead })
 )(SearchBar);

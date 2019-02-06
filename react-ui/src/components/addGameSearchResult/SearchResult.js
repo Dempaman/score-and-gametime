@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 import games from './fakedata.js'
 import history from '../../history.js';
@@ -38,45 +39,52 @@ class SearchResult extends Component {
 
     render(){
         const { classes } = this.props;
-        //games = this.props.searchResult.item
+
         const postItems = this.props.searchResult.item.map(game => (
             <Grid
                 key={game.id}
                 onClick={ () => this.setClickedGame(game, game.id) }
+
             >
-                <Grid
-                    container
-                    direction="row"
-                    alignItems="center"
-                    >
-                    <Grid>
-                        <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
+                <ButtonBase>
+                    <Grid
+                        container
+                        direction="row"
+                        alignItems="center"
+                        >
+                        <Grid>
+                            <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
+                        </Grid>
+                        <Grid>
+                            <Typography variant="subtitle1" >
+                                {game.name}
+                            </Typography>
+                            <Typography variant="button">
+                                {game.release_dates ?
+                                    Math.min.apply(game.release_dates, game.release_dates.map(find =>(
+                                            find.y
+                                        ))
+                                    )
+                                    :
+                                    "No release date found"
+                                }
+                            </Typography>
+                            <Typography variant="body1" >
+                                {game.involved_companies ?
+                                    game.involved_companies.find(obj => {
+                                        if(obj.developer === true){
+                                            return obj.developer === true
+                                        }else{
+                                            return obj.developer === false
+                                        }
+                                    }).company.name
+                                    :
+                                    "No company name found"
+                                }
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid>
-                        <Typography variant="subtitle1" >
-                            {game.name}
-                        </Typography>
-                        <Typography variant="button">
-                            {game.release_dates ?
-                                Math.min.apply(game.release_dates, game.release_dates.map(find =>(
-                                        find.y
-                                    ))
-                                )
-                                :
-                                "No release date found"
-                            }
-                        </Typography>
-                        <Typography variant="body1" >
-                            {game.involved_companies ?
-                                game.involved_companies.find(obj => {
-                                    return obj.developer === true
-                                }).company.name
-                                :
-                                "No company name found"
-                            }
-                        </Typography>
-                    </Grid>
-                </Grid>
+                </ButtonBase>
                 <Divider className={classes.divider} variant="middle"/>
             </Grid>
         ))

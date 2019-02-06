@@ -27,7 +27,9 @@ const styles = theme => ({
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+              
+        }
         this.connecToServer = this.connecToServer.bind(this);
     }
     connecToServer() {
@@ -38,25 +40,28 @@ class App extends Component {
         this.connecToServer();
     }
 
+
+
     render() {
         const { classes } = this.props;
+        const { checked } = this.state;
         const id = history.location.pathname.split("/submitgame_form/game/")[1]
         return (
             <div>
                 <HeaderAppBar/>
                 <Router history={history}>
                     <Switch>
-                        <Route path="/signup" component={SignUp}/>
-                        <Route path="/login" component={Login}/>
-                        <Route path="/addgame_search" component={AddGameSearchResult}/>
-                        <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
-                        <Route path={`/Search`} component={Search}/>
-                        <Route path='/'>
-                            <Grid className={classes.root}>
-                                <Posts/>
-                                <PostForm/>
-                            </Grid>
-                        </Route>
+                            <Route path="/signup" component={SignUp}/>
+                            <Route path="/login" component={Login}/>
+                            <Route path="/addgame_search" component={AddGameSearchResult}/>
+                            <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
+                            <Route path={`/Search`} component={Search}/>
+                            <Route path='/'>
+                                <Grid className={classes.root}>
+                                    <Posts/>
+                                    <PostForm/>
+                                </Grid>
+                            </Route>
                     </Switch>
                 </Router>
             </div>

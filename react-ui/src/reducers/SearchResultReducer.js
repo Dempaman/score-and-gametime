@@ -1,8 +1,9 @@
-import { SEARCH_RESULT, LOADING, SEARCH_RESULT_CLICKED, SEARCH_RESULT_HEAD } from '../actions/SearchActions.js'
+import { SEARCH_RESULT, LOADING, SEARCH_RESULT_CLICKED, SEARCH_RESULT_HEAD, SEARCH_RESULT_NAME_HEAD } from '../actions/SearchActions.js'
 
 const initialState = {
 item: [],
 items: [],
+filter: [],
 clicked: {},
 loading: true,
 }
@@ -12,7 +13,7 @@ export default function (state = initialState, action) {
         case SEARCH_RESULT:
             return {
                 ...state,
-                item: action.payload
+                item: action.payload,
             }
         case SEARCH_RESULT_CLICKED:
             return {
@@ -24,11 +25,19 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: action.payload
             }
+    // DESSA TVÅ SKA SPARA I SAMMA STATE
         case SEARCH_RESULT_HEAD:
             return {
                 ...state,
-                items: action.payload
+                items: action.payload,
+                filter: action.payload
             }
+        case SEARCH_RESULT_NAME_HEAD:
+            return {
+                ...state,
+                filter: action.payload
+            }
+    // ---------------------------------
         default:
             return state;
     }

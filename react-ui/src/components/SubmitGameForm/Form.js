@@ -98,7 +98,8 @@ const styles = theme => ({
         height: 90,
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px"
-    },scoreText: {
+    },
+    scoreText: {
         color: "#fff"
     },
     scoreTextBox: {
@@ -121,6 +122,9 @@ const styles = theme => ({
         width: 200,
         backgroundColor: theme.palette.primary.blue01,
         border: '1px solid rgba(255, 255, 255, 0.2)',
+    },
+    circularStyle: {
+        marginTop: 50,
     }
 });
 
@@ -245,11 +249,12 @@ class Form extends Component {
                         h: this.state.CompletionistHours,
                         m: this.state.CompletionistMin,
                         s: this.state.CompletionistSec
-                    }
+                    },
+                    gameData: this.props.clicked
 
                 }
             this.props.submitGame(submit, uid)
-            //history.replace('/')
+            history.replace('/')
 
         } else {
             this.setState({
@@ -428,7 +433,7 @@ class Form extends Component {
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
-                                                            label="SS"
+                                                            label="MM"
                                                             type="number"
                                                             name="MainStoryBonusMin"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
@@ -469,7 +474,7 @@ class Form extends Component {
                                                     <Grid container direction="row">
                                                         <TextField
                                                             id="outlined-dense"
-                                                            label="SS"
+                                                            label="HHH"
                                                             type="number"
                                                             name="CompletionistHours"
                                                             InputProps={{ inputProps: { min: 0, max: 9999 } }}
@@ -487,7 +492,7 @@ class Form extends Component {
                                                         />
                                                         <TextField
                                                             id="outlined-dense"
-                                                            label="SS"
+                                                            label="MM"
                                                             type="number"
                                                             name="CompletionistMin"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
@@ -615,7 +620,9 @@ class Form extends Component {
                         </Grid>
 
                         :
-                        <CircularProgress/>
+                        <Grid container justify="center" className={classes.circularStyle}>
+                                <CircularProgress />
+                        </Grid>
                     }
             </Grid>
         )

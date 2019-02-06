@@ -29,6 +29,7 @@ const users = {
             const collection = db.collection("users")
 
             let resultArray = [];
+
             //let cursor = collection.aggregate([{ $project: { items: { $setUnion: "$games" } } }])
             let cursor = collection.aggregate({
                     $unwind: "$games"
@@ -91,8 +92,9 @@ const users = {
             cursor.forEach(function(doc, err){
                 resultArray.push(doc);
             }, function(){
+                console.log(resultArray)
                 client.close();
-                callback(resultArray[0]);
+                callback(resultArray);
             });
         })
     },
