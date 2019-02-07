@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import Posts from '../components/Posts';
-import PostForm from '../components/Postform';
 import HeaderAppBar from '../components/header';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,6 +8,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import history from '../history.js';
 import Login from '../components/login';
 import SignUp from '../components/signUp';
+import Home from '../components/home';
 import AddGameSearchResult from '../components/addGameSearchResult';
 import SubmitGameForm from '../components/submitGameForm';
 import Search from '../components/searchResult';
@@ -54,12 +53,7 @@ class App extends Component {
                             <Route path="/addgame_search" component={AddGameSearchResult}/>
                             <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
                             <Route path={`/Search`} component={Search}/>
-                            <Route path='/'>
-                                <Grid className={classes.root}>
-                                    <Posts/>
-                                    <PostForm/>
-                                </Grid>
-                            </Route>
+                            <Route path='/' component={Home}/>
                     </Switch>
                 </Router>
             </div>

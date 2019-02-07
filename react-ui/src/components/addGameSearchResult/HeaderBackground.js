@@ -23,6 +23,13 @@ const styles = theme => ({
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        [theme.breakpoints.down('xs')]: {
+          position: "relative",
+          top: 0,
+          left: 0,
+          transform: "translate(0, 0)",
+          padding: "50px 20px"
+        },
     },
     textStyle: {
         margin: "0 0 20px 0",

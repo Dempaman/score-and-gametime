@@ -102,9 +102,10 @@ const styles = theme => ({
     }
 });
 
-class ResultView extends Component {
+class TopGames extends Component {
     state = {
         checked: true,
+        showItems: 5,
     };
 
     componentWillMount() {
@@ -123,7 +124,7 @@ class ResultView extends Component {
 
         console.log(filteredGames)
 
-        const postItems = filteredGames.map(game => (
+        const postItems = filteredGames.slice(0, this.state.showItems).map(game => (
             <Grow
                 key={game._id}
                 in={checked}
@@ -228,7 +229,7 @@ class ResultView extends Component {
             >
                 <Grid className={classes.gameWrapper}>
                     <Typography align="center" className={classes.searchNumber} variant="h5">
-                        {this.props.filterResult.length} Results
+                        Top Games
                     </Typography>
                     <Grid container justify="center" className={classes.postersContainer}>
                         {postItems}
@@ -247,4 +248,4 @@ const mapStateToProps = (state, ownProps) => ({
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {searchResultHead})
-)(ResultView);
+)(TopGames);

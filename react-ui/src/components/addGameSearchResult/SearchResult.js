@@ -14,6 +14,8 @@ import { searchResultClicked } from '../../actions/SearchActions';
 
 const styles = theme => ({
     root: {
+        paddingLeft: 20,
+        margin: "0 auto"
     },
     gameWrapper: {
         width: 1356,
@@ -22,10 +24,18 @@ const styles = theme => ({
     },
     image: {
         width: 80,
-        margin: "25px 12px 25px 25px"
+        margin: "15px 12px 15px 0px"
+    },
+    img: {
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
     },
     divider: {
         backgroundColor: theme.palette.secondary.divider,
+        marginTop: 5,
+        marginBottom: 5,
     }
 
 });
@@ -46,16 +56,20 @@ class SearchResult extends Component {
                 onClick={ () => this.setClickedGame(game, game.id) }
 
             >
-                <ButtonBase>
-                    <Grid
-                        container
-                        direction="row"
-                        alignItems="center"
-                        >
-                        <Grid>
-                            <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
-                        </Grid>
-                        <Grid>
+                <Grid
+                    container
+                    direction="row"
+                    alignItems="center"
+                    className={classes.root}
+                >
+                    <Grid item>
+                        <ButtonBase className={classes.image}>
+                            <img alt="complex" className={classes.img} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
+                        </ButtonBase>
+                    </Grid>
+                    <Grid item xs={12} sm container>
+                      <Grid item xs container direction="column" spacing={16}>
+                        <Grid item xs>
                             <Typography variant="subtitle1" >
                                 {game.name}
                             </Typography>
@@ -83,8 +97,9 @@ class SearchResult extends Component {
                                 }
                             </Typography>
                         </Grid>
+                      </Grid>
                     </Grid>
-                </ButtonBase>
+                </Grid>
                 <Divider className={classes.divider} variant="middle"/>
             </Grid>
         ))

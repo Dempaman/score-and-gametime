@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
 
 import HeaderLinkButton from './HeaderLinkButton';
@@ -120,7 +121,7 @@ class HeaderAppBar extends React.Component {
               <MenuItem>
                   <p
                       onClick={() => {this.props.logout()}}
-                      >
+                  >
                       Sign Out
                   </p>
               </MenuItem>
@@ -129,7 +130,7 @@ class HeaderAppBar extends React.Component {
                       onClick={ () => {
                           history.push('/addgame_search')
                       }}
-                      >
+                  >
                       Add Game
                   </p>
               </MenuItem>
@@ -141,7 +142,7 @@ class HeaderAppBar extends React.Component {
                     onClick={ () => {
                         history.push('/login')
                     }}
-                    >
+                >
                     Login
                 </p>
             </MenuItem>
@@ -150,7 +151,7 @@ class HeaderAppBar extends React.Component {
                     onClick={ () => {
                         history.push('/signup')
                     }}
-                    >
+                >
                     Sign Up
                 </p>
             </MenuItem>
@@ -159,7 +160,7 @@ class HeaderAppBar extends React.Component {
                     onClick={ () => {
                         history.push('/addgame_search')
                     }}
-                    >
+                >
                     Add Game
                 </p>
             </MenuItem>
@@ -199,9 +200,15 @@ class HeaderAppBar extends React.Component {
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              SG
-            </Typography>
+            <ButtonBase
+                onClick={ () => {
+                    history.push('/')
+                }}
+            >
+                <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                    SG
+                </Typography>
+            </ButtonBase>
             <SearchBar placeholder="Search..." inputWidth='inputL'/>
             <div className={classes.sectionDesktop}>
               <Button size="large" className={classes.headerButton}
