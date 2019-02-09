@@ -3,7 +3,7 @@ import axios from 'axios';
 export const SUBMIT_GAME = 'SUBMIT_GAME';
 export const SUBMIT_GAME_TIME = 'SUBMIT_GAME_TIME';
 
-const PORT = process.env.PORT || 'http://localhost:5000';
+//const PORT = process.env.PORT || 'http://localhost:5000';
 
 export function submitGame(data, uid) {
     return dispatch => {

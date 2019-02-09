@@ -22,8 +22,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.dark02
     },
     gameWrapper: {
-        width: 1356,
-        margin: 20,
+        width: "100%",
 
     },
     searchNumber: {
@@ -40,6 +39,11 @@ const styles = theme => ({
     card: {
         maxWidth: 500,
         backgroundColor: theme.palette.primary.dark02,
+        transition: "all 0.1s ease-in",
+        "&:hover": {
+            transform: "scale(1.02)",
+            zIndex: 1,
+        }
     },
     media: {
         height: 240,
@@ -105,7 +109,7 @@ const styles = theme => ({
 class TopGames extends Component {
     state = {
         checked: true,
-        showItems: 5,
+        showItems: 4,
     };
 
     componentWillMount() {
@@ -117,13 +121,9 @@ class TopGames extends Component {
     };
 
     render(){
-
         const filteredGames = this.props.filterResult
         const { classes } = this.props;
         const { checked } = this.state;
-
-        console.log(filteredGames)
-
         const postItems = filteredGames.slice(0, this.state.showItems).map(game => (
             <Grow
                 key={game._id}

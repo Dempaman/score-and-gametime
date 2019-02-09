@@ -3,7 +3,7 @@ import axios from 'axios';
 export const GET_USER = 'get_user';
 export const RESET_USER = 'reset_user';
 
-const PORT = process.env.PORT || 'http://localhost:5000';
+//const PORT = process.env.PORT || 'http://localhost:5000';
 
 export function getUser() {
     return dispatch => {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ResultView from './ResultView';
+import GameDetailsPage from './GameDetailsPage';
 
 class Layout extends Component {
     render(){
         return (
             <div>
-                <ResultView/>
+                <GameDetailsPage/>
             </div>
         )
     }

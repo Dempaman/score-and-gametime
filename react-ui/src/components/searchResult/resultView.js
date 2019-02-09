@@ -11,7 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
 import Divider from '@material-ui/core/Divider';
 
-import { searchResultHead  } from '../../actions/SearchActions';
+import { searchResultHead, searchResultClicked, searchResultGameScore  } from '../../actions/SearchActions';
+import history from '../../history.js';
 
 const styles = theme => ({
     root: {
@@ -19,7 +20,8 @@ const styles = theme => ({
     posterRoot: {
         margin: "0 10px 20px 10px",
         width: 230,
-        backgroundColor: theme.palette.primary.dark02
+        backgroundColor: theme.palette.primary.dark02,
+
     },
     gameWrapper: {
         width: 1356,
@@ -40,6 +42,11 @@ const styles = theme => ({
     card: {
         maxWidth: 500,
         backgroundColor: theme.palette.primary.dark02,
+        transition: "all 0.1s ease-in",
+        "&:hover": {
+            transform: "scale(1.02)",
+            zIndex: 1,
+        }
     },
     media: {
         height: 240,
@@ -115,6 +122,15 @@ class ResultView extends Component {
         this.setState(state => ({ checked: !state.checked }));
     };
 
+    setClickedGame = (game, id) => {
+        this.props.searchResultGameScore(game)
+        history.push(`/game_details/${id}`)
+        /*const result = this.props.searchResult.items.filter((item) => {
+            return item._id === Number(id)
+        })
+         */
+    }
+
     render(){
 
         const filteredGames = this.props.filterResult
@@ -132,6 +148,7 @@ class ResultView extends Component {
             >
                 <Grid
                     className={classes.posterRoot}
+                    onClick={ () => this.setClickedGame(game, game._id) }
                 >
                     <Card className={classes.card}>
                         <CardActionArea>
@@ -246,5 +263,5 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, {searchResultHead})
+  connect(mapStateToProps, {searchResultHead, searchResultClicked, searchResultGameScore})
 )(ResultView);

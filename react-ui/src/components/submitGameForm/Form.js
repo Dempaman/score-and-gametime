@@ -19,8 +19,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 
 import history from '../../history.js';
-import { searchResultClicked, loading  } from '../../actions/SearchActions';
-import { submitGame, submitGameTime  } from '../../actions/SubmitGameActions';
+import { searchResultClicked, loading, searchResultHead, searchResultGameScore  } from '../../actions/SearchActions';
+import { submitGame } from '../../actions/SubmitGameActions';
 import SnackbarContentWrapper from '../snackbarContentWrapper/SnackbarContentWrapper'
 
 const styles = theme => ({
@@ -176,23 +176,28 @@ class Form extends Component {
         return;
       }
       this.setState({
-          open: false
+          open: false,
       });
     };
 
     componentDidMount() {
+        const id = history.location.pathname.split("/submitgame_form/game/")[1]
+        this.props.searchResultHead();
+
+
         if(!this.props.searchResult.clicked.id){
             this.props.loading(false)
-            const id = history.location.pathname.split("/submitgame_form/game/")[1]
             axios({
                 url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 method: 'GET',
-                data: "fields alpha_channel,animated,height,image_id,url,width;"
             })
             .then(res => {
                 this.props.searchResultClicked(res.data[0])
-                //this.setState({gameData: res.data[0]})
                 this.props.loading(true)
+                const result = this.props.searchResult.items.filter((item) => {
+                    return item._id === Number(id)
+                })
+                this.props.searchResultGameScore(result[0])
             })
             .catch(err => {
                 console.error(err);
@@ -223,6 +228,14 @@ class Form extends Component {
           activeStep: state.activeStep - 1,
         }));
     };
+
+
+    convertTime = (num) => {
+        const h = Math.floor(num/60)
+        const m = num%60
+        return (`${h} hours ${m} min`.toString())
+
+    }
 
     submitAccount(event) {
         event.preventDefault();
@@ -267,6 +280,7 @@ class Form extends Component {
         const { classes, theme } = this.props
         const game = this.props.clicked
         const { selectedDate } = this.state
+        console.log(this.props.gameScore)
         return (
             <Grid className={classes.root}>
                     { this.props.clicked.id ?
@@ -284,25 +298,25 @@ class Form extends Component {
                                     className={classes.leftContainer}
                                 >
                                     <Grid>
-                                        <img className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
+                                        <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
                                     </Grid>
                                     <Typography className={classes.textStyle} variant="subtitle1">User Stats and Score</Typography>
                                     <Divider light />
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">Main Storu Completed:</Typography>
-                                        <Typography variant="body2">9h 19m</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryHours*60 + this.props.gameScore.avgMainStoryMin) : 0 }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">Main Story + Bonus</Typography>
-                                        <Typography variant="body2">11h 08m</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryBonusHours*60 + this.props.gameScore.avgMainStoryBonusHours) : 0 }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">100% The Game!</Typography>
-                                        <Typography variant="body2">21h 52m</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.completionistHours*60 + this.props.gameScore.completionistMin) : 0}</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">Score</Typography>
-                                        <Typography variant="body2">86</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.props.gameScore.totalAvgScore : "-"}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -555,12 +569,12 @@ class Form extends Component {
                                             <Typography className={classes.textStyle1} variant="h5">User Score</Typography>
                                             <Grid container alignItems="center" direction="row" className={classes.topGrid}>
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">86</Typography>
+                                                    <Typography variant="display4">{this.props.gameScore ? this.props.gameScore.totalAvgScore : "-"}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
                                                     <Typography className={classes.scoreText}>User Score</Typography>
                                                     <Typography className={classes.scoreText}>The avrage score based on<br/>
-                                                        <strong>323 Rating</strong>
+                                                        <strong>{this.props.gameScore ? this.props.gameScore.count : 0} Rating</strong>
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -630,11 +644,12 @@ class Form extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     searchResult: state.searchResult,
+    gameScore: state.searchResult.gamescore,
     clicked: state.searchResult.clicked,
     user: state.user
 })
 
 export default compose(
   withStyles(styles, { withTheme: true }),
-  connect(mapStateToProps, {searchResultClicked, loading, submitGame, submitGameTime})
+  connect(mapStateToProps, {searchResultClicked, loading, submitGame, searchResultHead, searchResultGameScore})
 )(Form);

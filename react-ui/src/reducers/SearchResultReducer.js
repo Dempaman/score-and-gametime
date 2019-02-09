@@ -1,10 +1,11 @@
-import { SEARCH_RESULT, LOADING, SEARCH_RESULT_CLICKED, SEARCH_RESULT_HEAD, SEARCH_RESULT_NAME_HEAD } from '../actions/SearchActions.js'
+import { SEARCH_RESULT, LOADING, SEARCH_RESULT_CLICKED, SEARCH_RESULT_GAME_SCORE, SEARCH_RESULT_HEAD, SEARCH_RESULT_NAME_HEAD } from '../actions/SearchActions.js'
 
 const initialState = {
 item: [],
 items: [],
 filter: [],
 clicked: {},
+gamescore: {},
 loading: true,
 }
 
@@ -19,6 +20,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 clicked: action.payload
+            }
+        case SEARCH_RESULT_GAME_SCORE:
+            return {
+                ...state,
+                gamescore: action.payload
             }
         case LOADING:
             return {

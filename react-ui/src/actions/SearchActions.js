@@ -5,8 +5,9 @@ export const SEARCH_RESULT_CLICKED = 'SEARCH_RESULT_CLICKED'
 export const SEARCH_RESULT_HEAD = 'SEARCH_RESULT_HEAD';
 export const SEARCH_RESULT_NAME_HEAD = 'SEARCH_RESULT_NAME_HEAD';
 export const LOADING = 'LOADING';
+export const SEARCH_RESULT_GAME_SCORE = 'SEARCH_RESULT_GAME_SCORE';
 
-const PORT = process.env.PORT || 'http://localhost:5000';
+//const PORT = process.env.PORT || 'http://localhost:5000';
 
 
 export function searchResult(searchResult) {
@@ -34,7 +35,6 @@ export function searchResultHead(searchData) {
             });
     };
 }
-
 export function searchResultNameHead(searchData) {
     return dispatch => {
         dispatch({
@@ -43,7 +43,6 @@ export function searchResultNameHead(searchData) {
         })
     };
 }
-
 export function loading(setBool) {
     return dispatch => {
                 dispatch({
@@ -56,6 +55,14 @@ export function searchResultClicked(clicked) {
     return dispatch => {
                 dispatch({
                     type: SEARCH_RESULT_CLICKED,
+                    payload: clicked,
+                })
+    };
+}
+export function searchResultGameScore(clicked) {
+    return dispatch => {
+                dispatch({
+                    type: SEARCH_RESULT_GAME_SCORE,
                     payload: clicked,
                 })
     };

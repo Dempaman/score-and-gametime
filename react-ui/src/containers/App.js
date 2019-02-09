@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import HeaderAppBar from '../components/header';
-import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { Router, Switch, Route } from 'react-router-dom';
 import history from '../history.js';
@@ -11,6 +10,7 @@ import SignUp from '../components/signUp';
 import Home from '../components/home';
 import AddGameSearchResult from '../components/addGameSearchResult';
 import SubmitGameForm from '../components/submitGameForm';
+import GameDetails from '../components/gameDetails';
 import Search from '../components/searchResult';
 import { searchResultClicked } from '.././actions/SearchActions';
 
@@ -43,6 +43,7 @@ class App extends Component {
     render() {
         const { classes } = this.props;
         const id = history.location.pathname.split("/submitgame_form/game/")[1]
+        const gameId = history.location.pathname.split("/game_details/")[1]
         return (
             <div>
                 <HeaderAppBar/>
@@ -52,6 +53,7 @@ class App extends Component {
                             <Route path="/login" component={Login}/>
                             <Route path="/addgame_search" component={AddGameSearchResult}/>
                             <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
+                            <Route path={`/game_details/${gameId}`} component={GameDetails}/>
                             <Route path={`/Search`} component={Search}/>
                             <Route path='/' component={Home}/>
                     </Switch>

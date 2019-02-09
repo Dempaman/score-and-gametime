@@ -8,9 +8,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-import games from './fakedata.js'
 import history from '../../history.js';
-import { searchResultClicked } from '../../actions/SearchActions';
+import { searchResultClicked, searchResultGameScore } from '../../actions/SearchActions';
 
 const styles = theme => ({
     root: {
@@ -42,14 +41,18 @@ const styles = theme => ({
 
 class SearchResult extends Component {
 
+
     setClickedGame = (game, id) => {
         this.props.searchResultClicked(game)
         history.push(`/submitgame_form/game/${id}`)
+        const result = this.props.searchResult.items.filter((item) => {
+            return item._id === Number(id)
+        })
+        this.props.searchResultGameScore(result[0])
     }
 
     render(){
         const { classes } = this.props;
-
         const postItems = this.props.searchResult.item.map(game => (
             <Grid
                 key={game.id}
@@ -128,5 +131,5 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, {searchResultClicked})
+  connect(mapStateToProps, {searchResultClicked, searchResultGameScore})
 )(SearchResult);

@@ -92,7 +92,6 @@ const users = {
             cursor.forEach(function(doc, err){
                 resultArray.push(doc);
             }, function(){
-                console.log(resultArray)
                 client.close();
                 callback(resultArray);
             });

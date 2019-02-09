@@ -88,6 +88,12 @@ const theme = createMuiTheme({
                 color: '#131417',
             }
         },
+        MuiPaper: {
+            rounded: {
+                borderRadius: 0,
+                border: "1px solid #438bc86e",
+            }
+        },
         MuiDivider: {
             light: {
                 backgroundColor: 'rgba(255, 255, 255, 0.2)'

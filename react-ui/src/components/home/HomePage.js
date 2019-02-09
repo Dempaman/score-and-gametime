@@ -13,6 +13,7 @@ import SGT from '../../icons/Scoreandgametime.js'
 import SGTSmall from '../../icons/ScoreandgametimeSMALL.js'
 import TopGames from './TopGames'
 import history from '../../history.js';
+import { logout } from '../../actions/UserActions';
 
 const styles = theme => ({
     image: {
@@ -69,6 +70,15 @@ const styles = theme => ({
         backgroundImage: theme.palette.secondary.orangeButton,
         border: '1px solid #fff',
     },
+    buttonStyle1: {
+        marginTop: '20px',
+        backgroundColor: "transparent",
+        border: '1px solid #fff',
+        margin: 10,
+        "&:hover": {
+       backgroundColor: theme.palette.primary.blue02
+   }
+    },
 });
 
 class HomePage extends Component {
@@ -78,10 +88,51 @@ class HomePage extends Component {
             <div>
                 <div className={classes.image}>
                     <div className={classes.alignCenter}>
-                        <Grid container justify="center">
-                            <div>
+                        <Grid container direction="column" justify="center">
+                            <Grid container justify="center">
                                 {(isWidthUp('sm', this.props.width)) ? <SGT/> : <SGTSmall/> }
-                            </div>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Button
+                                    type='submit'
+                                    size='large'
+                                    className={classes.buttonStyle1}
+                                    onClick={ () => {
+                                        history.push('/signup')
+                                    }}
+                                >
+                                    <Typography variant='button'>
+                                        Become A Member
+                                    </Typography>
+                                </Button>
+
+                                {!this.props.user.email ?
+                                    <Button
+                                        type='submit'
+                                        size='large'
+                                        className={classes.buttonStyle1}
+                                        onClick={ () => {
+                                            history.push('/login')
+                                        }}
+                                    >
+                                        <Typography variant='button'>
+                                            Login
+                                        </Typography>
+                                    </Button>
+                                    :
+                                    <Button
+                                        type='submit'
+                                        size='large'
+                                        className={classes.buttonStyle1}
+                                        onClick={() => {this.props.logout()}}
+                                    >
+                                        <Typography variant='button'>
+                                            Sign out
+                                        </Typography>
+                                    </Button>
+                                }
+
+                            </Grid>
                         </Grid>
                     </div>
                 </div>
@@ -127,5 +178,5 @@ const mapStateToProps = (state, ownProps) => ({
 export default compose(
   withStyles(styles),
   withWidth(),
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, {logout})
 )(HomePage);
