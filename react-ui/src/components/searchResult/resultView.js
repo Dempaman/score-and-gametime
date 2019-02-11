@@ -124,11 +124,8 @@ class ResultView extends Component {
 
     setClickedGame = (game, id) => {
         this.props.searchResultGameScore(game)
+        this.props.searchResultClicked(game.games[0])
         history.push(`/game_details/${id}`)
-        /*const result = this.props.searchResult.items.filter((item) => {
-            return item._id === Number(id)
-        })
-         */
     }
 
     render(){

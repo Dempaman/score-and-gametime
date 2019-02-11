@@ -4,7 +4,9 @@ const initialState = {
 item: [],
 items: [],
 filter: [],
-clicked: {},
+clicked: {
+    platforms:[]
+},
 gamescore: {},
 loading: true,
 }

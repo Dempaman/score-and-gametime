@@ -93,8 +93,8 @@ const styles = theme => ({
         marginRight:20
     },
     scoreBox: {
-        width: 90,
-        height: 90,
+        width: 80,
+        height: 80,
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px"
     },
@@ -180,30 +180,36 @@ class Form extends Component {
       });
     };
 
-    componentDidMount() {
+    componentWillMount() {
         const id = history.location.pathname.split("/submitgame_form/game/")[1]
-        this.props.searchResultHead();
-
-
-        if(!this.props.searchResult.clicked.id){
+        if(!this.props.clicked.id){
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 method: 'GET',
             })
             .then(res => {
-                this.props.searchResultClicked(res.data[0])
+                this.props.searchResultHead();
                 this.props.loading(true)
-                const result = this.props.searchResult.items.filter((item) => {
-                    return item._id === Number(id)
-                })
-                this.props.searchResultGameScore(result[0])
+                this.props.searchResultClicked(res.data[0])
             })
+
             .catch(err => {
                 console.error(err);
             });
         }
     }
+
+    componentDidUpdate(prevProps){
+    const id = history.location.pathname.split("/submitgame_form/game/")[1]
+    if(prevProps.searchResult !== this.props.searchResult){
+        const result = this.props.searchResult.filter((item) => {
+         return item._id === Number(id)
+        })
+        console.log(result)
+        this.props.searchResultGameScore(result[0])
+     }
+ }
 
     handleChange = name => event => {
         this.setState({
@@ -280,7 +286,7 @@ class Form extends Component {
         const { classes, theme } = this.props
         const game = this.props.clicked
         const { selectedDate } = this.state
-        console.log(this.props.gameScore)
+
         return (
             <Grid className={classes.root}>
                     { this.props.clicked.id ?
@@ -303,7 +309,7 @@ class Form extends Component {
                                     <Typography className={classes.textStyle} variant="subtitle1">User Stats and Score</Typography>
                                     <Divider light />
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Main Storu Completed:</Typography>
+                                        <Typography variant="subtitle1">Main Story Completed:</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryHours*60 + this.props.gameScore.avgMainStoryMin) : 0 }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
@@ -569,7 +575,7 @@ class Form extends Component {
                                             <Typography className={classes.textStyle1} variant="h5">User Score</Typography>
                                             <Grid container alignItems="center" direction="row" className={classes.topGrid}>
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">{this.props.gameScore ? this.props.gameScore.totalAvgScore : "-"}</Typography>
+                                                    <Typography variant="display4">{this.props.gameScore ? this.props.gameScore.totalAvgScore : null}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
                                                     <Typography className={classes.scoreText}>User Score</Typography>
@@ -578,7 +584,7 @@ class Form extends Component {
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
-                                            <Typography className={classes.textStyle1} variant="h5">Your Score</Typography>
+                                            <Typography className={classes.textStyle1} variant="h5">How would you rate this game?</Typography>
                                             <Grid container alignItems="center" justify="center" className={classes.topGrid}>
                                                 <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
                                                     <Typography variant="headline">{(this.state.activeStep + 1)*10}</Typography>
@@ -643,7 +649,7 @@ class Form extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    searchResult: state.searchResult,
+    searchResult: state.searchResult.items,
     gameScore: state.searchResult.gamescore,
     clicked: state.searchResult.clicked,
     user: state.user

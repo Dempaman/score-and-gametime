@@ -8,20 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import classNames from 'classnames';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 
 import history from '../../history.js';
 import { searchResultClicked, loading, searchResultHead, searchResultGameScore  } from '../../actions/SearchActions';
-import { submitGame, submitGameTime  } from '../../actions/SubmitGameActions';
-import SnackbarContentWrapper from '../snackbarContentWrapper/SnackbarContentWrapper'
 
 const styles = theme => ({
     root: {
@@ -44,27 +34,28 @@ const styles = theme => ({
 
     },
     gridMargin: {
-        margin: "5px 0px 3px 0px",
-    },
-    textStyle: {
-        margin: "15px 0 5px 0"
+        margin: "8px 0px 0px 0px",
     },
     filler: {
         width: 250,
         height: 500,
     },
+    textStyle: {
+        margin: "15px 0 5px 0",
+        fontWeight: 600
+    },
     textStyle1: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: theme.palette.primary.dark02
+        marginTop: 40,
     },
     textStyle2: {
-        marginTop: 20
+        marginRight: 3
     },
     textStyle3: {
-        marginTop: 40
+        marginRight: 8,
+        fontWeight: 700
     },
     topGrid: {
+        marginTop: 10,
         padding: 20,
         backgroundColor: theme.palette.primary.dark01
     },
@@ -75,26 +66,9 @@ const styles = theme => ({
     textField: {
         width: "100%",
     },
-    textFieldTime: {
-        width: 100,
-        marginLeft: 10,
-        marginRight: 10,
-    },
-    dense: {
-        marginTop: 16,
-    },
-    menu: {
-        width: 200,
-    },
-    optionStyle: {
-        backgroundColor: theme.palette.primary.main
-    },
-    gridDate: {
-        marginRight:20
-    },
     scoreBox: {
-        width: 90,
-        height: 90,
+        width: 80,
+        height: 80,
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px"
     },
@@ -103,69 +77,34 @@ const styles = theme => ({
     },
     scoreTextBox: {
         marginLeft: 10,
+        marginTop: 12,
     },
     mobileStepper: {
         maxWidth: 600,
         flexGrow: 1,
     },
-    userScoreBox: {
-        width: 48,
-        height: 48,
-        backgroundImage: theme.palette.secondary.orangeButton,
-        borderRadius: "1px",
-        marginRight: 10,
-    },
     buttonStyle: {
-        marginTop: 60,
-        marginLeft: 20,
-        width: 200,
-        backgroundColor: theme.palette.primary.blue01,
-        border: '1px solid rgba(255, 255, 255, 0.2)',
+        backgroundImage: theme.palette.secondary.orangeButton,
+        border: '1px solid #fff',
+        '&:hover': {
+            backgroundImage: "none",
+        },
     },
     circularStyle: {
         marginTop: 50,
+    },
+    scoreAndButtonTop: {
+        margin: "40px 0 8px 0",
+    },
+    divider: {
+        margin: "5px 0 5px 0"
     }
 });
-
-const platforms = [
-  {
-    value: 'Nintendo Switch',
-    label: 'Nintendo Switch',
-  },
-  {
-    value: 'Playstaion 4',
-    label: 'Playstaion 4',
-  },
-  {
-    value: 'Xbox One',
-    label: 'Xbox One',
-  },
-  {
-    value: 'PC',
-    label: 'PC',
-  },
-  {
-    value: 'Other..',
-    label: 'Other..',
-  },
-];
 
 class GameDetailsPage extends Component {
     constructor(props) {
         super(props)
             this.state = {
-                platform: 'Nintendo Switch',
-                selectedDate: new Date(),
-                activeStep: 0,
-                MainStoryHours: '',
-                MainStoryMin: '',
-                MainStorySec: '',
-                MainStoryBonusHours: '',
-                MainStoryBonusMin: '',
-                MainStoryBonusSec: '',
-                CompletionistHours: '',
-                CompletionistMin: '',
-                CompletionistSec: '',
                 open: false,
                 error: ''
             }
@@ -180,29 +119,36 @@ class GameDetailsPage extends Component {
       });
     };
 
-    componentDidMount() {
-        this.props.searchResultHead();
+    componentWillMount() {
         const id = history.location.pathname.split("/game_details/")[1]
-
         if(!this.props.clicked.id){
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 method: 'GET',
             })
             .then(res => {
-                this.props.searchResultClicked(res.data[0])
+                this.props.searchResultHead();
                 this.props.loading(true)
-                const result = this.props.searchResult.filter((item) => {
-                    return item._id === Number(id)
-                })
-                this.props.searchResultGameScore(result[0])
+                this.props.searchResultClicked(res.data[0])
             })
+
             .catch(err => {
                 console.error(err);
             });
         }
     }
+
+    componentDidUpdate(prevProps){
+    const id = history.location.pathname.split("/game_details/")[1]
+    if(prevProps.searchResult !== this.props.searchResult){
+        const result = this.props.searchResult.filter((item) => {
+         return item._id === Number(id)
+        })
+        console.log(result)
+        this.props.searchResultGameScore(result[0])
+     }
+ }
 
     handleChange = name => event => {
         this.setState({
@@ -228,50 +174,10 @@ class GameDetailsPage extends Component {
         }));
     };
 
-    submitAccount(event) {
-        event.preventDefault();
-        if (this.props.user.uid) {
-            const uid = this.props.user.uid
-            const submit =
-                {
-                    gameId: this.props.clicked.id,
-                    platform: this.state.platform,
-                    score: (this.state.activeStep + 1)*10,
-                    date: this.state.selectedDate,
-                    mainStory: {
-                        h: this.state.MainStoryHours,
-                        m: this.state.MainStoryMin,
-                        s: this.state.MainStorySec
-                    },
-                    mainStoryBonus: {
-                        h: this.state.MainStoryBonusHours,
-                        m: this.state.MainStoryBonusMin,
-                        s: this.state.MainStoryBonusSec
-                    },
-                    completionist : {
-                        h: this.state.CompletionistHours,
-                        m: this.state.CompletionistMin,
-                        s: this.state.CompletionistSec
-                    },
-                    gameData: this.props.clicked
-
-                }
-            this.props.submitGame(submit, uid)
-            history.replace('/')
-
-        } else {
-            this.setState({
-              error: 'You need to login or create an account to submit',
-              open: true
-            });
-        }
-    }
-
     render(){
         const game = this.props.clicked
-        const { classes, theme } = this.props
-        const { selectedDate } = this.state
-
+        const { classes } = this.props
+        console.log(game)
         return (
             <Grid className={classes.root}>
                     {this.props.clicked.id ?
@@ -289,25 +195,66 @@ class GameDetailsPage extends Component {
                                     className={classes.leftContainer}
                                 >
                                     <Grid>
-                                        <img className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
-                                    </Grid>
-                                    <Typography className={classes.textStyle} variant="subtitle1">User Stats and Score</Typography>
-                                    <Divider light />
-                                    <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Main Storu Completed:</Typography>
-                                        <Typography variant="body2">9h 19m</Typography>
+                                        <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Main Story + Bonus</Typography>
-                                        <Typography variant="body2">11h 08m</Typography>
+                                        <Typography className={classes.textStyle} variant="caption">Platforms:</Typography>
+                                        {game.platforms.filter(function(platform) {
+                                            if (platform.name.split('.').pop() === "Playstation Network") {
+                                                return false; // skip
+                                            }
+                                                return true;
+                                            }).map(platform => (
+                                                <Typography key={platform.id} className={classes.textStyle2} variant="caption">
+                                                    {platform.name}
+                                                </Typography>
+                                            ))}
                                     </Grid>
-                                    <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">100% The Game!</Typography>
-                                        <Typography variant="body2">21h 52m</Typography>
+                                    <Divider className={classes.divider} light />
+                                    <Grid >
+                                        <Grid container direction="row">
+                                            <Typography className={classes.textStyle3} variant="caption">Release Year:</Typography>
+                                            <Typography variant="caption">
+                                                {game.release_dates ?
+                                                    Math.min.apply(game.release_dates, game.release_dates.map(find =>(
+                                                        find.y
+                                                    ))
+                                                )
+                                                :
+                                                "Not found"}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography className={classes.textStyle3} variant="caption">Genre(s):</Typography>
+                                            {game.genres.map(genre => (
+                                                <Typography key={genre.id} className={classes.textStyle2} variant="caption">
+                                                    {genre.name},
+                                                </Typography>
+                                            ))}
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography className={classes.textStyle3} variant="caption">Developer:</Typography>
+                                            <Typography className={classes.textStyle2} variant="caption">
+                                                {game.involved_companies ?
+                                                    game.involved_companies.find(obj => {
+                                                        if(obj.developer === true){
+                                                            return obj.developer === true
+                                                        }else{
+                                                            return obj.developer === false
+                                                        }
+                                                    }).company.name
+                                                    :
+                                                    "No company name found"
+                                                }
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
-                                    <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Score</Typography>
-                                        <Typography variant="body2">86</Typography>
+                                    <Divider className={classes.divider} light />
+                                    <Grid >
+                                        <Typography className={classes.textStyle3} variant="caption">Summary:</Typography>
+                                            <Typography className={classes.textStyle2} variant="caption">
+                                                {game.summary}
+                                            </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -316,111 +263,64 @@ class GameDetailsPage extends Component {
                                 item xs={12} sm={9}
                                 className={classes.rightContainer}
                             >
-                                <form onSubmit={(event) => this.submitAccount(event)} >
-                                    <Grid>
-                                        <Typography className={classes.textStyle} variant="h4">Submit Game Data</Typography>
-                                        <Divider light/>
+                                <Grid>
+                                    <Typography className={classes.textStyle} variant="h4">{game.name}</Typography>
+                                    <Typography variant="caption">
+                                        {game.involved_companies ?
+                                            game.involved_companies.find(obj => {
+                                                if(obj.developer === true){
+                                                    return obj.developer === true
+                                                }else{
+                                                    return obj.developer === false
+                                                }
+                                            }).company.name
+                                        :
+                                            "No company name found"
+                                        }
+                                    </Typography>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justify="space-between"
+                                        alignItems="flex-end"
+                                        className={classes.scoreAndButtonTop}
+                                    >
                                         <Grid>
-                                            <Typography className={classes.textStyle1} variant="h5">{game.name}</Typography>
-                                                <Grid className={classes.topGrid}>
-                                                    <Typography variant="subtitle1">Platform</Typography>
-                                                    <Divider light/>
-                                                    <TextField
-                                                      id="outlined-select-platform-native"
-                                                      select
-                                                      label="Native select"
-                                                      className={classes.textField}
-                                                      value={this.state.platform}
-                                                      onChange={this.handleChange('platform')}
-                                                      SelectProps={{
-                                                        native: true,
-                                                        MenuProps: {
-                                                          className: classes.menu,
-                                                        },
-                                                      }}
-                                                      helperText="Select your platform"
-                                                      margin="normal"
-                                                      variant="outlined"
-                                                    >
-                                                      {platforms.map(option => (
-                                                        <option className={classes.optionStyle} key={option.value} value={option.value}>
-                                                          {option.label}
-                                                        </option>
-                                                      ))}
-                                                    </TextField>
-
-                                                </Grid>
-                                        </Grid>
-
-                                        <Grid>
-                                            <Typography className={classes.textStyle} variant="h4">Score</Typography>
-                                            <Divider light/>
-                                            <Typography className={classes.textStyle1} variant="h5">User Score</Typography>
-                                            <Grid container alignItems="center" direction="row" className={classes.topGrid}>
+                                            <Grid container alignItems="center" direction="row" >
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">86</Typography>
+                                                    <Typography variant="display4">{this.props.gameScore ? this.props.gameScore.totalAvgScore : null}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
                                                     <Typography className={classes.scoreText}>User Score</Typography>
                                                     <Typography className={classes.scoreText}>The avrage score based on<br/>
-                                                        <strong>323 Rating</strong>
-                                                    </Typography>
-                                                </Grid>
+                                                    <strong>{this.props.gameScore ? this.props.gameScore.count : null} Rating</strong>
+                                                </Typography>
                                             </Grid>
-                                            <Typography className={classes.textStyle1} variant="h5">Your Score</Typography>
-                                            <Grid container alignItems="center" justify="center" className={classes.topGrid}>
-                                                <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                    <Typography variant="headline">{(this.state.activeStep + 1)*10}</Typography>
-                                                </Grid>
-                                                <MobileStepper
-                                                    variant="dots"
-                                                    steps={10}
-                                                    position="static"
-                                                    activeStep={this.state.activeStep}
-                                                    className={classes.mobileStepper}
-                                                    nextButton={
-                                                        <Button size="small" onClick={this.handleNext} disabled={this.state.activeStep === 9}>
-                                                            Next
-                                                            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                                                        </Button>
-                                                    }
-                                                    backButton={
-                                                        <Button size="small" onClick={this.handleBack} disabled={this.state.activeStep === 0}>
-                                                            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                                                            Back
-                                                        </Button>
-                                                    }
-                                                />
-                                            </Grid>
-
-                                            <Button type='submit' size='large' className={classes.buttonStyle}>
-                                                <Typography variant="button">Submit</Typography>
+                                        </Grid>
+                                        </Grid>
+                                        <Grid>
+                                            <Button
+                                                size='large'
+                                                className={classes.buttonStyle}
+                                                onClick={ () => {
+                                                    history.push(`/submitgame_form/game/${this.props.clicked.id}`)
+                                                }}
+                                            >
+                                                <Typography variant="button">Submit your score</Typography>
                                             </Button>
                                         </Grid>
-                                        {this.state.error &&
-                                            (<Snackbar
-                                                anchorOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'right',
-                                                }}
-                                                open={this.state.open}
-                                                autoHideDuration={6000}
-                                                onClose={this.handleClose}
-
-                                                >
-                                                <SnackbarContentWrapper
-                                                    onClose={this.handleClose}
-                                                    variant="warning"
-                                                    message={this.state.error}
-                                                    />
-                                            </Snackbar>)
-                                        }
-
                                     </Grid>
-                                </form>
+                                    <Divider light/>
+                                    <Grid>
+                                        <Typography className={classes.textStyle1} variant="h5">Gametime</Typography>
+                                        <Divider light/>
+                                            <Grid className={classes.topGrid}>
+                                                // TABELL HÄR!! //
+                                            </Grid>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
-
                         :
                         <Grid container justify="center" className={classes.circularStyle}>
                                 <CircularProgress />
@@ -434,10 +334,10 @@ class GameDetailsPage extends Component {
 const mapStateToProps = (state, ownProps) => ({
     searchResult: state.searchResult.items,
     clicked: state.searchResult.clicked,
-    user: state.user
+    gameScore: state.searchResult.gamescore,
 })
 
 export default compose(
   withStyles(styles, { withTheme: true }),
-  connect(mapStateToProps, {searchResultClicked, loading, submitGame, submitGameTime, searchResultHead, searchResultGameScore})
+  connect(mapStateToProps, {searchResultClicked, loading, searchResultHead, searchResultGameScore})
 )(GameDetailsPage);

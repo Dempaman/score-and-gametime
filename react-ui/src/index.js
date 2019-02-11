@@ -77,6 +77,9 @@ const theme = createMuiTheme({
             fontWeight: 700,
             fontSize: "3rem",
         },
+        caption: {
+            color: '#fff',
+        },
     },
     shadows: ["none"],
 

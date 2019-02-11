@@ -5,10 +5,12 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
 
 import history from '../../history.js';
 import { login, getUser } from '../../actions/UserActions';
-import FooterFormButton from '../footerFormButton/FooterFormButton'
 import SnackbarContentWrapper from '../snackbarContentWrapper/SnackbarContentWrapper'
 
 
@@ -20,16 +22,24 @@ const styles = theme => ({
         width: 340,
     },
     textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
         width: 340,
     },
     buttonStyle: {
-        marginTop: '50px',
+        marginTop: '20px',
         width: 340,
         backgroundColor: theme.palette.primary.blue02,
         border: '1px solid rgba(255, 255, 255, 0.2)',
     },
+    textSignup: {
+        marginLeft: 5,
+        color: theme.palette.primary.blue02,
+        '&:hover': {
+            color: '#fff',
+        },
+    },
+    textStyle: {
+        marginTop: 10
+    }
 });
 
 class LoginAccount extends Component {
@@ -130,7 +140,19 @@ class LoginAccount extends Component {
                                 />
                         </Snackbar>)
                     }
-                    <FooterFormButton submitLabel='Login' otherLabel='Create Account' goToLink="/signup" />
+                    <Button type='submit' size='large' className={classes.buttonStyle}>
+                        <Typography variant='button'>Login</Typography>
+                    </Button>
+                    <Grid className={classes.textStyle} container direction="row">
+                        <Typography variant="subtitle1">Need an Account?</Typography>
+                        <ButtonBase
+                            onClick={ () => {
+                                history.push('/signUp')
+                            }}
+                        >
+                            <Typography className={classes.textSignup} variant="subtitle1">Sign up.</Typography>
+                        </ButtonBase>
+                    </Grid>
                 </form>
             </Grid>
         )

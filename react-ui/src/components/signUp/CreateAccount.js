@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Snackbar from '@material-ui/core/Snackbar';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -21,8 +22,6 @@ const styles = theme => ({
         width: 340,
     },
     textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
         width: 340,
     },
     buttonStyle: {
@@ -30,6 +29,13 @@ const styles = theme => ({
         width: 340,
         backgroundImage: theme.palette.secondary.orangeButton,
         border: '1px solid #fff',
+    },
+    textSignup: {
+        marginLeft: 5,
+        color: theme.palette.primary.blue02,
+        '&:hover': {
+            color: '#fff',
+        },
     },
 });
 
@@ -161,6 +167,17 @@ class CreateAccount extends Component {
                         <Button type='submit' size='large' className={classes.buttonStyle}>
                             <Typography variant='button'>Create Account</Typography>
                         </Button>
+                    </Grid>
+
+                    <Grid className={classes.textStyle} container direction="row">
+                        <Typography variant="subtitle1">Already have an account?</Typography>
+                        <ButtonBase
+                            onClick={ () => {
+                                history.push('/login')
+                            }}
+                        >
+                        <Typography className={classes.textSignup} variant="subtitle1">Login.</Typography>
+                        </ButtonBase>
                     </Grid>
                     {this.state.error &&
                         (<Snackbar

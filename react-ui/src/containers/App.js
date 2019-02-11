@@ -46,16 +46,44 @@ class App extends Component {
         const gameId = history.location.pathname.split("/game_details/")[1]
         return (
             <div>
-                <HeaderAppBar/>
                 <Router history={history}>
                     <Switch>
-                            <Route path="/signup" component={SignUp}/>
-                            <Route path="/login" component={Login}/>
-                            <Route path="/addgame_search" component={AddGameSearchResult}/>
-                            <Route path={`/submitgame_form/game/${id}`} component={SubmitGameForm}/>
-                            <Route path={`/game_details/${gameId}`} component={GameDetails}/>
-                            <Route path={`/Search`} component={Search}/>
-                            <Route path='/' component={Home}/>
+                        <Route path="/signup">
+                            <SignUp/>
+                        </Route>
+                        <Route path="/login">
+                            <Login/>
+                        </Route>
+                        <Route path="/addgame_search" >
+                            <div>
+                                <HeaderAppBar/>
+                                <AddGameSearchResult/>
+                            </div>
+                        </Route>
+                        <Route path={`/submitgame_form/game/${id}`}>
+                            <div>
+                                <HeaderAppBar/>
+                                <SubmitGameForm/>
+                            </div>
+                        </Route>
+                        <Route path={`/game_details/${gameId}`}>
+                            <div>
+                                <HeaderAppBar/>
+                                <GameDetails/>
+                            </div>
+                        </Route>
+                        <Route path={`/Search`}>
+                            <div>
+                                <HeaderAppBar/>
+                                <Search/>
+                            </div>
+                        </Route>
+                        <Route path='/'>
+                            <div>
+                                <HeaderAppBar/>
+                                <Home/>
+                            </div>
+                        </Route>
                     </Switch>
                 </Router>
             </div>

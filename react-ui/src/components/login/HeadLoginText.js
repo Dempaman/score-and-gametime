@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
+import SGT from '../../icons/Scoreandgametime.js'
+import SGTSmall from '../../icons/ScoreandgametimeSMALL.js'
+import { withStyles } from '@material-ui/core/styles'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+
+import history from '../../history.js';
 
 const styles = theme => ({
     headerStyle: {
-        margin: '100px 0 30px 0',
+        margin: '0 0 30px 0',
     },
-    dividerStyle: {
-        maxWidth: 800,
-        margin: '0 auto'
-    }
 });
 
 class HeadLoginText extends Component {
@@ -23,8 +27,20 @@ class HeadLoginText extends Component {
                     container
                     justify="center"
                     className={classes.headerStyle}
+                    direction="column"
                 >
-                    <Typography variant='h4'>Log In</Typography>
+                    <Grid container justify="center">
+                        <ButtonBase
+                            onClick={ () => {
+                                history.push('/')
+                            }}
+                        >
+                            {(isWidthUp('sm', this.props.width)) ? <SGT/> : <SGTSmall/> }
+                        </ButtonBase>
+                    </Grid>
+                    <Grid container justify="center">
+                        <Typography variant="h5">Welcome</Typography>
+                    </Grid>
                 </Grid>
                 <Divider className={classes.dividerStyle} light variant="middle"/>
             </Grid>
@@ -32,4 +48,11 @@ class HeadLoginText extends Component {
     }
 }
 
-export default withStyles(styles)(HeadLoginText);
+const mapStateToProps = (state, ownProps) => ({
+})
+
+export default compose(
+  withStyles(styles),
+  withWidth(),
+  connect(mapStateToProps, {})
+)(HeadLoginText);
