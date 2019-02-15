@@ -144,7 +144,7 @@ class TopGames extends Component {
                             <CardContent>
                                 <Grid container className={classes.fillerFade} />
                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                    <Typography className={game.totalAvgScore < 99 ? classes.textStyle1 : classes.textStyle } variant="headline">{game.totalAvgScore}</Typography>
+                                    <Typography className={game.totalAvgScore < 99 ? classes.textStyle1 : classes.textStyle } variant="headline">{Math.round(game.totalAvgScore)}</Typography>
                                 </Grid>
                                 <Typography variant="subtitle1" noWrap>
                                     {game.games[0].gameData.name}
@@ -168,7 +168,7 @@ class TopGames extends Component {
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
                                                 <Typography className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="headline">
                                                     {game.avgMainStoryHours ?
-                                                        game.avgMainStoryHours
+                                                        Math.round(game.avgMainStoryHours)
                                                         :
                                                         0
                                                     }
@@ -185,7 +185,7 @@ class TopGames extends Component {
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
                                                 <Typography className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="headline">
                                                     {game.avgMainStoryBonusHours ?
-                                                        game.avgMainStoryBonusHours
+                                                        Math.round(game.avgMainStoryBonusHours)
                                                         :
                                                         0
                                                     }
@@ -202,7 +202,7 @@ class TopGames extends Component {
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
                                                 <Typography className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="headline">
                                                     {game.completionistHours ?
-                                                        game.completionistHours
+                                                        Math.round(game.completionistHours)
                                                         :
                                                         0
                                                     }

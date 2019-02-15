@@ -72,7 +72,7 @@ class SearchBar extends Component {
         if (event.key === 'Enter') {
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/?search=${this.state.search}&fields=name,genres.name,release_dates.y,release_dates.human,popularity,platforms.name,involved_companies.developer,involved_companies.company.name,cover.url,popularity,screenshots.url&limit=10`,
+                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/?search=${this.state.search}&fields=name,genres.name,videos.video_id,release_dates.y,release_dates.human,popularity,platforms.name,involved_companies.developer,involved_companies.company.name,cover.url,popularity,screenshots.url&limit=1`,
                 method: 'GET',
                 data: "fields alpha_channel,animated,height,image_id,url,width;"
             })

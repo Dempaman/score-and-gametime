@@ -7,31 +7,24 @@ import Zoom from '@material-ui/core/Zoom';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import loginImage from '../../images/20190210181918_1.jpg'
+import Dialog from '@material-ui/core/Dialog';
 
 
 const styles = theme => ({
     root: {
-        display: "block",
-        maxWidth: 400,
-        position: "fixed",
-        margin: "150px auto",
-        left: 0,
-        right: 0,
-        zIndex: 3,
-        padding: "50px 20px 5px",
-        backgroundColor: "#000000b0",
-        border: "solid 1px #ffffff17",
+        padding: "20px 20px 10px",
     },
     image: {
         height: "100%",
         width: "100%",
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${loginImage})`,
+        backgroundImage: `url(${loginImage})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "bottom",
         position: "absolute",
         [theme.breakpoints.down('xs')]: {
           minHeight: 250,
+          padding: "20px 10px 10px",
         },
     },
 });
@@ -39,18 +32,27 @@ const styles = theme => ({
 class Layout extends Component {
     state = {
         checked: true,
+        open: true,
     };
     render(){
         const { classes } = this.props
         const { checked } = this.state;
+        const { fullScreen } = this.props;
+
         return (
             <div className={classes.image}>
+            <Dialog
+                open={this.state.open}
+                fullScreen={fullScreen}
+                aria-labelledby="responsive-dialog-title"
+            >
                 <Zoom in={checked} style={{ transitionDelay: checked ? '200ms' : '0ms' }}>
                     <Grid className={classes.root}>
                         <HeadLoginText/>
                         <LoginAccount/>
                     </Grid>
                 </Zoom>
+            </Dialog>
             </div>
         )
     }

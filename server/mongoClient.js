@@ -30,10 +30,11 @@ const users = {
 
             let resultArray = [];
 
-            //let cursor = collection.aggregate([{ $project: { items: { $setUnion: "$games" } } }])
-            let cursor = collection.aggregate({
+            let cursor = collection.aggregate(
+                {
                     $unwind: "$games"
                 },
+
                 {
                     $group:
                         {
@@ -68,30 +69,34 @@ const users = {
                             },
 
                             //Completionist
-                            "completionistHours": {
+                            "avgCompletionistHours": {
                                 $avg: "$games.completionist.h"
                             },
-                            "completionistMin": {
+                            "avgCompletionistMin": {
                                 $avg: "$games.completionist.m"
                             },
-                            "completionistSec": {
+                            "avgCompletionistSec": {
                                 $avg: "$games.completionist.s"
                             },
 
-                            games: { $push: "$games" }
+                            games: { $push: "$games" },
+                            playersCountOnMain: { $push: "$games.mainStory.h" },
+                            playersCountOnBonus: { $push: "$games.mainStoryBonus.h" },
+                            playersCountOnCompl: { $push: "$games.completionist.h" },
                         }
                 },
                 { $project:
-                    {
+                    [{
                         _id: 0, games: { $reduce: { input: "$games", initialValue: [],
                         in: { $concatArrays: ["$$this","$$value"] } } },
-                    }
-                }
+                    }]
+                },
             )
 
             cursor.forEach(function(doc, err){
                 resultArray.push(doc);
             }, function(){
+                console.log(resultArray)
                 client.close();
                 callback(resultArray);
             });

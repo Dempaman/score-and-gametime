@@ -17,6 +17,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import classNames from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import Slider, { defaultValueReducer } from '@material-ui/lab/Slider';
 
 import history from '../../history.js';
 import { searchResultClicked, loading, searchResultHead, searchResultGameScore  } from '../../actions/SearchActions';
@@ -29,29 +30,39 @@ const styles = theme => ({
         padding: "10px 20px 100px 20px",
         maxWidth: 1356,
         backgroundColor: theme.palette.primary.main,
-    },
-    formContainer: {
+        [theme.breakpoints.down('sm')]: {
+            padding: "10px 10px 100px 10px",
+        }
     },
     image: {
-        width: "100%",
+        position: "absolute",
+        width: 250,
+        top: 200,
+        [theme.breakpoints.down('xs')]: {
+         fontSize: "0.7rem",
+         left: "50%",
+         marginLeft: -100,
+         top: 210,
+         width: 200,
+        },
     },
     leftContainer: {
-        position: "absolute",
-        top: "270px",
-        width: 250
-    },
-    rightContainer: {
-
+        marginTop: 112,
+        marginRight: 20,
+        width: 250,
+        [theme.breakpoints.down('sm')]: {
+         fontSize: "0.7rem",
+         width: "100%",
+        },
+        [theme.breakpoints.down('xs')]: {
+         marginTop: 185,
+        },
     },
     gridMargin: {
         margin: "5px 0px 3px 0px",
     },
     textStyle: {
         margin: "15px 0 5px 0"
-    },
-    filler: {
-        width: 250,
-        height: 500,
     },
     textStyle1: {
         marginTop: 20,
@@ -65,6 +76,7 @@ const styles = theme => ({
         marginTop: 40
     },
     topGrid: {
+        overflowX: "hidden",
         padding: 20,
         backgroundColor: theme.palette.primary.dark01
     },
@@ -113,7 +125,7 @@ const styles = theme => ({
         height: 48,
         backgroundImage: theme.palette.secondary.orangeButton,
         borderRadius: "1px",
-        marginRight: 10,
+        marginBottom: 10,
     },
     buttonStyle: {
         marginTop: 60,
@@ -124,7 +136,15 @@ const styles = theme => ({
     },
     circularStyle: {
         marginTop: 50,
-    }
+    },
+    slider: {
+        width: 500,
+        margin: 20,
+        [theme.breakpoints.down('sm')]: {
+         width: 280,
+         margin: "20px 0px",
+        },
+    },
 });
 
 const platforms = [
@@ -133,8 +153,8 @@ const platforms = [
     label: 'Nintendo Switch',
   },
   {
-    value: 'Playstaion 4',
-    label: 'Playstaion 4',
+    value: 'Playstation 4',
+    label: 'Playstation 4',
   },
   {
     value: 'Xbox One',
@@ -156,16 +176,16 @@ class Form extends Component {
             this.state = {
                 platform: 'Nintendo Switch',
                 selectedDate: new Date(),
-                activeStep: 0,
-                MainStoryHours: '',
-                MainStoryMin: '',
-                MainStorySec: '',
-                MainStoryBonusHours: '',
-                MainStoryBonusMin: '',
-                MainStoryBonusSec: '',
-                CompletionistHours: '',
-                CompletionistMin: '',
-                CompletionistSec: '',
+                value: 0,
+                MainStoryHours: null,
+                MainStoryMin: null,
+                MainStorySec: null,
+                MainStoryBonusHours: null,
+                MainStoryBonusMin: null,
+                MainStoryBonusSec: null,
+                CompletionistHours: null,
+                CompletionistMin: null,
+                CompletionistSec: null,
                 open: false,
                 error: ''
             }
@@ -180,12 +200,40 @@ class Form extends Component {
       });
     };
 
+    handleSlider = (event, value) => {
+    this.setState({ value });
+  };
+
+    valueReducer(rawValue, props, event) {
+        const { disabled, max, min, step } = props;
+
+        function roundToStep(number) {
+            return Math.round(number / step) * step;
+        }
+        if (!disabled && step) {
+            if (rawValue > min && rawValue < max) {
+                if (rawValue === max - step) {
+                    // If moving the Slider using arrow keys and value is formerly an maximum edge value
+                    return roundToStep(rawValue + step / 2);
+                }
+                if (rawValue === min + step) {
+                    // Same for minimum edge value
+                    return roundToStep(rawValue - step / 2);
+                }
+                return roundToStep(rawValue);
+            }
+            return rawValue;
+        }
+
+        return defaultValueReducer(rawValue, props, event);
+    }
+
     componentWillMount() {
         const id = history.location.pathname.split("/submitgame_form/game/")[1]
         if(!this.props.clicked.id){
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 method: 'GET',
             })
             .then(res => {
@@ -223,19 +271,6 @@ class Form extends Component {
         this.setState({ selectedDate: date });
     };
 
-    handleNext = () => {
-        this.setState(state => ({
-          activeStep: state.activeStep + 1,
-        }));
-    };
-
-    handleBack = () => {
-        this.setState(state => ({
-          activeStep: state.activeStep - 1,
-        }));
-    };
-
-
     convertTime = (num) => {
         const h = Math.floor(num/60)
         const m = num%60
@@ -245,13 +280,13 @@ class Form extends Component {
 
     submitAccount(event) {
         event.preventDefault();
-        if (this.props.user.uid) {
+        if (this.props.user.uid && this.state.value >= 10) {
             const uid = this.props.user.uid
             const submit =
                 {
                     gameId: this.props.clicked.id,
                     platform: this.state.platform,
-                    score: (this.state.activeStep + 1)*10,
+                    score: this.state.value,
                     date: this.state.selectedDate,
                     mainStory: {
                         h: this.state.MainStoryHours,
@@ -285,7 +320,7 @@ class Form extends Component {
     render(){
         const { classes, theme } = this.props
         const game = this.props.clicked
-        const { selectedDate } = this.state
+        const { selectedDate, value } = this.state
 
         return (
             <Grid className={classes.root}>
@@ -294,15 +329,9 @@ class Form extends Component {
                             container
                             justify="space-between"
                             direction="row"
-                            className={classes.formContainer}
                         >
-                            <Grid item xs={12} sm={3} container className={classes.filler}>
-                                <Grid
-                                    container
-                                    justify="center"
-                                    direction="column"
-                                    className={classes.leftContainer}
-                                >
+                            <Grid item xs={12} sm={3} container>
+                                <Grid className={classes.leftContainer}>
                                     <Grid>
                                         <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
                                     </Grid>
@@ -310,15 +339,15 @@ class Form extends Component {
                                     <Divider light />
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">Main Story Completed:</Typography>
-                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryHours*60 + this.props.gameScore.avgMainStoryMin) : 0 }</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryHours*60 + this.props.gameScore.avgMainStoryMin) : "-" }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">Main Story + Bonus</Typography>
-                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryBonusHours*60 + this.props.gameScore.avgMainStoryBonusHours) : 0 }</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryBonusHours*60 + this.props.gameScore.avgMainStoryBonusHours) : "-" }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">100% The Game!</Typography>
-                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.completionistHours*60 + this.props.gameScore.completionistMin) : 0}</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.completionistHours*60 + this.props.gameScore.completionistMin) : "-"}</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="subtitle1">Score</Typography>
@@ -329,7 +358,6 @@ class Form extends Component {
 
                             <Grid
                                 item xs={12} sm={9}
-                                className={classes.rightContainer}
                             >
                                 <form onSubmit={(event) => this.submitAccount(event)} >
                                     <Grid>
@@ -380,12 +408,11 @@ class Form extends Component {
                                                             name="MainStoryHours"
                                                             InputProps={{ inputProps: { min: 0, max: 9999 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.MainStoryHours.length > 4}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ MainStoryHours: '' })
+                                                                    this.setState({ MainStoryHours: null })
                                                                 } else {
                                                                     this.setState({ MainStoryHours: Number(event.target.value) })
                                                                 }
@@ -398,12 +425,11 @@ class Form extends Component {
                                                             name="MainStoryMin"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.MainStoryMin.length > 2}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ MainStoryMin: '' })
+                                                                    this.setState({ MainStoryMin: null })
                                                                 } else {
                                                                     this.setState({ MainStoryMin: Number(event.target.value) })
                                                                 }
@@ -416,12 +442,11 @@ class Form extends Component {
                                                             name="MainStorySec"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.MainStorySec.length > 2}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ MainStorySec: '' })
+                                                                    this.setState({ MainStorySec: null })
                                                                 } else {
                                                                     this.setState({ MainStorySec: Number(event.target.value) })
                                                                 }
@@ -439,12 +464,11 @@ class Form extends Component {
                                                             name="MainStoryBonusHours"
                                                             InputProps={{ inputProps: { min: 0, max: 9999 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.MainStoryBonusHours.length > 4}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ MainStoryBonusHours: '' })
+                                                                    this.setState({ MainStoryBonusHours: null })
                                                                 } else {
                                                                     this.setState({ MainStoryBonusHours: Number(event.target.value) })
                                                                 }
@@ -457,12 +481,11 @@ class Form extends Component {
                                                             name="MainStoryBonusMin"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.MainStoryBonusMin.length > 2}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ MainStoryBonusMin: '' })
+                                                                    this.setState({ MainStoryBonusMin: null })
                                                                 } else {
                                                                     this.setState({ MainStoryBonusMin: Number(event.target.value) })
                                                                 }
@@ -475,12 +498,11 @@ class Form extends Component {
                                                             name="MainStoryBonusSec"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.MainStoryBonusSec.length > 2}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ MainStoryBonusSec: '' })
+                                                                    this.setState({ MainStoryBonusSec: null })
                                                                 } else {
                                                                     this.setState({ MainStoryBonusSec: Number(event.target.value) })
                                                                 }
@@ -498,12 +520,11 @@ class Form extends Component {
                                                             name="CompletionistHours"
                                                             InputProps={{ inputProps: { min: 0, max: 9999 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.CompletionistHours.length > 4}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ CompletionistHours: '' })
+                                                                    this.setState({ CompletionistHours: null })
                                                                 } else {
                                                                     this.setState({ CompletionistHours: Number(event.target.value) })
                                                                 }
@@ -516,12 +537,11 @@ class Form extends Component {
                                                             name="CompletionistMin"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.CompletionistMin.length > 2}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) =>  { if (event.target.value <= 0) {
-                                                                    this.setState({ CompletionistMin: '' })
+                                                                    this.setState({ CompletionistMin: null })
                                                                 } else {
                                                                     this.setState({ CompletionistMin: Number(event.target.value) })
                                                                 }
@@ -534,12 +554,11 @@ class Form extends Component {
                                                             name="CompletionistSec"
                                                             InputProps={{ inputProps: { min: 0, max: 59 } }}
                                                             InputLabelProps={{ shrink: true }}
-                                                            error={this.state.CompletionistSec.length > 2}
                                                             className={classNames(classes.textFieldTime, classes.dense)}
                                                             margin="dense"
                                                             variant="outlined"
                                                             onChange={(event) => { if (event.target.value <= 0) {
-                                                                    this.setState({ CompletionistSec: '' })
+                                                                    this.setState({ CompletionistSec: null })
                                                                 } else {
                                                                     this.setState({ CompletionistSec: Number(event.target.value) })
                                                                 }
@@ -550,23 +569,20 @@ class Form extends Component {
 
                                                     <Grid
                                                         container
-                                                        direction="row"
-                                                        justify="space-between"
-                                                        alignItems="center"
+                                                        direction="column"
                                                       >
-                                                        <Typography className={classes.textStyle3} variant="subtitle1">Playthrough Completed on Date:</Typography>
+                                                        <Typography className={classes.textStyle3} variant="subtitle1">Playthrough Completed on:</Typography>
+                                                        <Divider light/>
                                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                             <Grid className={classes.gridDate}>
                                                                 <DatePicker
                                                                     margin="normal"
-                                                                    label="Date picker"
                                                                     value={selectedDate}
                                                                     onChange={this.handleDateChange}
                                                                     />
                                                             </Grid>
                                                         </MuiPickersUtilsProvider>
                                                     </Grid>
-                                                    <Divider light/>
                                                 </Grid>
                                         </Grid>
                                         <Grid>
@@ -575,7 +591,7 @@ class Form extends Component {
                                             <Typography className={classes.textStyle1} variant="h5">User Score</Typography>
                                             <Grid container alignItems="center" direction="row" className={classes.topGrid}>
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">{this.props.gameScore ? this.props.gameScore.totalAvgScore : null}</Typography>
+                                                    <Typography variant="display4">{this.props.gameScore ? Math.round(this.props.gameScore.totalAvgScore) : "-"}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
                                                     <Typography className={classes.scoreText}>User Score</Typography>
@@ -585,33 +601,26 @@ class Form extends Component {
                                                 </Grid>
                                             </Grid>
                                             <Typography className={classes.textStyle1} variant="h5">How would you rate this game?</Typography>
-                                            <Grid container alignItems="center" justify="center" className={classes.topGrid}>
-                                                <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                    <Typography variant="headline">{(this.state.activeStep + 1)*10}</Typography>
-                                                </Grid>
-                                                <MobileStepper
-                                                    variant="dots"
-                                                    steps={10}
-                                                    position="static"
-                                                    activeStep={this.state.activeStep}
-                                                    className={classes.mobileStepper}
-                                                    nextButton={
-                                                        <Button size="small" onClick={this.handleNext} disabled={this.state.activeStep === 9}>
-                                                            Next
-                                                            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                                                        </Button>
-                                                    }
-                                                    backButton={
-                                                        <Button size="small" onClick={this.handleBack} disabled={this.state.activeStep === 0}>
-                                                            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                                                            Back
-                                                        </Button>
-                                                    }
-                                                />
+                                            <Grid container direction="column" alignItems="center" justify="center" className={classes.topGrid}>
+                                                <Typography variant="caption">slide here to rate the game</Typography>
+                                                    <div className={classes.slider}>
+                                                        <Slider
+                                                            value={value}
+                                                            valueReducer={this.valueReducer}
+                                                            min={0}
+                                                            max={100}
+                                                            step={10}
+                                                            onChange={this.handleSlider}
+                                                            />
+                                                    </div>
+                                                    <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
+                                                        <Typography variant="headline">{this.state.value}</Typography>
+                                                    </Grid>
+                                                    <Typography variant="caption">Your rating</Typography>
                                             </Grid>
 
                                             <Button type='submit' size='large' className={classes.buttonStyle}>
-                                                <Typography variant="button">Submit</Typography>
+                                                <Typography variant="button">Submit my stats</Typography>
                                             </Button>
                                         </Grid>
                                         {this.state.error &&

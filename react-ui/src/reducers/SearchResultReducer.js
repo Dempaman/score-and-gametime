@@ -7,7 +7,13 @@ filter: [],
 clicked: {
     platforms:[]
 },
-gamescore: {},
+gamescore: {
+    games:[],
+    playersCountOnMain:[],
+    playersCountOnBonus:[],
+    playersCountOnCompl:[],
+    totalAvgScore: null,
+},
 loading: true,
 }
 
@@ -38,7 +44,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 items: action.payload,
-                filter: action.payload
+                filter: action.payload,
             }
         case SEARCH_RESULT_NAME_HEAD:
             return {

@@ -10,35 +10,46 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
 import history from '../../history.js';
 import { searchResultClicked, loading, searchResultHead, searchResultGameScore  } from '../../actions/SearchActions';
 
 const styles = theme => ({
     root: {
         margin: "0 auto",
-        padding: "10px 20px 100px 20px",
+        padding: "10px 10px 100px 10px",
         maxWidth: 1356,
         backgroundColor: theme.palette.primary.main,
     },
-    formContainer: {
-    },
     image: {
-        width: "100%",
+        position: "absolute",
+        width: 250,
+        top: 255,
+        [theme.breakpoints.down('xs')]: {
+         fontSize: "0.7rem",
+         left: "50%",
+         marginLeft: -125,
+        },
     },
     leftContainer: {
-        position: "absolute",
-        top: "270px",
-        width: 250
-    },
-    rightContainer: {
-
+        marginTop: 122,
+        marginRight: 20,
+        width: 250,
+        [theme.breakpoints.down('sm')]: {
+         fontSize: "0.7rem",
+         width: "100%",
+        },
+        [theme.breakpoints.down('xs')]: {
+         marginTop: 185,
+        },
     },
     gridMargin: {
         margin: "8px 0px 0px 0px",
-    },
-    filler: {
-        width: 250,
-        height: 500,
     },
     textStyle: {
         margin: "15px 0 5px 0",
@@ -56,8 +67,8 @@ const styles = theme => ({
     },
     topGrid: {
         marginTop: 10,
-        padding: 20,
-        backgroundColor: theme.palette.primary.dark01
+        padding: 10,
+        backgroundColor: theme.palette.primary.dark02
     },
     container: {
         display: 'flex',
@@ -84,6 +95,7 @@ const styles = theme => ({
         flexGrow: 1,
     },
     buttonStyle: {
+        marginTop: 10,
         backgroundImage: theme.palette.secondary.orangeButton,
         border: '1px solid #fff',
         '&:hover': {
@@ -98,6 +110,31 @@ const styles = theme => ({
     },
     divider: {
         margin: "5px 0 5px 0"
+    },
+    avgHours: {
+        maxWidth: 400,
+        marginRight: 20,
+        width: "30%",
+        [theme.breakpoints.down('sm')]: {
+          width: "25%",
+        },
+    },
+    avgHoursText: {
+        [theme.breakpoints.down('sm')]: {
+         fontSize: "0.7rem"
+        },
+    },
+    rootTable: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        overflowX: 'auto',
+        backgroundColor: theme.palette.primary.dark01,
+    },
+    table: {
+        minWidth: 700,
+    },
+    tbText:{
+        color: "#f27449"
     }
 });
 
@@ -110,21 +147,12 @@ class GameDetailsPage extends Component {
             }
     }
 
-    handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      this.setState({
-          open: false
-      });
-    };
-
     componentWillMount() {
         const id = history.location.pathname.split("/game_details/")[1]
         if(!this.props.clicked.id){
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 method: 'GET',
             })
             .then(res => {
@@ -140,44 +168,117 @@ class GameDetailsPage extends Component {
     }
 
     componentDidUpdate(prevProps){
-    const id = history.location.pathname.split("/game_details/")[1]
-    if(prevProps.searchResult !== this.props.searchResult){
-        const result = this.props.searchResult.filter((item) => {
-         return item._id === Number(id)
-        })
-        console.log(result)
-        this.props.searchResultGameScore(result[0])
-     }
- }
+        const id = history.location.pathname.split("/game_details/")[1]
+        if(prevProps.searchResult !== this.props.searchResult){
+            const result = this.props.searchResult.filter((item) => {
+             return item._id === Number(id)
+            })
+            this.props.searchResultGameScore(result[0])
+         }
+    }
 
-    handleChange = name => event => {
-        this.setState({
-          [name]: event.target.value,
-      }, () => {
+    //********* Fastest total time on game *********//
+    fastestMain(){
+        const time = Math.min.apply(this.props.gameScore.games, this.props.gameScore.games.map(time => (
+                    (time.mainStory.h * 60 * 60) + (time.mainStory.m * 60) + time.mainStory.s
+                ))
+            )
 
-      });
-    };
+        return this.secondsToHourAndMin(time)
+    }
+    fastestBonus(){
+        const time = Math.min.apply(this.props.gameScore.games, this.props.gameScore.games.map(time => (
+                    (time.mainStoryBonus.h * 60 * 60) + (time.mainStoryBonus.m * 60) + time.mainStoryBonus.s
+                ))
+            )
 
-    handleDateChange = date => {
-        this.setState({ selectedDate: date });
-    };
+        return this.secondsToHourAndMin(time)
+    }
+    fastestComp(){
+        const time = Math.min.apply(this.props.gameScore.games, this.props.gameScore.games.map(time => (
+                    (time.completionist.h * 60 * 60) + (time.completionist.m * 60) + time.completionist.s
+                ))
+            )
 
-    handleNext = () => {
-        this.setState(state => ({
-          activeStep: state.activeStep + 1,
-        }));
-    };
+        return this.secondsToHourAndMin(time)
+    }
+    fastestOnPlatform(){
+        const time = Math.min.apply(this.props.gameScore.games, this.props.gameScore.games.map(time => (
+                    (time.completionist.h * 60 * 60) + (time.completionist.m * 60) + time.completionist.s
+                ))
+            )
 
-    handleBack = () => {
-        this.setState(state => ({
-          activeStep: state.activeStep - 1,
-        }));
-    };
+        return this.secondsToHourAndMin(time)
+    }
+    //********* -------------------------------------*********//
+
+    //********* Average Time on different platforms *********//
+    avgTimePlatformMain(number, platform){
+        const time = this.props.gameScore.games.filter(x => x.platform === platform).map(time => (
+                    (time.mainStory.h * 60 * 60) + (time.mainStory.m * 60) + time.mainStory.s
+                )).reduce((a, b) => a + b, 0);
+        const avgTime = (time/number)
+        return this.secondsToHourAndMin(avgTime)
+    }
+    avgTimePlatformBonus(number, platform){
+        const time = this.props.gameScore.games.filter(x => x.platform === platform).map(time => (
+                    (time.mainStoryBonus.h * 60 * 60) + (time.mainStoryBonus.m * 60) + time.mainStoryBonus.s
+                )).reduce((a, b) => a + b, 0);
+        const avgTime = (time/number)
+        return this.secondsToHourAndMin(avgTime)
+    }
+    avgTimePlatformComp(number, platform){
+        const time = this.props.gameScore.games.filter(x => x.platform === platform).map(time => (
+                    (time.completionist.h * 60 * 60) + (time.completionist.m * 60) + time.completionist.s
+                )).reduce((a, b) => a + b, 0);
+        const avgTime = (time/number)
+        return this.secondsToHourAndMin(avgTime)
+    }
+    //********* -------------------------------------*********//
+
+    secondsToHourAndMin(d) {
+        d = Number(d);
+        const h = Math.floor(d / 3600);
+        const m = Math.floor(d % 3600 / 60);
+        const s = Math.floor(d % 3600 % 60);
+
+        const hDisplay = h > 0 ? h + (h === 1 ? " h " : " h ") : "";
+        const mDisplay = m > 0 ? m + (m === 1 ? " min " : " min ") : "";
+        const sDisplay = s > 0 ? s + (s === 1 ? " sec" : " sec") : "";
+        return hDisplay + mDisplay + sDisplay;
+    }
+
+
+    countPlatforms() {
+        const names = this.props.gameScore.games
+
+        const result = [...names.reduce( (mp, o) => {
+            if (!mp.has(o.platform)) mp.set(o.platform, Object.assign({ count: 0 }, o));
+            mp.get(o.platform).count++;
+            return mp;
+        }, new Map).values()];
+        return result
+    }
 
     render(){
         const game = this.props.clicked
         const { classes } = this.props
-        console.log(game)
+        //const platformTimes = this.props.gameScore.games.filter(x => x.platform === "Nintendo Switch").map(x => console.log(x.mainStory))
+
+        const platformTable = this.countPlatforms().map(platform => (
+            <TableBody key={platform.platform}>
+                <TableRow>
+                    <TableCell component="th" scope="row">
+                        {platform.platform}
+                    </TableCell>
+                    <TableCell className={classes.tbText} align="right">{platform.count}</TableCell>
+                    <TableCell align="right">{this.avgTimePlatformMain(platform.count, platform.platform)}</TableCell>
+                    <TableCell align="right">{this.avgTimePlatformBonus(platform.count, platform.platform)}</TableCell>
+                    <TableCell align="right">{this.avgTimePlatformComp(platform.count, platform.platform)}</TableCell>
+                </TableRow>
+            </TableBody>
+        ))
+
         return (
             <Grid className={classes.root}>
                     {this.props.clicked.id ?
@@ -185,15 +286,9 @@ class GameDetailsPage extends Component {
                             container
                             justify="space-between"
                             direction="row"
-                            className={classes.formContainer}
                         >
-                            <Grid item xs={12} sm={3} container className={classes.filler}>
-                                <Grid
-                                    container
-                                    justify="center"
-                                    direction="column"
-                                    className={classes.leftContainer}
-                                >
+                            <Grid item xs={12} sm={4} md={3}>
+                                <Grid className={classes.leftContainer}>
                                     <Grid>
                                         <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
                                     </Grid>
@@ -260,8 +355,7 @@ class GameDetailsPage extends Component {
                             </Grid>
 
                             <Grid
-                                item xs={12} sm={9}
-                                className={classes.rightContainer}
+                                item xs={12} sm={8} md={9}
                             >
                                 <Grid>
                                     <Typography className={classes.textStyle} variant="h4">{game.name}</Typography>
@@ -288,7 +382,7 @@ class GameDetailsPage extends Component {
                                         <Grid>
                                             <Grid container alignItems="center" direction="row" >
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">{this.props.gameScore ? this.props.gameScore.totalAvgScore : null}</Typography>
+                                                    <Typography variant="display4">{Math.round(this.props.gameScore.totalAvgScore)}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
                                                     <Typography className={classes.scoreText}>User Score</Typography>
@@ -314,10 +408,117 @@ class GameDetailsPage extends Component {
                                     <Grid>
                                         <Typography className={classes.textStyle1} variant="h5">Gametime</Typography>
                                         <Divider light/>
-                                            <Grid className={classes.topGrid}>
-                                                // TABELL HÄR!! //
+                                            <Grid
+                                                container
+                                                direction="row"
+                                                justify="center"
+                                                alignItems="center"
+                                                className={classes.topGrid}
+                                            >
+                                                <Grid className={classes.avgHours}>
+                                                    <Typography className={classes.avgHoursText} variant="subtitle1">Main Story Complete</Typography>
+                                                    <Divider light/>
+                                                    <Typography className={classes.avgHoursText} variant="h5">{this.props.gameScore.avgMainStoryHours ? Math.round(this.props.gameScore.avgMainStoryHours) : "-"} Hours</Typography>
+                                                </Grid>
+                                                <Grid className={classes.avgHours}>
+                                                    <Typography className={classes.avgHoursText} variant="subtitle1">Main + Bonus</Typography>
+                                                    <Divider light/>
+                                                    <Typography className={classes.avgHoursText} variant="h5">{this.props.gameScore.avgMainStoryBonusHours ? Math.round(this.props.gameScore.avgMainStoryBonusHours) : "-"} Hours</Typography>
+                                                </Grid>
+                                                <Grid className={classes.avgHours}>
+                                                    <Typography className={classes.avgHoursText} variant="subtitle1">100% Complete</Typography>
+                                                    <Divider light/>
+                                                    <Typography className={classes.avgHoursText} variant="h5">{this.props.gameScore.avgCompletionistHours ? Math.round(this.props.gameScore.avgCompletionistHours) : "-"} Hours</Typography>
+                                                </Grid>
                                             </Grid>
                                     </Grid>
+
+                                    <Grid className={classes.rootTable}>
+                                        <Table className={classes.table}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Single Player</TableCell>
+                                                    <TableCell align="right">Players</TableCell>
+                                                    <TableCell align="right">Average</TableCell>
+                                                    <TableCell align="right">Fastest</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">
+                                                        Main Story Complete
+                                                    </TableCell>
+                                                    <TableCell className={classes.tbText} align="right">{this.props.gameScore.playersCountOnMain.filter(x => x).length}</TableCell>
+                                                    <TableCell align="right">{Math.round(this.props.gameScore.avgMainStoryHours)} h {Math.round(this.props.gameScore.avgMainStoryMin)} min</TableCell>
+                                                    <TableCell align="right">{this.fastestMain() ? this.fastestMain() : "-"}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">
+                                                        Main Story + Bonus
+                                                    </TableCell>
+                                                    <TableCell className={classes.tbText} align="right">{this.props.gameScore.playersCountOnBonus.filter(x => x).length}</TableCell>
+                                                    <TableCell align="right">{Math.round(this.props.gameScore.avgMainStoryBonusHours)} h {Math.round(this.props.gameScore.avgMainStoryBonusMin)} min</TableCell>
+                                                    <TableCell align="right">{this.fastestBonus() ? this.fastestBonus() : "-"}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">
+                                                        100% Complete!
+                                                    </TableCell>
+                                                    <TableCell className={classes.tbText} align="right">{this.props.gameScore.playersCountOnCompl.filter(x => x).length}</TableCell>
+                                                    <TableCell align="right">{Math.round(this.props.gameScore.avgCompletionistHours)} h {Math.round(this.props.gameScore.avgCompletionistHours)} min</TableCell>
+                                                    <TableCell align="right">{this.fastestComp() ? this.fastestComp() : "-"}</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </Grid>
+
+                                    <Grid className={classes.rootTable}>
+                                        <Table className={classes.table}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Platform</TableCell>
+                                                    <TableCell align="right">Players</TableCell>
+                                                    <TableCell align="right">Main Story</TableCell>
+                                                    <TableCell align="right">Main Story + Bonus</TableCell>
+                                                    <TableCell align="right">100! Complete</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            {platformTable}
+                                        </Table>
+                                    </Grid>
+                                    {/*<div>
+                                        <Chart
+                                            width={'600px'}
+                                            height={'400px'}
+                                            chartType="LineChart"
+                                            loader={<div>Loading Chart</div>}
+                                            data={[
+                                                ['x', 'dogs'],
+                                                [0, 0],
+                                                [1, 10],
+                                                [2, 23],
+                                                [3, 17],
+                                                [4, 18],
+                                                [5, 9],
+                                                [6, 11],
+                                                [7, 27],
+                                                [8, 33],
+                                                [9, 40],
+                                                [10, 32],
+                                                [11, 35],
+                                            ]}
+                                            options={{
+                                                hAxis: {
+                                                    title: 'Time',
+                                                },
+                                                vAxis: {
+                                                    title: 'Popularity',
+                                                },
+                                            }}
+                                            rootProps={{ 'data-testid': '1' }}
+                                        />
+                                </div> */}
+
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -6,19 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import Zoom from '@material-ui/core/Zoom';
 import loginImage from '../../images/20190210181918_1.jpg'
+import Dialog from '@material-ui/core/Dialog';
 
 const styles = theme => ({
     root: {
-        display: "block",
-        maxWidth: 400,
-        margin: "100px auto",
-        marginBottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 3,
-        padding: "0px 20px 5px",
-        backgroundColor: "#000000b0",
-        border: "solid 1px #ffffff17",
+        padding: "20px 10px 10px",
     },
     image: {
         height: "100%",
@@ -39,19 +31,28 @@ const styles = theme => ({
 class LayoutSignUp extends Component {
     state = {
         checked: true,
+        open: true,
     };
     render(){
         const { classes } = this.props;
         const { checked } = this.state;
+        const { fullScreen } = this.props;
+
         return (
             <div className={classes.image}>
-                <Zoom in={checked} style={{ transitionDelay: checked ? '200ms' : '0ms' }}>
-                    <Grid className={classes.root}>
-                        <HeadSignText/>
-                        <GoogleButtonWrap/>
-                        <CreateAccount/>
-                    </Grid>
-                </Zoom>
+                <Dialog
+                    open={this.state.open}
+                    fullScreen={fullScreen}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <Zoom in={checked} style={{ transitionDelay: checked ? '200ms' : '0ms' }}>
+                        <Grid className={classes.root}>
+                            <HeadSignText/>
+                            {/*<GoogleButtonWrap/>*/}
+                            <CreateAccount/>
+                        </Grid>
+                    </Zoom>
+                </Dialog>
             </div>
         )
     }

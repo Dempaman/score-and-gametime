@@ -92,10 +92,18 @@ const theme = createMuiTheme({
             }
         },
         MuiPaper: {
+            root: {
+                backgroundColor: "#000000d6",
+            },
             rounded: {
                 borderRadius: 0,
-                border: "1px solid #438bc86e",
+                border: "1px solid #ffffff17",
             }
+        },
+        MuiDialog: {
+            paper: {
+                margin: 0,
+            },
         },
         MuiDivider: {
             light: {
@@ -182,6 +190,37 @@ const theme = createMuiTheme({
                 backgroundColor: "#fff"
             }
         },
+        MuiTableCell: {
+            root: {
+                borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+            },
+            head: {
+                color: "#fff",
+                fontSize: "0.8rem"
+            },
+            body: {
+                color: "#fff",
+
+            }
+        },
+        MuiPickersCalendarHeader: {
+            iconButton: {
+                margin: "5px 10px"
+            },
+        },
+        MuiPickersDay: {
+            day: {
+                color: "#fff"
+            },
+        },
+        MuiSlider: {
+            thumb: {
+                backgroundColor: "#36A9CE"
+            },
+            track: {
+                backgroundColor: "#36A9CE"
+            }
+        }
     }
     //**** ------   **** ///
 
