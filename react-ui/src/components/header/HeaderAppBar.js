@@ -23,7 +23,7 @@ import history from '../../history.js';
 const styles = theme => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.primary.blue01,
+    backgroundColor: theme.palette.primary.dark00,
   },
   grow: {
     flexGrow: 1,
@@ -51,7 +51,7 @@ const styles = theme => ({
     },
   },
   appBar: {
-      backgroundColor: theme.palette.primary.blue01,
+      backgroundColor: theme.palette.primary.dark00,
       [theme.breakpoints.up('md')]: {
           margin: '0 auto',
           maxWidth: 1356,

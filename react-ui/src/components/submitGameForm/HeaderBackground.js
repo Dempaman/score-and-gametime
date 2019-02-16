@@ -3,15 +3,15 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 
 const styles = theme => ({
     image: {
         minHeight: 350,
-        backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.unsplash.com/photo-1519326844852-704caea5679e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2034&q=80)",
-        //Photo is borrowed from https://unsplash.com/@serumfabian //
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        backgroundPosition: "bottom",
+        backgroundPosition: "center",
         position: "relative",
         [theme.breakpoints.down('xs')]: {
           minHeight: 250,
@@ -25,13 +25,16 @@ const styles = theme => ({
     },
     textStyle: {
         margin: "0 0 20px 0",
+        width: 400,
+        textAlign: "center",
         [theme.breakpoints.down('xs')]: {
           fontSize: "1.5em",
+          width: 300
         },
     },
     dividerStyle: {
         height: 4,
-        backgroundColor: theme.palette.primary.blue03
+        backgroundImage: theme.palette.secondary.orangeButton
     }
 });
 
@@ -40,17 +43,30 @@ class HeaderBackground extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <div className={classes.image}>
-                    <div className={classes.alignCenter}>
-                        <Grid container justify="center">
-                            <Typography className={classes.textStyle} variant="h4">Share Your Playthroughs</Typography>
-                        </Grid>
+                {this.props.clicked ?
+                    this.props.clicked.slice(1, 2).map(img => (
+                        <div key={img.url} className={classes.image} style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${img.url.replace('t_thumb', 't_1080p')})` }}>
+                        <div className={classes.alignCenter}>
+                            <Grid container justify="center">
+                                <Typography className={classes.textStyle} variant="h4">Share Your Playthrough</Typography>
+                            </Grid>
+                        </div>
                     </div>
-                </div>
+                ))
+                :
+                null
+                }
                 <Divider className={classes.dividerStyle}/>
             </div>
         )
     }
 }
 
-export default withStyles(styles)(HeaderBackground);
+const mapStateToProps = (state, ownProps) => ({
+    clicked: state.searchResult.clicked.screenshots,
+})
+
+export default compose(
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps, {})
+)(HeaderBackground);

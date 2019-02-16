@@ -170,7 +170,7 @@ class CreateAccount extends Component {
                     </Grid>
 
                     <Grid className={classes.textStyle} container direction="row">
-                        <Typography variant="subtitle1">Already have an account?</Typography>
+                        <Typography variant="subtitle2">Already have an account?</Typography>
                         <ButtonBase
                             onClick={ () => {
                                 history.push('/login')

@@ -12,10 +12,11 @@ import { searchResult, loading  } from '../../actions/SearchActions';
 const styles = theme => ({
     search: {
       position: 'relative',
+      color: '#1e262c',
       borderRadius: 0,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
+      backgroundColor: fade(theme.palette.common.white, 0.45),
       '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
+        backgroundColor: fade(theme.palette.common.white, 0.65),
       },
       marginRight: theme.spacing.unit * 2,
       marginLeft: 0,
@@ -73,8 +74,11 @@ class SearchBar extends Component {
             this.props.loading(false)
             axios({
                 url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/?search=${this.state.search}&fields=name,genres.name,videos.video_id,release_dates.y,release_dates.human,popularity,platforms.name,involved_companies.developer,involved_companies.company.name,cover.url,popularity,screenshots.url&limit=5`,
+                headers: {
+                  "user-key": "6f618d610d984b87f163ab3f0097a78f",
+                  Accept: "application/json"
+                },
                 method: 'GET',
-                data: "fields alpha_channel,animated,height,image_id,url,width;"
             })
             .then(res => {
                 this.props.searchResult(res.data)

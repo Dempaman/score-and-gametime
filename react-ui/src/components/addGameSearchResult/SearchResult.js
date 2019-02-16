@@ -19,7 +19,7 @@ const styles = theme => ({
     gameWrapper: {
         width: 1356,
         margin: 20,
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.white01,
     },
     image: {
         width: 80,
@@ -33,8 +33,6 @@ const styles = theme => ({
     },
     divider: {
         backgroundColor: theme.palette.secondary.divider,
-        marginTop: 5,
-        marginBottom: 5,
     }
 
 });
@@ -76,7 +74,7 @@ class SearchResult extends Component {
                             <Typography variant="subtitle1" >
                                 {game.name}
                             </Typography>
-                            <Typography variant="button">
+                            <Typography variant="subtitle1">
                                 {game.release_dates ?
                                     Math.min.apply(game.release_dates, game.release_dates.map(find =>(
                                             find.y

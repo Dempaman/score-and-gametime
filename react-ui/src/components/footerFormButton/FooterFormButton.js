@@ -15,7 +15,7 @@ const styles = theme => ({
     buttonStyle: {
         marginTop: '25px',
         width: 340,
-        backgroundColor: theme.palette.primary.blue01,
+        backgroundColor: theme.palette.primary.dark00,
         border: '1px solid rgba(255, 255, 255, 0.2)',
     },
     buttonStyle2: {

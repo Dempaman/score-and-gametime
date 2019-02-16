@@ -15,7 +15,7 @@ const styles = theme => ({
     gridWidth: {
     },
     buttonStyle: {
-        backgroundColor: theme.palette.primary.blue01,
+        backgroundColor: theme.palette.primary.dark00,
         padding: '8px 15px',
     },
 });

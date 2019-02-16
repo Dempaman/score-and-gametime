@@ -17,36 +17,42 @@ const theme = createMuiTheme({
     palette: {
         primary: {
             main: '#33323A',
-            blue01: '#2C6BC8',
             blue02: '#438BC8',
             blue03: '#36A9CE',
+            dark00: '#232A2F',
             dark01: '#222327',
             dark02: '#131417',
+            dark03: '#1B2025',
+            white: '#fff',
+            white01: '#E4E8EB',
         },
         secondary: {
             main: '#2B2A32',
             orangeButton: 'linear-gradient(top, #f27449 0%,#fb9f33 100%)',
-            divider: 'rgba(255, 255, 255, 0.12)'
+            divider: 'rgba(90, 90, 90, 0.19)'
         }
     },
     typography: {
-        fontFamily: 'Lato, sans-serif',
+        fontFamily: 'Open Sans, sans-serif',
         headline:{
             color: '#fff',
         },
         body1: {
-            color: '#747480'
+            color: '#1e262c'
         },
         body2: {
-            color: '#fff',
+            color: '#1e262c',
             fontWeight: '300',
             lineHeight: 0.6
         },
         body3: {
-            color: '#747480',
-            fontWeight: '700',
+            color: '#fff',
+            fontWeight: '300',
         },
         subtitle1: {
+            color: '#1e262c',
+        },
+        subtitle2: {
             color: '#fff',
         },
         button: {
@@ -60,17 +66,23 @@ const theme = createMuiTheme({
             color: '#fff',
         },
         h3: {
-            color: '#fff',
+            color: '#1e262c',
             fontWeight: 300,
+            fontSize: "36px"
         },
         h4: {
             color: '#fff',
             fontWeight: 400,
         },
         h5: {
-            color: '#fff',
+            color: '#1e262c',
             fontWeight: 400,
             fontSize: "1.2rem",
+        },
+        h6: {
+            color: "rgba(183, 183, 183, 0.87)",
+            fontWeight: 300,
+            fontSize: "1.05rem",
         },
         display4: {
             color: '#fff',
@@ -78,7 +90,7 @@ const theme = createMuiTheme({
             fontSize: "3rem",
         },
         caption: {
-            color: '#fff',
+            color: '#1e262c',
         },
     },
     shadows: ["none"],
@@ -88,7 +100,7 @@ const theme = createMuiTheme({
         MuiMenu: {
             paper: {
                 borderRadius: 0,
-                color: '#131417',
+                color: '#00000078',
             }
         },
         MuiPaper: {
@@ -97,7 +109,7 @@ const theme = createMuiTheme({
             },
             rounded: {
                 borderRadius: 0,
-                border: "1px solid #ffffff17",
+                border: "none",
             }
         },
         MuiDialog: {
@@ -107,7 +119,7 @@ const theme = createMuiTheme({
         },
         MuiDivider: {
             light: {
-                backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                backgroundColor: 'rgba(68, 68, 68, 0.2)'
             }
         },
         MuiButton: {
@@ -120,34 +132,34 @@ const theme = createMuiTheme({
             underline: {
                 borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
                 '&:hover:not($disabled):before': {
-                    borderBottom: '1px solid #fff',
+                    borderBottom: '1px solid #1e262c',
                 },
                 '&:hover:not($disabled):after': {
-                    borderBottom: '1px solid #fff',
+                    borderBottom: '1px solid #1e262c',
                 },
                 '&:before': {
                     borderBottom: 0,
                 },
                 "&:hover:not($disabled):not($focused):not($error):before": {
-                  borderBottom: '1px solid #fff',
+                  borderBottom: '1px solid #1e262c',
                 },
             },
         },
         MuiOutlinedInput: {
             root: {
-                color: '#fff',
+                color: '#1e262c',
                 '& $notchedOutline': {
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                    borderColor: '#1e262c',
                     borderRadius: 0,
                 },
                 '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-                    borderColor: '#fff',
+                    borderColor: '#1e262c',
                     '@media (hover: none)': {
-                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderColor: '#1e262c',
                     },
                 },
                 '&$focused $notchedOutline': {
-                    borderColor: '#fff',
+                    borderColor: '#1e262c',
 
                 },
             },
@@ -155,26 +167,26 @@ const theme = createMuiTheme({
         MuiFormLabel: {
             root: {
                 '&$focused': {
-                    color: '#fff'
+                    color: '#1e262c'
                 }
             },
             filled: {
-                color: 'rgba(255, 255, 255, 0.2)',
+                color: '#1e262c',
             },
         },
         MuiFormHelperText: {
             root: {
-                color: '#fff',
+                color: '#1e262c',
             }
         },
         MuiInputBase: {
             input: {
-                color: '#fff'
+                color: '#1e262c'
             },
         },
         MuiInputLabel: {
             outlined: {
-                color: '#fff',
+                color: '#1e262c',
             },
         },
         MuiCircularProgress: {
@@ -192,14 +204,14 @@ const theme = createMuiTheme({
         },
         MuiTableCell: {
             root: {
-                borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+                borderBottom: "1px solid #1e262c",
             },
             head: {
-                color: "#fff",
+                color: "#1e262c",
                 fontSize: "0.8rem"
             },
             body: {
-                color: "#fff",
+                color: "#1e262c",
 
             }
         },
@@ -220,7 +232,17 @@ const theme = createMuiTheme({
             track: {
                 backgroundColor: "#36A9CE"
             }
-        }
+        },
+        MuiCardMedia: {
+            root: {
+                backgroundPosition: "top",
+            }
+        },
+        MuiMenuItem: {
+            root: {
+                color: "#fff"
+            }
+        },
     }
     //**** ------   **** ///
 

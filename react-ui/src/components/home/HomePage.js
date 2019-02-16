@@ -53,13 +53,13 @@ const styles = theme => ({
     },
     dividerStyle: {
         height: 4,
-        backgroundColor: theme.palette.primary.blue03
+        backgroundImage: theme.palette.secondary.orangeButton
     },
     bottomMain: {
         padding: 20,
         height: 200,
         width: "100%",
-        backgroundColor: theme.palette.primary.blue02,
+        backgroundColor: theme.palette.primary.white,
         [theme.breakpoints.down('xs')]: {
           fontSize: "0.8em",
           /*height: 125,*/

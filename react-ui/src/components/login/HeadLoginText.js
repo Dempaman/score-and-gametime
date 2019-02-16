@@ -16,6 +16,12 @@ const styles = theme => ({
     headerStyle: {
         margin: '0 0 30px 0',
     },
+    welcomeText: {
+        color: "#fff"
+    },
+    dividerStyle: {
+        backgroundColor: "#ffffff30",
+    }
 });
 
 class HeadLoginText extends Component {
@@ -39,7 +45,7 @@ class HeadLoginText extends Component {
                         </ButtonBase>
                     </Grid>
                     <Grid container justify="center">
-                        <Typography variant="h5">Welcome</Typography>
+                        <Typography className={classes.welcomeText} variant="h5">Welcome</Typography>
                     </Grid>
                 </Grid>
                 <Divider className={classes.dividerStyle} light variant="middle"/>

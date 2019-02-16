@@ -18,6 +18,9 @@ import classNames from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import Slider, { defaultValueReducer } from '@material-ui/lab/Slider';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Card from '@material-ui/core/Card';
 
 import history from '../../history.js';
 import { searchResultClicked, loading, searchResultHead, searchResultGameScore  } from '../../actions/SearchActions';
@@ -29,26 +32,15 @@ const styles = theme => ({
         margin: "0 auto",
         padding: "10px 20px 100px 20px",
         maxWidth: 1356,
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.white,
         [theme.breakpoints.down('sm')]: {
             padding: "10px 10px 100px 10px",
         }
     },
-    image: {
-        position: "absolute",
-        width: 250,
-        top: 200,
-        [theme.breakpoints.down('xs')]: {
-         fontSize: "0.7rem",
-         left: "50%",
-         marginLeft: -100,
-         top: 210,
-         width: 200,
-        },
-    },
     leftContainer: {
-        marginTop: 112,
-        marginRight: 20,
+        marginTop: 122,
+        marginBottom: 40,
+        paddingRight: 20,
         width: 250,
         [theme.breakpoints.down('sm')]: {
          fontSize: "0.7rem",
@@ -59,15 +51,20 @@ const styles = theme => ({
         },
     },
     gridMargin: {
-        margin: "5px 0px 3px 0px",
+        margin: "15px 0px 0px 0px",
+
     },
     textStyle: {
-        margin: "15px 0 5px 0"
+        margin: "15px 0px 0px 0"
+    },
+    textH6: {
+        margin: "0px 0px 15px 0"
     },
     textStyle1: {
         marginTop: 20,
         padding: 10,
-        backgroundColor: theme.palette.primary.dark02
+        backgroundColor: theme.palette.primary.dark03,
+        color: '#fff'
     },
     textStyle2: {
         marginTop: 20
@@ -78,7 +75,7 @@ const styles = theme => ({
     topGrid: {
         overflowX: "hidden",
         padding: 20,
-        backgroundColor: theme.palette.primary.dark01
+        backgroundColor: theme.palette.primary.white
     },
     container: {
         display: 'flex',
@@ -110,9 +107,6 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px"
     },
-    scoreText: {
-        color: "#fff"
-    },
     scoreTextBox: {
         marginLeft: 10,
     },
@@ -131,7 +125,7 @@ const styles = theme => ({
         marginTop: 60,
         marginLeft: 20,
         width: 200,
-        backgroundColor: theme.palette.primary.blue01,
+        backgroundColor: theme.palette.primary.dark00,
         border: '1px solid rgba(255, 255, 255, 0.2)',
     },
     circularStyle: {
@@ -143,6 +137,56 @@ const styles = theme => ({
         [theme.breakpoints.down('sm')]: {
          width: 280,
          margin: "20px 0px",
+        },
+    },
+    card: {
+        border: "none",
+        position: "absolute",
+        height: 320,
+        width: 320,
+        top: 235,
+        [theme.breakpoints.down('1300')]: {
+            height: 250,
+            width: 250,
+            top: 300,
+        },
+        [theme.breakpoints.down('md')]: {
+            height: 250,
+            width: 250,
+            top: 300,
+        },
+        [theme.breakpoints.down('800')]: {
+            height: 250,
+            width: 250,
+            fontSize: "0.7rem",
+            left: "50%",
+            marginLeft: -125,
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 250,
+            width: 250,
+            top: 236,
+        },
+    },
+    marginDiv: {
+        marginTop: 22,
+    },
+    media: {
+        height: 320,
+        [theme.breakpoints.down('1300')]: {
+            height: 250,
+        },
+        [theme.breakpoints.down('md')]: {
+            height: 250,
+        },
+        [theme.breakpoints.down('800')]: {
+            height: 250,
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 250,
+        },
+        "&:hover": {
+            cursor: "auto",
         },
     },
 });
@@ -234,6 +278,10 @@ class Form extends Component {
             this.props.loading(false)
             axios({
                 url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                headers: {
+                  "user-key": "6f618d610d984b87f163ab3f0097a78f",
+                  Accept: "application/json"
+                },
                 method: 'GET',
             })
             .then(res => {
@@ -330,48 +378,63 @@ class Form extends Component {
                             justify="space-between"
                             direction="row"
                         >
-                            <Grid item xs={12} sm={3} container>
-                                <Grid className={classes.leftContainer}>
-                                    <Grid>
-                                        <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
-                                    </Grid>
-                                    <Typography className={classes.textStyle} variant="subtitle1">User Stats and Score</Typography>
+                                <Grid  item xs={12} sm={12} md={3} className={classes.leftContainer}>
+                                    <Card className={classes.card}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image={game.cover ? game.cover.url.replace('t_thumb', 't_720p') : require('../../icons/noImage.jpg')}
+                                            />
+                                        </CardActionArea>
+                                    </Card>
+                                    <Typography className={classes.textStyle} variant="h5">{game.name}</Typography>
+                                    <Typography className={classes.textH6} variant="h6">
+                                        {game.involved_companies ?
+                                            game.involved_companies.find(obj => {
+                                                if(obj.developer === true){
+                                                    return obj.developer === true
+                                                }else{
+                                                    return obj.developer === false
+                                                }
+                                            }).company.name
+                                            :
+                                            "No company name found"
+                                        }
+                                    </Typography>
+                                    <Typography className={classes.textStyle} variant="caption">User Stats and Score</Typography>
                                     <Divider light />
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Main Story Completed:</Typography>
+                                        <Typography variant="caption">Main Story Completed:</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryHours*60 + this.props.gameScore.avgMainStoryMin) : "-" }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Main Story + Bonus</Typography>
+                                        <Typography variant="caption">Main Story + Bonus</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryBonusHours*60 + this.props.gameScore.avgMainStoryBonusHours) : "-" }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">100% The Game!</Typography>
+                                        <Typography variant="caption">100% The Game!</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.completionistHours*60 + this.props.gameScore.completionistMin) : "-"}</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="subtitle1">Score</Typography>
+                                        <Typography variant="caption">Score</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.props.gameScore.totalAvgScore : "-"}</Typography>
                                     </Grid>
+                                    <Divider className={classes.marginDiv} light />
                                 </Grid>
-                            </Grid>
 
                             <Grid
-                                item xs={12} sm={9}
+                                item xs={12} sm={12} md={9}
                             >
                                 <form onSubmit={(event) => this.submitAccount(event)} >
                                     <Grid>
-                                        <Typography className={classes.textStyle} variant="h4">Submit Game Data</Typography>
-                                        <Divider light/>
                                         <Grid>
-                                            <Typography className={classes.textStyle1} variant="h5">{game.name}</Typography>
+                                            <Typography className={classes.textStyle1} variant="h5">Choose platform </Typography>
                                                 <Grid className={classes.topGrid}>
                                                     <Typography variant="subtitle1">Platform</Typography>
                                                     <Divider light/>
                                                     <TextField
                                                       id="outlined-select-platform-native"
                                                       select
-                                                      label="Native select"
                                                       className={classes.textField}
                                                       value={this.state.platform}
                                                       onChange={this.handleChange('platform')}
@@ -396,7 +459,7 @@ class Form extends Component {
                                         </Grid>
 
                                         <Grid>
-                                            <Typography className={classes.textStyle1} variant="h5">Completed</Typography>
+                                            <Typography className={classes.textStyle1} variant="h5">Enter your time on finished category</Typography>
                                                 <Grid className={classes.topGrid}>
                                                     <Typography variant="subtitle1">Main Story Completed (Bonus Missions skipped / Quests skipped)</Typography>
                                                     <Divider light/>
@@ -594,8 +657,8 @@ class Form extends Component {
                                                     <Typography variant="display4">{this.props.gameScore ? Math.round(this.props.gameScore.totalAvgScore) : "-"}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
-                                                    <Typography className={classes.scoreText}>User Score</Typography>
-                                                    <Typography className={classes.scoreText}>The avrage score based on<br/>
+                                                    <Typography >User Score</Typography>
+                                                    <Typography variant="body1">The avrage score based on<br/>
                                                         <strong>{this.props.gameScore ? this.props.gameScore.count : 0} Rating</strong>
                                                     </Typography>
                                                 </Grid>

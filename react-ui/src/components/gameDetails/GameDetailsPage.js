@@ -9,7 +9,9 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Card from '@material-ui/core/Card';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,23 +24,18 @@ import { searchResultClicked, loading, searchResultHead, searchResultGameScore  
 const styles = theme => ({
     root: {
         margin: "0 auto",
-        padding: "10px 10px 100px 10px",
+        padding: "10px 20px 100px 20px",
         maxWidth: 1356,
         backgroundColor: theme.palette.primary.main,
-    },
-    image: {
-        position: "absolute",
-        width: 250,
-        top: 255,
         [theme.breakpoints.down('xs')]: {
-         fontSize: "0.7rem",
-         left: "50%",
-         marginLeft: -125,
+         padding: "10px 10px 100px 10px",
+        },
+        [theme.breakpoints.up('1060')]: {
+         padding: "10px 20px 100px 20px",
         },
     },
     leftContainer: {
         marginTop: 122,
-        marginRight: 20,
         width: 250,
         [theme.breakpoints.down('sm')]: {
          fontSize: "0.7rem",
@@ -47,6 +44,9 @@ const styles = theme => ({
         [theme.breakpoints.down('xs')]: {
          marginTop: 185,
         },
+    },
+    rightContainer: {
+        marginLeft: 20,
     },
     gridMargin: {
         margin: "8px 0px 0px 0px",
@@ -135,7 +135,47 @@ const styles = theme => ({
     },
     tbText:{
         color: "#f27449"
-    }
+    },
+    card: {
+        border: "none",
+        position: "absolute",
+        height: 340,
+        width: 340,
+        top: 207,
+        [theme.breakpoints.down('1300')]: {
+            height: 250,
+            width: 250,
+            top: 300,
+        },
+        [theme.breakpoints.down('800')]: {
+            height: 200,
+            width: 200,
+            top: 335,
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 250,
+            width: 250,
+            fontSize: "0.7rem",
+            left: "50%",
+            marginLeft: -125,
+            top: 215,
+        },
+    },
+    media: {
+        height: 340,
+        [theme.breakpoints.down('1300')]: {
+            height: 250,
+        },
+        [theme.breakpoints.down('800')]: {
+            height: 200,
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 250,
+        },
+        "&:hover": {
+            cursor: "auto",
+        },
+    },
 });
 
 class GameDetailsPage extends Component {
@@ -153,6 +193,10 @@ class GameDetailsPage extends Component {
             this.props.loading(false)
             axios({
                 url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                headers: {
+                    "user-key": "6f618d610d984b87f163ab3f0097a78f",
+                    Accept: "application/json"
+                },
                 method: 'GET',
             })
             .then(res => {
@@ -287,11 +331,16 @@ class GameDetailsPage extends Component {
                             justify="space-between"
                             direction="row"
                         >
-                            <Grid item xs={12} sm={4} md={3}>
-                                <Grid className={classes.leftContainer}>
-                                    <Grid>
-                                        <img alt="" className={classes.image} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg')} />
-                                    </Grid>
+
+                                <Grid item xs={12} sm={4} md={3} className={classes.leftContainer}>
+                                    <Card className={classes.card}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image={game.cover ? game.cover.url.replace('t_thumb', 't_720p') : require('../../icons/noImage.jpg')}
+                                            />
+                                        </CardActionArea>
+                                    </Card>
                                     <Grid className={classes.gridMargin}>
                                         <Typography className={classes.textStyle} variant="caption">Platforms:</Typography>
                                         {game.platforms.filter(function(platform) {
@@ -352,12 +401,12 @@ class GameDetailsPage extends Component {
                                             </Typography>
                                     </Grid>
                                 </Grid>
-                            </Grid>
+
 
                             <Grid
                                 item xs={12} sm={8} md={9}
                             >
-                                <Grid>
+                                <Grid className={classes.rightContainer}>
                                     <Typography className={classes.textStyle} variant="h4">{game.name}</Typography>
                                     <Typography variant="caption">
                                         {game.involved_companies ?

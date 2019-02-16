@@ -37,7 +37,7 @@ const styles = theme => ({
             color: '#fff',
         },
     },
-    textStyle: {
+    gridMargin: {
         marginTop: 10
     }
 });
@@ -143,8 +143,8 @@ class LoginAccount extends Component {
                     <Button type='submit' size='large' className={classes.buttonStyle}>
                         <Typography variant='button'>Login</Typography>
                     </Button>
-                    <Grid className={classes.textStyle} container direction="row">
-                        <Typography variant="subtitle1">Need an Account?</Typography>
+                    <Grid className={classes.gridMargin} container direction="row" alignItems="center">
+                        <Typography variant="subtitle2">Need an Account?</Typography>
                         <ButtonBase
                             onClick={ () => {
                                 history.push('/signUp')

@@ -4,8 +4,8 @@ import compose from 'recompose/compose';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
@@ -19,18 +19,27 @@ const styles = theme => ({
     posterRoot: {
         margin: "0 10px 20px 10px",
         width: 230,
-        backgroundColor: theme.palette.primary.dark02
+        backgroundColor: theme.palette.primary.dark02,
+        [theme.breakpoints.down('xs')]: {
+         width: 140,
+        },
     },
     gameWrapper: {
         width: "100%",
+        [theme.breakpoints.down('xs')]: {
+         margin: "0 10px 20px 10px",
+        },
 
     },
     searchNumber: {
-        padding: 8,
-        backgroundColor: theme.palette.primary.dark02
+        padding: "40px 20px",
+        backgroundColor: theme.palette.primary.white01,
+        [theme.breakpoints.down('xs')]: {
+         fontSize: "23px",
+        },
     },
     postersContainer: {
-        backgroundColor: theme.palette.primary.dark01,
+        backgroundColor: theme.palette.primary.white01,
         paddingTop: 20
     },
     image: {
@@ -47,11 +56,9 @@ const styles = theme => ({
     },
     media: {
         height: 240,
-    },
-    polygon: {
-        fill: theme.palette.common.white,
-        stroke: theme.palette.divider,
-        strokeWidth: 1,
+        [theme.breakpoints.down('xs')]: {
+         height: 140,
+        },
     },
     scoreBox: {
         position: "absolute",
@@ -62,7 +69,13 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px",
         padding: 2,
-        zIndex: 2
+        zIndex: 2,
+        [theme.breakpoints.down('xs')]: {
+            top: 105,
+            right: 10,
+            width: 35,
+            height: 35,
+        },
     },
     fillerFade: {
         width: "100%",
@@ -71,6 +84,9 @@ const styles = theme => ({
         left: 0,
         top: 182,
         backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(13,14,16,1) 68%,rgba(19,20,23,1) 100%)",
+        [theme.breakpoints.down('xs')]: {
+            top: 95,
+        },
     },
     textStyle: {
         fontWeight: 700,
@@ -78,7 +94,10 @@ const styles = theme => ({
     },
     textStyle1: {
         fontWeight: 700,
-        fontSize: "2.2rem"
+        fontSize: "2.2rem",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "24px",
+        },
     },
     userScoreBox: {
         width: 38,
@@ -86,23 +105,46 @@ const styles = theme => ({
         backgroundImage: theme.palette.secondary.orangeButton,
         borderRadius: "1px",
         marginBottom: 2,
+        [theme.breakpoints.down('xs')]: {
+            width: 18,
+            height: 18,
+        },
     },
     textStyle2: {
         fontSize: "1.2rem",
         fontWeight: 700,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "8px",
+        },
     },
     textStyle3: {
         fontSize: "0.9rem",
         fontWeight: 700,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "6px",
+        },
     },
     hoursText: {
+        color: '#fff',
         marginBottom: 7,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "9px",
+        },
+    },
+    releaseText: {
+        color: '#969696;',
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "11px",
+        },
     },
     timeContainer: {
         marginTop: 5,
     },
     timeWrapper: {
         marginTop: 20,
+    },
+    divider: {
+        backgroundColor: 'rgba(183, 183, 183, 0.2)'
     }
 });
 
@@ -146,10 +188,10 @@ class TopGames extends Component {
                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
                                     <Typography className={game.totalAvgScore < 99 ? classes.textStyle1 : classes.textStyle } variant="headline">{Math.round(game.totalAvgScore)}</Typography>
                                 </Grid>
-                                <Typography variant="subtitle1" noWrap>
+                                <Typography variant="subtitle2" noWrap>
                                     {game.games[0].gameData.name}
                                 </Typography>
-                                <Typography variant="body2">
+                                <Typography className={classes.releaseText} variant="body2">
                                     Release Year: {game.games[0].gameData.release_dates ?
                                         Math.min.apply(game.games[0].gameData.release_dates, game.games[0].gameData.release_dates.map(find =>(
                                                 find.y
@@ -176,7 +218,7 @@ class TopGames extends Component {
                                                 <Typography variant="headline" className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
-                                        <Divider light/>
+                                        <Divider className={classes.divider} light/>
                                     </Grid>
 
                                     <Grid className={classes.timeContainer} container direction="column">
@@ -193,7 +235,7 @@ class TopGames extends Component {
                                                 <Typography variant="headline" className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
-                                        <Divider light/>
+                                        <Divider className={classes.divider} light/>
                                     </Grid>
 
                                     <Grid className={classes.timeContainer} container direction="column">
@@ -210,7 +252,7 @@ class TopGames extends Component {
                                                 <Typography variant="headline" className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
-                                        <Divider light/>
+                                        <Divider className={classes.divider} light/>
                                     </Grid>
 
                                 </Grid>
@@ -228,8 +270,8 @@ class TopGames extends Component {
                 className={classes.root}
             >
                 <Grid className={classes.gameWrapper}>
-                    <Typography align="center" className={classes.searchNumber} variant="h5">
-                        Top Games
+                    <Typography align="center" className={classes.searchNumber} variant="h3">
+                        Popular games this month
                     </Typography>
                     <Grid container justify="center" className={classes.postersContainer}>
                         {postItems}

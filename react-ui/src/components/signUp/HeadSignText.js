@@ -17,8 +17,12 @@ const styles = theme => ({
         margin: '20px 0 30px 0',
     },
     dividerStyle: {
+        backgroundColor: "#ffffff30",
         maxWidth: 800,
         margin: '0 auto'
+    },
+    createText: {
+        color: "#fff"
     }
 });
 
@@ -41,7 +45,7 @@ class HeadSignText extends Component {
                         {(isWidthUp('sm', this.props.width)) ? <SGT/> : <SGTSmall/> }
                     </ButtonBase>
                 </Grid>
-                    <Typography variant='h5'>Create An Account</Typography>
+                    <Typography className={classes.createText} variant='h5'>Create An Account</Typography>
                 </Grid>
                 <Divider className={classes.dividerStyle} light variant="middle"/>
             </Grid>

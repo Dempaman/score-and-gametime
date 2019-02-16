@@ -14,10 +14,11 @@ import { searchResultNameHead, searchResultHead } from '../../actions/SearchActi
 const styles = theme => ({
     search: {
       position: 'relative',
+      color: '#1e262c',
       borderRadius: 0,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
+      backgroundColor: fade(theme.palette.common.white, 0.45),
       '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
+        backgroundColor: fade(theme.palette.common.white, 0.55),
       },
       marginRight: theme.spacing.unit * 2,
       marginLeft: 0,

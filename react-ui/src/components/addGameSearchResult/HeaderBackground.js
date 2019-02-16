@@ -38,8 +38,8 @@ const styles = theme => ({
         },
     },
     dividerStyle: {
-        height: 2,
-        backgroundColor: theme.palette.primary.blue03
+        height: 4,
+        backgroundImage: theme.palette.secondary.orangeButton
     }
 });
 

@@ -10,6 +10,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 
 import { searchResultHead, searchResultClicked, searchResultGameScore  } from '../../actions/SearchActions';
 import history from '../../history.js';
@@ -21,20 +22,35 @@ const styles = theme => ({
         margin: "0 10px 20px 10px",
         width: 230,
         backgroundColor: theme.palette.primary.dark02,
+        [theme.breakpoints.down('xs')]: {
+         width: 140,
+        },
 
     },
     gameWrapper: {
+        backgroundColor: theme.palette.primary.white,
         width: 1356,
-        margin: 20,
+        margin: "0 20px 20px 20px",
+        [theme.breakpoints.down('xs')]: {
+         margin: "0 10px 20px 10px",
+        },
 
     },
     searchNumber: {
-        padding: 8,
-        backgroundColor: theme.palette.primary.dark02
+        backgroundColor: theme.palette.primary.white,
+        padding: "60px 0 0 0",
+        [theme.breakpoints.down('xs')]: {
+         fontSize: "23px",
+        },
+    },
+    searchNumber2: {
+        backgroundColor: theme.palette.primary.white,
+        padding:5,
     },
     postersContainer: {
-        backgroundColor: theme.palette.primary.dark01,
-        paddingTop: 20
+        backgroundColor: theme.palette.primary.white,
+        paddingTop: 20,
+        paddingBottom: 100,
     },
     image: {
         width: "100%",
@@ -50,11 +66,9 @@ const styles = theme => ({
     },
     media: {
         height: 240,
-    },
-    polygon: {
-        fill: theme.palette.common.white,
-        stroke: theme.palette.divider,
-        strokeWidth: 1,
+        [theme.breakpoints.down('xs')]: {
+         height: 140,
+        },
     },
     scoreBox: {
         position: "absolute",
@@ -65,7 +79,13 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px",
         padding: 2,
-        zIndex: 2
+        zIndex: 2,
+        [theme.breakpoints.down('xs')]: {
+            top: 105,
+            right: 10,
+            width: 35,
+            height: 35,
+        },
     },
     fillerFade: {
         width: "100%",
@@ -74,6 +94,9 @@ const styles = theme => ({
         left: 0,
         top: 182,
         backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(13,14,16,1) 68%,rgba(19,20,23,1) 100%)",
+        [theme.breakpoints.down('xs')]: {
+            top: 95,
+        },
     },
     textStyle: {
         fontWeight: 700,
@@ -81,7 +104,10 @@ const styles = theme => ({
     },
     textStyle1: {
         fontWeight: 700,
-        fontSize: "2.2rem"
+        fontSize: "2.2rem",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "24px",
+        },
     },
     userScoreBox: {
         width: 38,
@@ -89,23 +115,54 @@ const styles = theme => ({
         backgroundImage: theme.palette.secondary.orangeButton,
         borderRadius: "1px",
         marginBottom: 2,
+        [theme.breakpoints.down('xs')]: {
+            width: 18,
+            height: 18,
+        },
     },
     textStyle2: {
         fontSize: "1.2rem",
         fontWeight: 700,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "8px",
+        },
     },
     textStyle3: {
         fontSize: "0.9rem",
         fontWeight: 700,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "6px",
+        },
     },
     hoursText: {
+        color: '#fff',
         marginBottom: 7,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "9px",
+        },
     },
     timeContainer: {
         marginTop: 5,
     },
     timeWrapper: {
         marginTop: 20,
+    },
+    releaseText: {
+        color: '#969696;',
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "11px",
+        },
+    },
+    buttonStyle1: {
+        backgroundColor: "transparent",
+        border: `1px solid ${theme.palette.primary.dark03}`,
+        marginLeft: 10,
+        position: "absolute",
+        top: 68,
+        right: 104,
+    },
+    divider: {
+        backgroundColor: 'rgba(183, 183, 183, 0.2)'
     }
 });
 
@@ -156,10 +213,10 @@ class ResultView extends Component {
                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
                                     <Typography className={game.totalAvgScore < 99 ? classes.textStyle1 : classes.textStyle } variant="headline">{Math.round(game.totalAvgScore)}</Typography>
                                 </Grid>
-                                <Typography variant="subtitle1" noWrap>
+                                <Typography variant="subtitle2" noWrap>
                                     {game.games[0].gameData.name}
                                 </Typography>
-                                <Typography variant="body2">
+                                <Typography className={classes.releaseText} variant="body2">
                                     Release Year: {game.games[0].gameData.release_dates ?
                                         Math.min.apply(game.games[0].gameData.release_dates, game.games[0].gameData.release_dates.map(find =>(
                                                 find.y
@@ -186,7 +243,7 @@ class ResultView extends Component {
                                                 <Typography variant="headline" className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
-                                        <Divider light/>
+                                        <Divider className={classes.divider} light/>
                                     </Grid>
 
                                     <Grid className={classes.timeContainer} container direction="column">
@@ -203,7 +260,7 @@ class ResultView extends Component {
                                                 <Typography variant="headline" className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
-                                        <Divider light/>
+                                        <Divider className={classes.divider} light/>
                                     </Grid>
 
                                     <Grid className={classes.timeContainer} container direction="column">
@@ -220,7 +277,7 @@ class ResultView extends Component {
                                                 <Typography variant="headline" className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
-                                        <Divider light/>
+                                        <Divider className={classes.divider} light/>
                                     </Grid>
 
                                 </Grid>
@@ -238,8 +295,23 @@ class ResultView extends Component {
                 className={classes.root}
             >
                 <Grid className={classes.gameWrapper}>
-                    <Typography align="center" className={classes.searchNumber} variant="h5">
-                        {this.props.filterResult.length} Results
+                    <Typography align="center" className={classes.searchNumber} variant="h3">
+                        Find out more about each awesome game by clicking their portraits
+                    </Typography>
+                    <Button
+                        type='submit'
+                        size='large'
+                        className={classes.buttonStyle1}
+                        onClick={ () => {
+                            history.push('/')
+                        }}
+                        >
+                        <Typography variant='body1'>
+                            Close search
+                        </Typography>
+                    </Button>
+                    <Typography align="center" className={classes.searchNumber2} variant="subtitle1">
+                        We did find {this.props.filterResult.length} Results
                     </Typography>
                     <Grid container justify="center" className={classes.postersContainer}>
                         {postItems}
