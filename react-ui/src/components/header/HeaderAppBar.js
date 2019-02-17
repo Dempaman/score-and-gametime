@@ -15,82 +15,153 @@ import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
 
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
 import HeaderLinkButton from './HeaderLinkButton';
 import { getUser, logout } from '../../actions/UserActions';
 import SearchBar from './SearchBar'
 import history from '../../history.js';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.primary.dark00,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+    root: {
+        width: '100%',
+        backgroundColor: theme.palette.primary.dark00,
     },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+    grow: {
+        flexGrow: 1,
     },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+        menuButton: {
+        marginLeft: -12,
+        marginRight: 20,
     },
-  },
-  appBar: {
-      backgroundColor: theme.palette.primary.dark00,
-      [theme.breakpoints.up('md')]: {
-          margin: '0 auto',
-          maxWidth: 1356,
-      },
-  },
-  paper: {
-    width: '200',
-    borderRadius: 0,
-  },
+    title: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+          display: 'block',
+        },
+    },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
+    sectionMobile: {
+        display: 'flex',
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+    },
+    appBar: {
+        backgroundColor: theme.palette.primary.dark00,
+        [theme.breakpoints.up('md')]: {
+        margin: '0 auto',
+            maxWidth: 1356,
+        },
+    },
+    paper: {
+        width: '200',
+        borderRadius: 0,
+    },
+    list: {
+        width: 250,
+    },
+        fullList: {
+        width: 'auto',
+    },
 });
 
 class HeaderAppBar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
+    right: false,
   };
 
     componentWillMount() {
         this.props.getUser();
     }
 
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
-  };
+    handleMenuClose = () => {
+        this.setState({ anchorEl: null });
+        this.handleMobileMenuClose();
+    };
 
-  handleMobileMenuOpen = event => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget });
-  };
+    handleMobileMenuOpen = event => {
+        this.setState({ mobileMoreAnchorEl: event.currentTarget });
+    };
 
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null });
-  };
+    handleMobileMenuClose = () => {
+        this.setState({ mobileMoreAnchorEl: null });
+    };
+
+    toggleDrawer = (side, open) => () => {
+        this.setState({
+            [side]: open,
+        });
+    };
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const sideList = (
+      <div className={classes.list}>
+        <List>
+            {this.props.user.email ?
+                <div>
+                    <ListItem button>
+                        <ListItemText primary={"Log Out"}
+                            onClick={() => {this.props.logout()}}
+                            />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemText primary={"Add game"}
+                            onClick={ () => {
+                                history.push('/addgame_search')
+                            }}
+                            />
+                    </ListItem>
+                </div>
+
+            :
+            <div>
+                <ListItem button>
+                    <ListItemText primary={"Login"}
+                        onClick={ () => {
+                            history.push('/login')
+                        }}
+                        />
+                </ListItem>
+                <ListItem button>
+                    <ListItemText primary={"Sign up"}
+                        onClick={ () => {
+                            history.push('/signup')
+                        }}
+                        />
+                </ListItem>
+                <ListItem button>
+                    <ListItemText primary={"Add game"}
+                        onClick={ () => {
+                            history.push('/addgame_search')
+                        }}
+                        />
+                </ListItem>
+            </div>
+            }
+        </List>
+        <Divider />
+      </div>
+    );
 
     const renderMenu = (
       <Menu
@@ -195,11 +266,18 @@ class HeaderAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
+          <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer('right', false)}>
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={this.toggleDrawer('right', false)}
+              onKeyDown={this.toggleDrawer('right', false)}
+            >
+              {sideList}
+            </div>
+          </Drawer>
         <AppBar className={classes.appBar} position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-              <MenuIcon />
-            </IconButton>
             <ButtonBase
                 onClick={ () => {
                     history.push('/')
@@ -224,14 +302,13 @@ class HeaderAppBar extends React.Component {
                 {renderSignInButtons}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                <MoreIcon />
+              <IconButton onClick={this.toggleDrawer('right', true)} className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                <MenuIcon />
               </IconButton>
             </div>
           </Toolbar>
         </AppBar>
         {renderMenu}
-        {renderMobileMenu}
       </div>
     );
   }

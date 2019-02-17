@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactPlayer from 'react-player'
 import 'date-fns';
 import axios from 'axios';
 import compose from 'recompose/compose';
@@ -26,7 +27,7 @@ const styles = theme => ({
         margin: "0 auto",
         padding: "10px 20px 100px 20px",
         maxWidth: 1356,
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.white,
         [theme.breakpoints.down('xs')]: {
          padding: "10px 10px 100px 10px",
         },
@@ -47,6 +48,9 @@ const styles = theme => ({
     },
     rightContainer: {
         marginLeft: 20,
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: 0
+        },
     },
     gridMargin: {
         margin: "8px 0px 0px 0px",
@@ -83,9 +87,6 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.blue03,
         borderRadius: "1px"
     },
-    scoreText: {
-        color: "#fff"
-    },
     scoreTextBox: {
         marginLeft: 10,
         marginTop: 12,
@@ -112,6 +113,7 @@ const styles = theme => ({
         margin: "5px 0 5px 0"
     },
     avgHours: {
+        color: "#fff",
         maxWidth: 400,
         marginRight: 20,
         width: "30%",
@@ -120,6 +122,7 @@ const styles = theme => ({
         },
     },
     avgHoursText: {
+        color: "#fff",
         [theme.breakpoints.down('sm')]: {
          fontSize: "0.7rem"
         },
@@ -128,13 +131,15 @@ const styles = theme => ({
         width: '100%',
         marginTop: theme.spacing.unit * 3,
         overflowX: 'auto',
-        backgroundColor: theme.palette.primary.dark01,
+        backgroundColor: theme.palette.primary.white,
     },
     table: {
         minWidth: 700,
     },
     tbText:{
-        color: "#f27449"
+        color: "#f27449",
+        fontWeight: 700,
+        fontSize: "15px",
     },
     card: {
         border: "none",
@@ -176,6 +181,24 @@ const styles = theme => ({
             cursor: "auto",
         },
     },
+    devText: {
+        color: "rgba(138, 138, 138, 0.87)",
+    },
+    videoGrid: {
+        marginTop: 40,
+    },
+    playerWrapper: {
+        position: "relative",
+        paddingTop: "18.75%",
+        [theme.breakpoints.down('xs')]: {
+            paddingTop: "56.25%", /* Player ratio: 100 / (1280 / 720) */
+        },
+    },
+    reactPlayer: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+    }
 });
 
 class GameDetailsPage extends Component {
@@ -183,6 +206,7 @@ class GameDetailsPage extends Component {
         super(props)
             this.state = {
                 open: false,
+                openVideo: false,
                 error: ''
             }
     }
@@ -307,8 +331,6 @@ class GameDetailsPage extends Component {
     render(){
         const game = this.props.clicked
         const { classes } = this.props
-        //const platformTimes = this.props.gameScore.games.filter(x => x.platform === "Nintendo Switch").map(x => console.log(x.mainStory))
-
         const platformTable = this.countPlatforms().map(platform => (
             <TableBody key={platform.platform}>
                 <TableRow>
@@ -408,7 +430,7 @@ class GameDetailsPage extends Component {
                             >
                                 <Grid className={classes.rightContainer}>
                                     <Typography className={classes.textStyle} variant="h4">{game.name}</Typography>
-                                    <Typography variant="caption">
+                                    <Typography className={classes.devText} variant="h6">
                                         {game.involved_companies ?
                                             game.involved_companies.find(obj => {
                                                 if(obj.developer === true){
@@ -431,11 +453,11 @@ class GameDetailsPage extends Component {
                                         <Grid>
                                             <Grid container alignItems="center" direction="row" >
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">{Math.round(this.props.gameScore.totalAvgScore)}</Typography>
+                                                    <Typography variant="h1">{Math.round(this.props.gameScore.totalAvgScore)}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
-                                                    <Typography className={classes.scoreText}>User Score</Typography>
-                                                    <Typography className={classes.scoreText}>The avrage score based on<br/>
+                                                    <Typography>User Score</Typography>
+                                                    <Typography>The avrage score based on<br/>
                                                     <strong>{this.props.gameScore ? this.props.gameScore.count : null} Rating</strong>
                                                 </Typography>
                                             </Grid>
@@ -529,45 +551,30 @@ class GameDetailsPage extends Component {
                                                     <TableCell align="right">Players</TableCell>
                                                     <TableCell align="right">Main Story</TableCell>
                                                     <TableCell align="right">Main Story + Bonus</TableCell>
-                                                    <TableCell align="right">100! Complete</TableCell>
+                                                    <TableCell align="right">100% Complete</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             {platformTable}
                                         </Table>
                                     </Grid>
-                                    {/*<div>
-                                        <Chart
-                                            width={'600px'}
-                                            height={'400px'}
-                                            chartType="LineChart"
-                                            loader={<div>Loading Chart</div>}
-                                            data={[
-                                                ['x', 'dogs'],
-                                                [0, 0],
-                                                [1, 10],
-                                                [2, 23],
-                                                [3, 17],
-                                                [4, 18],
-                                                [5, 9],
-                                                [6, 11],
-                                                [7, 27],
-                                                [8, 33],
-                                                [9, 40],
-                                                [10, 32],
-                                                [11, 35],
-                                            ]}
-                                            options={{
-                                                hAxis: {
-                                                    title: 'Time',
-                                                },
-                                                vAxis: {
-                                                    title: 'Popularity',
-                                                },
-                                            }}
-                                            rootProps={{ 'data-testid': '1' }}
-                                        />
-                                </div> */}
 
+                                    <Typography className={classes.textStyle1} variant="h5">Videos </Typography>
+                                    <Divider className={classes.divider} light />
+                                    <Grid className={classes.videoGrid} container direction="row">
+                                        {
+                                            this.props.clicked.videos.slice(0, 3).map(video => (
+                                                <Grid className={classes.playerWrapper} item  xs={12} sm={4}>
+                                                    <ReactPlayer
+                                                        url={`https://www.youtube.com/watch?v=${video.video_id}`}
+                                                        className={classes.reactPlayer}
+                                                        controls
+                                                        width='100%'
+                                                        height='100%'
+                                                    />
+                                                </Grid>
+                                            ))
+                                        }
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>

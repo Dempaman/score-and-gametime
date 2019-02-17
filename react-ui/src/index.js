@@ -33,17 +33,15 @@ const theme = createMuiTheme({
         }
     },
     typography: {
+        useNextVariants: true,
         fontFamily: 'Open Sans, sans-serif',
-        headline:{
-            color: '#fff',
-        },
         body1: {
-            color: '#1e262c'
+            color: '#fff'
         },
         body2: {
             color: '#1e262c',
             fontWeight: '300',
-            lineHeight: 0.6
+            lineHeight: 1.1,
         },
         body3: {
             color: '#fff',
@@ -59,11 +57,9 @@ const theme = createMuiTheme({
             color: '#fff',
             fontWeight: '700',
         },
-        h1: {
-            color: '#fff',
-        },
         h2: {
             color: '#fff',
+            fontSize: "28px",
         },
         h3: {
             color: '#1e262c',
@@ -71,7 +67,7 @@ const theme = createMuiTheme({
             fontSize: "36px"
         },
         h4: {
-            color: '#fff',
+            color: '#1e262c',
             fontWeight: 400,
         },
         h5: {
@@ -84,7 +80,7 @@ const theme = createMuiTheme({
             fontWeight: 300,
             fontSize: "1.05rem",
         },
-        display4: {
+        h1: {
             color: '#fff',
             fontWeight: 700,
             fontSize: "3rem",
@@ -93,7 +89,6 @@ const theme = createMuiTheme({
             color: '#1e262c',
         },
     },
-    shadows: ["none"],
 
     //**** overrides  **** ///
     overrides:{
@@ -104,11 +99,17 @@ const theme = createMuiTheme({
             }
         },
         MuiPaper: {
+            elevation1: {
+                boxShadow: "[none]"
+            },
+            elevation4: {
+                boxShadow: "[none]"
+            },
             root: {
                 backgroundColor: "#000000d6",
             },
             rounded: {
-                borderRadius: 0,
+                borderRadius: "1px",
                 border: "none",
             }
         },

@@ -9,11 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
-import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import classNames from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
@@ -366,7 +363,7 @@ class Form extends Component {
     }
 
     render(){
-        const { classes, theme } = this.props
+        const { classes } = this.props
         const game = this.props.clicked
         const { selectedDate, value } = this.state
 
@@ -417,7 +414,7 @@ class Form extends Component {
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
                                         <Typography variant="caption">Score</Typography>
-                                        <Typography variant="body2">{this.props.gameScore ? this.props.gameScore.totalAvgScore : "-"}</Typography>
+                                        <Typography variant="body2">{this.props.gameScore ? Math.round(this.props.gameScore.totalAvgScore) : "-"}</Typography>
                                     </Grid>
                                     <Divider className={classes.marginDiv} light />
                                 </Grid>
@@ -650,11 +647,10 @@ class Form extends Component {
                                         </Grid>
                                         <Grid>
                                             <Typography className={classes.textStyle} variant="h4">Score</Typography>
-                                            <Divider light/>
                                             <Typography className={classes.textStyle1} variant="h5">User Score</Typography>
                                             <Grid container alignItems="center" direction="row" className={classes.topGrid}>
                                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                                    <Typography variant="display4">{this.props.gameScore ? Math.round(this.props.gameScore.totalAvgScore) : "-"}</Typography>
+                                                    <Typography variant="h1">{this.props.gameScore ? Math.round(this.props.gameScore.totalAvgScore) : "-"}</Typography>
                                                 </Grid>
                                                 <Grid className={classes.scoreTextBox}>
                                                     <Typography >User Score</Typography>
@@ -677,10 +673,11 @@ class Form extends Component {
                                                             />
                                                     </div>
                                                     <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                        <Typography variant="headline">{this.state.value}</Typography>
+                                                        <Typography variant="h2">{this.state.value}</Typography>
                                                     </Grid>
                                                     <Typography variant="caption">Your rating</Typography>
                                             </Grid>
+                                            <Divider light/>
 
                                             <Button type='submit' size='large' className={classes.buttonStyle}>
                                                 <Typography variant="button">Submit my stats</Typography>

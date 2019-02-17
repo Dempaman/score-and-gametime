@@ -54,11 +54,11 @@ class Posts extends Component {
         ))
         return (
             <div>
-                <Typography variant='headline'>Games</Typography>
-                <Typography variant='headline'>{this.state.name}</Typography>
-                <Typography variant='headline'>{this.state.lastName}</Typography>
-                <Typography variant='headline'>{this.state.work}</Typography>
-                <Typography variant='headline'>{this.state.id}</Typography>
+                <Typography variant='h2'>Games</Typography>
+                <Typography variant='h2'>{this.state.name}</Typography>
+                <Typography variant='h2'>{this.state.lastName}</Typography>
+                <Typography variant='h2'>{this.state.work}</Typography>
+                <Typography variant='h2'>{this.state.id}</Typography>
                 {postItems}
             </div>
         )

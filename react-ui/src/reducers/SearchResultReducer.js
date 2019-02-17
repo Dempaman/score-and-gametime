@@ -5,7 +5,8 @@ item: [],
 items: [],
 filter: [],
 clicked: {
-    platforms:[]
+    platforms:[],
+    videos: [{ "id": 0, "video_id": 0 }],
 },
 gamescore: {
     games:[],

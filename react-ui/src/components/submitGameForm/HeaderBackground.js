@@ -24,6 +24,7 @@ const styles = theme => ({
         transform: "translate(-50%, -50%)",
     },
     textStyle: {
+        color: "#fff",
         margin: "0 0 20px 0",
         width: 400,
         textAlign: "center",
@@ -48,7 +49,7 @@ class HeaderBackground extends Component {
                         <div key={img.url} className={classes.image} style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${img.url.replace('t_thumb', 't_1080p')})` }}>
                         <div className={classes.alignCenter}>
                             <Grid container justify="center">
-                                <Typography className={classes.textStyle} variant="h4">Share Your Playthrough</Typography>
+                                <Typography className={classes.textStyle} variant="h3">Share Your Playthrough</Typography>
                             </Grid>
                         </div>
                     </div>

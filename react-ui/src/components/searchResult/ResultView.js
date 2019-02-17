@@ -211,7 +211,7 @@ class ResultView extends Component {
                             <CardContent>
                                 <Grid container className={classes.fillerFade} />
                                 <Grid container justify="center" alignItems="center" className={classes.scoreBox}>
-                                    <Typography className={game.totalAvgScore < 99 ? classes.textStyle1 : classes.textStyle } variant="headline">{Math.round(game.totalAvgScore)}</Typography>
+                                    <Typography className={game.totalAvgScore < 99 ? classes.textStyle1 : classes.textStyle } variant="h2">{Math.round(game.totalAvgScore)}</Typography>
                                 </Grid>
                                 <Typography variant="subtitle2" noWrap>
                                     {game.games[0].gameData.name}
@@ -233,14 +233,14 @@ class ResultView extends Component {
                                         <Grid  container direction="row" alignItems="flex-end" justify="space-between">
                                             <Typography className={classes.hoursText} variant="body2">Main story complete</Typography>
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                <Typography className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="headline">
+                                                <Typography className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="h2">
                                                     {game.avgMainStoryHours ?
                                                         Math.round(game.avgMainStoryHours)
                                                         :
                                                         0
                                                     }
                                                 </Typography>
-                                                <Typography variant="headline" className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
+                                                <Typography variant="h2" className={game.avgMainStoryHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider className={classes.divider} light/>
@@ -250,14 +250,14 @@ class ResultView extends Component {
                                         <Grid  container direction="row" alignItems="flex-end" justify="space-between">
                                             <Typography className={classes.hoursText} variant="body2">Main + Bonus</Typography>
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                <Typography className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="headline">
+                                                <Typography className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="h2">
                                                     {game.avgMainStoryBonusHours ?
                                                         Math.round(game.avgMainStoryBonusHours)
                                                         :
                                                         0
                                                     }
                                                 </Typography>
-                                                <Typography variant="headline" className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
+                                                <Typography variant="h2" className={game.avgMainStoryBonusHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider className={classes.divider} light/>
@@ -267,14 +267,14 @@ class ResultView extends Component {
                                         <Grid  container direction="row" alignItems="flex-end" justify="space-between">
                                             <Typography className={classes.hoursText} variant="body2">100% the game!</Typography>
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                <Typography className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="headline">
+                                                <Typography className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="h2">
                                                     {game.completionistHours ?
                                                         Math.round(game.completionistHours)
                                                         :
                                                         0
                                                     }
                                                 </Typography>
-                                                <Typography variant="headline" className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
+                                                <Typography variant="h2" className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider className={classes.divider} light/>
