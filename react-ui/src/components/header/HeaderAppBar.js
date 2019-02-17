@@ -42,10 +42,7 @@ const styles = theme => ({
         marginRight: 20,
     },
     title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-          display: 'block',
-        },
+        marginRight: 10,
     },
     sectionDesktop: {
         display: 'none',
