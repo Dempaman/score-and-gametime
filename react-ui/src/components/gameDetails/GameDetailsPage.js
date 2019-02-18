@@ -104,7 +104,8 @@ const styles = theme => ({
         },
     },
     circularStyle: {
-        marginTop: 50,
+        height: 600,
+        marginTop: 100,
     },
     scoreAndButtonTop: {
         margin: "40px 0 8px 0",
@@ -216,7 +217,7 @@ class GameDetailsPage extends Component {
         if(!this.props.clicked.id){
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                url: `https://boiling-wildwood-33193.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 headers: {
                     "user-key": "6f618d610d984b87f163ab3f0097a78f",
                     Accept: "application/json"
@@ -563,7 +564,7 @@ class GameDetailsPage extends Component {
                                     <Grid className={classes.videoGrid} container direction="row">
                                         {
                                             this.props.clicked.videos.slice(0, 3).map(video => (
-                                                <Grid className={classes.playerWrapper} item  xs={12} sm={4}>
+                                                <Grid key={video.video_id} className={classes.playerWrapper} item  xs={12} sm={4}>
                                                     <ReactPlayer
                                                         url={`https://www.youtube.com/watch?v=${video.video_id}`}
                                                         className={classes.reactPlayer}

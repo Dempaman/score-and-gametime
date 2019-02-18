@@ -10,20 +10,14 @@ import Menu from '@material-ui/core/Menu';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
-
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-
 import HeaderLinkButton from './HeaderLinkButton';
 import { getUser, logout } from '../../actions/UserActions';
 import SearchBar from './SearchBar'
@@ -106,10 +100,9 @@ class HeaderAppBar extends React.Component {
     };
 
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { anchorEl } = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const sideList = (
       <div className={classes.list}>
@@ -170,70 +163,6 @@ class HeaderAppBar extends React.Component {
       >
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
-    );
-
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMobileMenuClose}
-      >
-      {this.props.user.email ?
-          <div>
-              <MenuItem>
-                  <p>Profile</p>
-              </MenuItem>
-              <MenuItem>
-                  <p
-                      onClick={() => {this.props.logout()}}
-                  >
-                      Sign Out
-                  </p>
-              </MenuItem>
-              <MenuItem >
-                  <p
-                      onClick={ () => {
-                          history.push('/addgame_search')
-                      }}
-                  >
-                      Add Game
-                  </p>
-              </MenuItem>
-          </div>
-        :
-        <div>
-            <MenuItem >
-                <p
-                    onClick={ () => {
-                        history.push('/login')
-                    }}
-                >
-                    Login
-                </p>
-            </MenuItem>
-            <MenuItem >
-                <p
-                    onClick={ () => {
-                        history.push('/signup')
-                    }}
-                >
-                    Sign Up
-                </p>
-            </MenuItem>
-            <MenuItem >
-                <p
-                    onClick={ () => {
-                        history.push('/addgame_search')
-                    }}
-                >
-                    Add Game
-                </p>
-            </MenuItem>
-        </div>
-      }
       </Menu>
     );
 

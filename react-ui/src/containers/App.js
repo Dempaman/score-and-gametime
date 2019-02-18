@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import HeaderAppBar from '../components/header';
 import { withStyles } from '@material-ui/core/styles';
 import { Router, Switch, Route } from 'react-router-dom';
 import history from '../history.js';
+
+import HeaderAppBar from '../components/header';
+import Footer from '../components/footer/';
 import Login from '../components/login';
 import SignUp from '../components/signUp';
 import Home from '../components/home';
@@ -12,6 +14,7 @@ import AddGameSearchResult from '../components/addGameSearchResult';
 import SubmitGameForm from '../components/submitGameForm';
 import GameDetails from '../components/gameDetails';
 import Search from '../components/searchResult';
+import Profile from '../components/profile';
 import { searchResultClicked } from '.././actions/SearchActions';
 
 const styles = theme => ({
@@ -58,30 +61,42 @@ class App extends Component {
                             <div>
                                 <HeaderAppBar/>
                                 <AddGameSearchResult/>
+                                <Footer/>
                             </div>
                         </Route>
                         <Route path={`/submitgame_form/game/${id}`}>
                             <div>
                                 <HeaderAppBar/>
                                 <SubmitGameForm/>
+                                <Footer/>
                             </div>
                         </Route>
                         <Route path={`/game_details/${gameId}`}>
                             <div>
                                 <HeaderAppBar/>
                                 <GameDetails/>
+                                <Footer/>
                             </div>
                         </Route>
                         <Route path={`/Search`}>
                             <div>
                                 <HeaderAppBar/>
                                 <Search/>
+                                <Footer/>
+                            </div>
+                        </Route>
+                        <Route path={`/profile`}>
+                            <div>
+                                <HeaderAppBar/>
+                                <Profile/>
+                                <Footer/>
                             </div>
                         </Route>
                         <Route path='/'>
                             <div>
                                 <HeaderAppBar/>
                                 <Home/>
+                                <Footer/>
                             </div>
                         </Route>
                     </Switch>

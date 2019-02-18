@@ -16,7 +16,7 @@ const styles = theme => ({
       position: 'relative',
       color: '#1e262c',
       borderRadius: 0,
-      backgroundColor: fade(theme.palette.common.white, 0.45),
+      backgroundColor: theme.palette.primary.white,
       '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.55),
       },

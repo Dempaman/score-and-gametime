@@ -32,10 +32,14 @@ const styles = theme => ({
         },
     },
     textStyle: {
+        color: "#fff",
         margin: "0 0 20px 0",
         [theme.breakpoints.down('xs')]: {
           fontSize: "1.5em",
         },
+    },
+    textStyle1: {
+        color: "#fff",
     },
     dividerStyle: {
         height: 4,

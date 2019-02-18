@@ -33,6 +33,14 @@ const styles = theme => ({
     },
     divider: {
         backgroundColor: theme.palette.secondary.divider,
+    },
+    filler: {
+        paddingLeft: 20,
+        margin: "0 auto",
+        height: "100vh",
+    },
+    company: {
+        color: "#1e262cb5",
     }
 
 });
@@ -84,7 +92,7 @@ class SearchResult extends Component {
                                     "No release date found"
                                 }
                             </Typography>
-                            <Typography variant="body1" >
+                            <Typography className={classes.company} variant="body2" >
                                 {game.involved_companies ?
                                     game.involved_companies.find(obj => {
                                         if(obj.developer === true){
@@ -109,15 +117,15 @@ class SearchResult extends Component {
             <Grid
                 container
                 justify="center"
-                className={classes.root}
+                className={classes.filler}
             >
-                {!this.props.searchResult.loading ?
-                    <CircularProgress/>
-                    :
-                    <Grid className={classes.gameWrapper}>
-                        {postItems}
-                    </Grid>
-                }
+            {!this.props.searchResult.loading ?
+                <CircularProgress/>
+                :
+                <Grid className={classes.gameWrapper}>
+                    {postItems}
+                </Grid>
+            }
             </Grid>
         )
     }

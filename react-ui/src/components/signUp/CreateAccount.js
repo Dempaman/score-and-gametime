@@ -92,6 +92,7 @@ class CreateAccount extends Component {
         }
         this.props.createAccount(this.state.email, this.state.password)
         .then(() => {
+            this.props.getUser(this.state.username)
             history.replace('/')
 
         })

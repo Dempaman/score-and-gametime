@@ -5,24 +5,39 @@ export const RESET_USER = 'reset_user';
 
 //const PORT = process.env.PORT || 'http://localhost:5000';
 
-export function getUser() {
+
+
+
+
+
+
+export function getUser(name) {
     return dispatch => {
         auth.onAuthStateChanged((user) => {
             if(user){
-                axios({
-                    url: `/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${user.displayName}&photoURL=${user.photoURL}`,
-                    method: 'PUT',
-                })
-                .then(res => {
-                    if (res) {
-                        dispatch({
-                            type: GET_USER,
-                            payload: user,
-                        })
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
+
+                user.updateProfile({
+                    displayName: name
+                }).then(function() {
+                    console.log(user)
+                    axios({
+                        url: `/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${name}&photoURL=${user.photoURL}`,
+                        method: 'PUT',
+                    })
+                    .then(res => {
+                        if (res) {
+                            dispatch({
+                                type: GET_USER,
+                                payload: user,
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
+                }, function(error) {
+                // An error happened.
                 });
 
             }

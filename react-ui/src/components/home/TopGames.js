@@ -151,7 +151,7 @@ const styles = theme => ({
 class TopGames extends Component {
     state = {
         checked: true,
-        showItems: 4,
+        showItems: 6,
     };
 
     componentWillMount() {

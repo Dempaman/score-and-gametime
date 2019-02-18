@@ -14,7 +14,7 @@ const styles = theme => ({
       position: 'relative',
       color: '#1e262c',
       borderRadius: 0,
-      backgroundColor: fade(theme.palette.common.white, 0.45),
+      backgroundColor: "#fff",
       '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.65),
       },
@@ -73,10 +73,10 @@ class SearchBar extends Component {
         if (event.key === 'Enter') {
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/?search=${this.state.search}&fields=name,genres.name,videos.video_id,release_dates.y,release_dates.human,popularity,platforms.name,involved_companies.developer,involved_companies.company.name,cover.url,popularity,screenshots.url&limit=5`,
+                url: `https://boiling-wildwood-33193.herokuapp.com/https://api-v3.igdb.com//games/?search=${this.state.search}&fields=name,genres.name,videos.video_id,release_dates.y,release_dates.human,popularity,platforms.name,involved_companies.developer,involved_companies.company.name,cover.url,popularity,screenshots.url&limit=5`,
                 headers: {
                   "user-key": "6f618d610d984b87f163ab3f0097a78f",
-                  Accept: "application/json"
+                  'Access-Control-Allow-Origin': '*',
                 },
                 method: 'GET',
             })

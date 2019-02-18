@@ -186,6 +186,13 @@ const styles = theme => ({
             cursor: "auto",
         },
     },
+    userStats: {
+        color: "#438BC8",
+        fontWeight: 600,
+    },
+    userStats1: {
+        fontSize: "14px",
+    },
 });
 
 const platforms = [
@@ -274,7 +281,7 @@ class Form extends Component {
         if(!this.props.clicked.id){
             this.props.loading(false)
             axios({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
+                url: `https://boiling-wildwood-33193.herokuapp.com/https://api-v3.igdb.com//games/${id}?fields=name,genres.name,release_dates.y,videos.video_id,platforms.name,popularity,summary,storyline,cover.url,screenshots.url,involved_companies.developer,involved_companies.company.name`,
                 headers: {
                   "user-key": "6f618d610d984b87f163ab3f0097a78f",
                   Accept: "application/json"
@@ -398,22 +405,22 @@ class Form extends Component {
                                             "No company name found"
                                         }
                                     </Typography>
-                                    <Typography className={classes.textStyle} variant="caption">User Stats and Score</Typography>
+                                    <Typography className={classes.userStats1} variant="caption">User Stats and Score</Typography>
                                     <Divider light />
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="caption">Main Story Completed:</Typography>
+                                        <Typography className={classes.userStats} variant="caption">Main Story Completed</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryHours*60 + this.props.gameScore.avgMainStoryMin) : "-" }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="caption">Main Story + Bonus</Typography>
+                                        <Typography className={classes.userStats} variant="caption">Main Story + Bonus</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.avgMainStoryBonusHours*60 + this.props.gameScore.avgMainStoryBonusHours) : "-" }</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="caption">100% The Game!</Typography>
+                                        <Typography className={classes.userStats} variant="caption">100% The Game!</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? this.convertTime(this.props.gameScore.completionistHours*60 + this.props.gameScore.completionistMin) : "-"}</Typography>
                                     </Grid>
                                     <Grid className={classes.gridMargin}>
-                                        <Typography variant="caption">Score</Typography>
+                                        <Typography className={classes.userStats} variant="caption">Score</Typography>
                                         <Typography variant="body2">{this.props.gameScore ? Math.round(this.props.gameScore.totalAvgScore) : "-"}</Typography>
                                     </Grid>
                                     <Divider className={classes.marginDiv} light />

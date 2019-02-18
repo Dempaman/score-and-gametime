@@ -93,43 +93,35 @@ class HomePage extends Component {
                                 {(isWidthUp('sm', this.props.width)) ? <SGT/> : <SGTSmall/> }
                             </Grid>
                             <Grid container justify="center">
-                                <Button
-                                    type='submit'
-                                    size='large'
-                                    className={classes.buttonStyle1}
-                                    onClick={ () => {
-                                        history.push('/signup')
-                                    }}
-                                >
-                                    <Typography variant='button'>
-                                        Become A Member
-                                    </Typography>
-                                </Button>
-
                                 {!this.props.user.email ?
-                                    <Button
-                                        type='submit'
-                                        size='large'
-                                        className={classes.buttonStyle1}
-                                        onClick={ () => {
-                                            history.push('/login')
-                                        }}
-                                    >
-                                        <Typography variant='button'>
-                                            Login
-                                        </Typography>
-                                    </Button>
+                                    <div>
+                                        <Button
+                                            type='submit'
+                                            size='large'
+                                            className={classes.buttonStyle1}
+                                            onClick={ () => {
+                                                history.push('/signup')
+                                            }}
+                                            >
+                                            <Typography variant='button'>
+                                                Become A Member
+                                            </Typography>
+                                        </Button>
+                                        <Button
+                                            type='submit'
+                                            size='large'
+                                            className={classes.buttonStyle1}
+                                            onClick={ () => {
+                                                history.push('/login')
+                                            }}
+                                            >
+                                            <Typography variant='button'>
+                                                Login
+                                            </Typography>
+                                        </Button>
+                                    </div>
                                     :
-                                    <Button
-                                        type='submit'
-                                        size='large'
-                                        className={classes.buttonStyle1}
-                                        onClick={() => {this.props.logout()}}
-                                    >
-                                        <Typography variant='button'>
-                                            Sign out
-                                        </Typography>
-                                    </Button>
+                                    <Typography variant="h2">Welcome</Typography>
                                 }
 
                             </Grid>
@@ -150,7 +142,7 @@ class HomePage extends Component {
                         justify="center"
                         alignItems="center"
                     >
-                        <Typography className={classes.textStyle1} variant='subtitle1'>Share your gametime and user score with everyone else!</Typography>
+                        <Typography className={classes.textStyle1} variant='subtitle1'>submit your playthrough and share your experience of your games with everyoine else!</Typography>
                         <Button
                             type='submit'
                             size='large'
