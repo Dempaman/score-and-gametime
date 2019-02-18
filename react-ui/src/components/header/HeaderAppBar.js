@@ -207,7 +207,7 @@ class HeaderAppBar extends React.Component {
                 }}
             >
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    SGT
+                    SG
                 </Typography>
             </ButtonBase>
             <SearchBar placeholder="Search..." inputWidth='inputL'/>
