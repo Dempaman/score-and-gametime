@@ -31,12 +31,9 @@ const styles = theme => ({
     grow: {
         flexGrow: 1,
     },
-        menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
     title: {
         marginRight: 10,
+        fontWeight: 700,
     },
     sectionDesktop: {
         display: 'none',
@@ -210,7 +207,7 @@ class HeaderAppBar extends React.Component {
                 }}
             >
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    SG
+                    SGT
                 </Typography>
             </ButtonBase>
             <SearchBar placeholder="Search..." inputWidth='inputL'/>
@@ -228,7 +225,7 @@ class HeaderAppBar extends React.Component {
                 {renderSignInButtons}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton onClick={this.toggleDrawer('right', true)} className={classes.menuButton} color="inherit" aria-label="Open drawer">
+              <IconButton onClick={this.toggleDrawer('right', true)} color="inherit" aria-label="Open drawer">
                 <MenuIcon />
               </IconButton>
             </div>

@@ -31,7 +31,10 @@ const styles = theme => ({
     },
     wrapper: {
         width: 320,
-        marginLeft: "20%"
+        marginLeft: "20%",
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: "5%",
+        }
     },
     buttonStyle1: {
         backgroundColor: "transparent",
