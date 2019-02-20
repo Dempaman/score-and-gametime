@@ -2,21 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Snackbar from '@material-ui/core/Snackbar';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import axios from 'axios';
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import ExitToApp from '@material-ui/icons/ExitToApp'
 
 import history from '../../history.js';
 import { logout, getUser, getUserFromMongo } from '../../actions/UserActions';
-import SnackbarContentWrapper from '../snackbarContentWrapper/SnackbarContentWrapper';
-import UserIcon from '../../icons/UserIcon.js';
 
 
 const styles = theme => ({
@@ -147,7 +141,6 @@ class Profile extends Component {
 
     render(){
         const { classes } = this.props;
-        console.log(this.props.user)
         return (
             <Grid
                 container

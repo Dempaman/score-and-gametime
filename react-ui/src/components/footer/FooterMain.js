@@ -3,11 +3,10 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { withStyles } from '@material-ui/core/styles';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import withWidth from '@material-ui/core/withWidth'
 
 import SGTBlack from '../../icons/ScoreandgametimeBlackSMALL.js'
 import history from '../../history.js';

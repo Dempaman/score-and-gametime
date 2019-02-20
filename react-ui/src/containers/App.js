@@ -44,7 +44,6 @@ class App extends Component {
 
 
     render() {
-        const { classes } = this.props;
         const id = history.location.pathname.split("/submitgame_form/game/")[1]
         const gameId = history.location.pathname.split("/game_details/")[1]
         return (
