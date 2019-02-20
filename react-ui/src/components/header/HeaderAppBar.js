@@ -118,6 +118,13 @@ class HeaderAppBar extends React.Component {
                             }}
                             />
                     </ListItem>
+                    <ListItem button>
+                        <ListItemText primary={"Profile"}
+                            onClick={ () => {
+                                history.push('/profile')
+                            }}
+                            />
+                    </ListItem>
                 </div>
 
             :
