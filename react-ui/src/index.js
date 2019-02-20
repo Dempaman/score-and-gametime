@@ -34,14 +34,15 @@ const theme = createMuiTheme({
     },
     typography: {
         useNextVariants: true,
-        fontFamily: 'Open Sans, sans-serif',
+        fontFamily: 'Roboto Condensed, sans-serif',
         body1: {
             color: '#fff'
         },
         body2: {
             color: '#1e262c',
-            fontWeight: '300',
+            fontWeight: '400',
             lineHeight: 1.1,
+            fontFamily: "Work Sans",
         },
         body3: {
             color: '#fff',
@@ -51,6 +52,8 @@ const theme = createMuiTheme({
             color: '#1e262c',
         },
         subtitle2: {
+            fontWeight: 400,
+            fontFamily: "Work Sans",
             color: '#fff',
         },
         button: {
@@ -59,7 +62,9 @@ const theme = createMuiTheme({
         },
         h2: {
             color: '#fff',
-            fontSize: "28px",
+            fontSize: "16px",
+            fontWeight: 400,
+            fontFamily: "Work Sans",
         },
         h3: {
             color: '#1e262c',
@@ -87,6 +92,8 @@ const theme = createMuiTheme({
         },
         caption: {
             color: '#1e262c',
+            fontFamily: "Work Sans",
+            fontSize: "14px"
         },
     },
 

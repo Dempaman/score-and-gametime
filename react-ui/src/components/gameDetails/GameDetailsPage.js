@@ -193,6 +193,7 @@ const styles = theme => ({
         paddingTop: "18.75%",
         [theme.breakpoints.down('xs')]: {
             paddingTop: "56.25%", /* Player ratio: 100 / (1280 / 720) */
+            margin: 2,
         },
     },
     reactPlayer: {

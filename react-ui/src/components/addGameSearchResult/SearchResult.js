@@ -10,16 +10,23 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 
 import history from '../../history.js';
 import { searchResultClicked, searchResultGameScore } from '../../actions/SearchActions';
+import Footer from '../../components/footer/';
 
 const styles = theme => ({
     root: {
         paddingLeft: 20,
-        margin: "0 auto"
+        margin: "0 auto",
+        backgroundColor: theme.palette.primary.white,
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 10,
+        }
     },
     gameWrapper: {
         width: 1356,
         margin: 20,
-        backgroundColor: theme.palette.primary.white01,
+    },
+    containerColor: {
+        backgroundColor: theme.palette.primary.white,
     },
     image: {
         width: 80,
@@ -34,13 +41,22 @@ const styles = theme => ({
     divider: {
         backgroundColor: theme.palette.secondary.divider,
     },
-    filler: {
-        paddingLeft: 20,
-        margin: "0 auto",
-        height: "100vh",
+    absolute: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+    },
+    noAbsolute: {
+        position: "relative",
+        width: "100%",
     },
     company: {
         color: "#1e262cb5",
+        lineHeight: 1,
+        marginBottom: 5,
+    },
+    subtitle1: {
+        lineHeight: 1.1,
     }
 
 });
@@ -65,51 +81,53 @@ class SearchResult extends Component {
                 onClick={ () => this.setClickedGame(game, game.id) }
 
             >
-                <Grid
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.root}
-                >
-                    <Grid item>
-                        <ButtonBase className={classes.image}>
-                            <img alt="complex" className={classes.img} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
-                        </ButtonBase>
-                    </Grid>
-                    <Grid item xs={12} sm container>
-                      <Grid item xs container direction="column" spacing={16}>
-                        <Grid item xs>
-                            <Typography variant="subtitle1" >
-                                {game.name}
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                {game.release_dates ?
-                                    Math.min.apply(game.release_dates, game.release_dates.map(find =>(
-                                            find.y
-                                        ))
-                                    )
-                                    :
-                                    "No release date found"
-                                }
-                            </Typography>
-                            <Typography className={classes.company} variant="body2" >
-                                {game.involved_companies ?
-                                    game.involved_companies.find(obj => {
-                                        if(obj.developer === true){
-                                            return obj.developer === true
-                                        }else{
-                                            return obj.developer === false
-                                        }
-                                    }).company.name
-                                    :
-                                    "No company name found"
-                                }
-                            </Typography>
+                <Grid className={classes.containerColor}>
+                    <Grid
+                        container
+                        direction="row"
+                        alignItems="center"
+                        className={classes.root}
+                    >
+                        <Grid item>
+                            <ButtonBase className={classes.image}>
+                                <img alt="complex" className={classes.img} src={game.cover ? game.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
+                            </ButtonBase>
                         </Grid>
-                      </Grid>
+                        <Grid item xs={12} sm container>
+                          <Grid item xs container direction="column" spacing={16}>
+                            <Grid item xs>
+                                <Typography className={classes.subtitle1} variant="subtitle1" >
+                                    {game.name}
+                                </Typography>
+                                <Typography className={classes.subtitle1} variant="subtitle1">
+                                    {game.release_dates ?
+                                        Math.min.apply(game.release_dates, game.release_dates.map(find =>(
+                                                find.y
+                                            ))
+                                        )
+                                        :
+                                        "No release date found"
+                                    }
+                                </Typography>
+                                <Typography className={classes.company} variant="body2" >
+                                    {game.involved_companies ?
+                                        game.involved_companies.find(obj => {
+                                            if(obj.developer === true){
+                                                return obj.developer === true
+                                            }else{
+                                                return obj.developer === false
+                                            }
+                                        }).company.name
+                                        :
+                                        "No company name found"
+                                    }
+                                </Typography>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                     </Grid>
+                    <Divider className={classes.divider} variant="middle"/>
                 </Grid>
-                <Divider className={classes.divider} variant="middle"/>
             </Grid>
         ))
 
@@ -117,15 +135,26 @@ class SearchResult extends Component {
             <Grid
                 container
                 justify="center"
-                className={classes.filler}
             >
-            {!this.props.searchResult.loading ?
-                <CircularProgress/>
-                :
-                <Grid className={classes.gameWrapper}>
-                    {postItems}
+                <Grid  className={classes.gameWrapper}>
+                    {!this.props.searchResult.loading ?
+                        <Grid
+                            container
+                            justify="center"
+                            className={classes.gameWrapper}
+                        >
+
+                            <CircularProgress/>
+                        </Grid>
+                        :
+                        <Grid>
+                            {postItems}
+                        </Grid>
+                    }
                 </Grid>
-            }
+                <Grid className={this.props.searchResult.item.length === 0 ? classes.absolute : classes.noAbsolute}>
+                    <Footer/>
+                </Grid>
             </Grid>
         )
     }

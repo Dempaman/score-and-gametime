@@ -174,12 +174,14 @@ class HeaderAppBar extends React.Component {
                   <IconButton
                       aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                       aria-haspopup="true"
-                      onClick={this.handleProfileMenuOpen}
+                      onClick={ () => {
+                          history.push('/profile')
+                      }}
                       color="inherit"
                       >
-                      <AccountCircle />
+                      <AccountCircle/>
                   </IconButton>
-                  <Button size="large" onClick={() => {this.props.logout()}}>
+                  <Button size="large" onClick={() => {this.props.logout() }}>
                       <Typography variant='button'>Sign Out</Typography>
                   </Button>
                 </Grid>

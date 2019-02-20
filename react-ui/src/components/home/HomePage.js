@@ -92,38 +92,44 @@ class HomePage extends Component {
                             <Grid container justify="center">
                                 {(isWidthUp('sm', this.props.width)) ? <SGT/> : <SGTSmall/> }
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid container justify="center" direction="column">
                                 {!this.props.user.email ?
-                                    <div>
-                                        <Button
-                                            type='submit'
-                                            size='large'
-                                            className={classes.buttonStyle1}
-                                            onClick={ () => {
-                                                history.push('/signup')
-                                            }}
-                                            >
-                                            <Typography variant='button'>
-                                                Become A Member
-                                            </Typography>
-                                        </Button>
-                                        <Button
-                                            type='submit'
-                                            size='large'
-                                            className={classes.buttonStyle1}
-                                            onClick={ () => {
-                                                history.push('/login')
-                                            }}
-                                            >
-                                            <Typography variant='button'>
-                                                Login
-                                            </Typography>
-                                        </Button>
-                                    </div>
+                                    <Grid container justify="center">
+                                        <div>
+                                            <Button
+                                                type='submit'
+                                                size='large'
+                                                className={classes.buttonStyle1}
+                                                onClick={ () => {
+                                                    history.push('/signup')
+                                                }}
+                                                >
+                                                <Typography variant='button'>
+                                                    Become A Member
+                                                </Typography>
+                                            </Button>
+                                            <Button
+                                                type='submit'
+                                                size='large'
+                                                className={classes.buttonStyle1}
+                                                onClick={ () => {
+                                                    history.push('/login')
+                                                }}
+                                                >
+                                                <Typography variant='button'>
+                                                    Login
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                    </Grid>
                                     :
-                                    <Typography variant="h2">Welcome</Typography>
+                                    <Grid container justify="center">
+                                        <Typography variant="h2">Welcome</Typography>
+                                    </Grid>
                                 }
-
+                                <Grid container justify="center">
+                                    <Typography variant="h2">Discover the experience</Typography>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </div>

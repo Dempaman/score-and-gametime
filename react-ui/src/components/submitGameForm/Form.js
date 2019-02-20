@@ -93,7 +93,7 @@ const styles = theme => ({
         width: 200,
     },
     optionStyle: {
-        backgroundColor: theme.palette.primary.main
+        backgroundColor: theme.palette.primary.white
     },
     gridDate: {
         marginRight:20
@@ -193,6 +193,11 @@ const styles = theme => ({
     userStats1: {
         fontSize: "14px",
     },
+    userRating: {
+        fontSize: "24px",
+        color: theme.palette.primary.white,
+        fontWeight: 500,
+    }
 });
 
 const platforms = [
@@ -680,7 +685,7 @@ class Form extends Component {
                                                             />
                                                     </div>
                                                     <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                        <Typography variant="h2">{this.state.value}</Typography>
+                                                        <Typography className={classes.userRating} variant="h5">{this.state.value}</Typography>
                                                     </Grid>
                                                     <Typography variant="caption">Your rating</Typography>
                                             </Grid>

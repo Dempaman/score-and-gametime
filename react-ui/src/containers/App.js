@@ -61,7 +61,6 @@ class App extends Component {
                             <div>
                                 <HeaderAppBar/>
                                 <AddGameSearchResult/>
-                                <Footer/>
                             </div>
                         </Route>
                         <Route path={`/submitgame_form/game/${id}`}>

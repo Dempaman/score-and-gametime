@@ -38,7 +38,7 @@ const styles = theme => ({
     },
     searchNumber: {
         backgroundColor: theme.palette.primary.white,
-        padding: "60px 0 0 0",
+        padding: "30px 0 0 0",
         [theme.breakpoints.down('xs')]: {
          fontSize: "23px",
         },
@@ -156,13 +156,13 @@ const styles = theme => ({
     buttonStyle1: {
         backgroundColor: "transparent",
         border: `1px solid ${theme.palette.primary.dark03}`,
-        marginLeft: 10,
-        position: "absolute",
-        top: 68,
-        right: 104,
+        margin: 20,
     },
     divider: {
         backgroundColor: 'rgba(183, 183, 183, 0.2)'
+    },
+    closeSearch: {
+        color: theme.palette.primary.dark03
     }
 });
 
@@ -295,24 +295,28 @@ class ResultView extends Component {
                 className={classes.root}
             >
                 <Grid className={classes.gameWrapper}>
+                    <Grid container justify="flex-end">
+                        <Button
+                            type='submit'
+                            size='small'
+                            className={classes.buttonStyle1}
+                            onClick={ () => {
+                                history.push('/')
+                            }}
+                            >
+                            <Typography className={classes.closeSearch} variant='button'>
+                                Close search
+                            </Typography>
+                        </Button>
+                    </Grid>
+                    <Divider variant="middle"/>
                     <Typography align="center" className={classes.searchNumber} variant="h3">
                         Find out more about each awesome game by clicking their portraits
                     </Typography>
-                    <Button
-                        type='submit'
-                        size='large'
-                        className={classes.buttonStyle1}
-                        onClick={ () => {
-                            history.push('/')
-                        }}
-                        >
-                        <Typography variant='body1'>
-                            Close search
-                        </Typography>
-                    </Button>
                     <Typography align="center" className={classes.searchNumber2} variant="subtitle1">
                         We did find {this.props.filterResult.length} Results
                     </Typography>
+                    <Divider variant="middle"/>
                     <Grid container justify="center" className={classes.postersContainer}>
                         {postItems}
                     </Grid>

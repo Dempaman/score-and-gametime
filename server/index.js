@@ -38,8 +38,8 @@ app.get("/game:id", (req, res) => {
   res.send(req.params.id)
 })
 
-app.get("/api/users", (req, res) => {
-    users.getAll(function(getAllUsers) {
+app.get("/profile", (req, res) => {
+    users.getAll(req, function(getAllUsers) {
       res.send(getAllUsers);
     })
 })

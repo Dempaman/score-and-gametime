@@ -7,19 +7,23 @@ let error = msg => {
 }
 
 const users = {
-    getAll: function(callback) {
+    getAll: function(req, callback) {
+        let status = {
+            uid: req.query.uid,
+        }
+        console.log(status.uid)
         Client.connect(url, { useNewUrlParser: true }, function(err, client) {
             const db = client.db("scoreandgametime")
             const collection = db.collection("users")
 
             let resultArray = [];
-            let cursor = collection.find({}).limit(100);
+            let cursor = collection.find({uid: status.uid});
 
                 cursor.forEach(function(doc, err){
                 resultArray.push(doc);
             }, function(){
                 client.close();
-                callback(resultArray); // can't simply return a value from an asynchronous function call. Thats why a callback was needed here (https://stackoverflow.com/questions/42235886/express-res-send-is-not-returning-the-result-of-my-module-exported-function-that)
+                callback(resultArray[0]); // can't simply return a value from an asynchronous function call. Thats why a callback was needed here (https://stackoverflow.com/questions/42235886/express-res-send-is-not-returning-the-result-of-my-module-exported-function-that)
             });
         });
     },
@@ -110,7 +114,6 @@ const users = {
             photoURL: req.query.photoURL,
         }
         let query;
-
         Client.connect(url, { useNewUrlParser: true }, (err, client) => {
             if(err) {
                 callback(error(err.message))
@@ -123,7 +126,7 @@ const users = {
             query = {uid: status.uid};
 
             collection.updateOne(query, {
-                $set: { uid: status.uid, email: status.email, displayName: status.displayName, photoURL: status.displayName }
+                $set: { uid: status.uid, email: status.email, displayName: status.displayName, photoURL: status.photoURL }
             }, { upsert: true }, function(err, res) {
                 if(err) {
                     callback(error(err.message))

@@ -2,14 +2,7 @@ import { auth } from '../Firebase.js';
 import axios from 'axios';
 export const GET_USER = 'get_user';
 export const RESET_USER = 'reset_user';
-
-//const PORT = process.env.PORT || 'http://localhost:5000';
-
-
-
-
-
-
+export const GET_USER_FROM_MONGO = 'get_user_from_mongo';
 
 export function getUser(name) {
     return dispatch => {
@@ -19,9 +12,8 @@ export function getUser(name) {
                 user.updateProfile({
                     displayName: name
                 }).then(function() {
-                    console.log(user)
                     axios({
-                        url: `/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${name}&photoURL=${user.photoURL}`,
+                        url: `/api/create_user?uid=${user.uid}&email=${user.email}&displayName=${user.displayName}&photoURL=${user.photoURL}`,
                         method: 'PUT',
                     })
                     .then(res => {
@@ -40,6 +32,29 @@ export function getUser(name) {
                 // An error happened.
                 });
 
+            }
+        })
+    };
+}
+export function getUserFromMongo(name) {
+    return dispatch => {
+        auth.onAuthStateChanged((user) => {
+            if(user){
+                axios({
+                    url: `/profile?uid=${user.uid}`,
+                    method: 'GET',
+                })
+                .then(res => {
+                    if (res) {
+                        dispatch({
+                            type: GET_USER_FROM_MONGO,
+                            payload: res.data,
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                });
             }
         })
     };

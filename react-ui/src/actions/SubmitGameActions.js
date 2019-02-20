@@ -7,8 +7,6 @@ export const SUBMIT_GAME_TIME = 'SUBMIT_GAME_TIME';
 
 export function submitGame(data, uid) {
     return dispatch => {
-        console.log(data)
-        console.log(uid)
         axios({
             url: `/api/submitgame?uid=${uid}`,
             method: 'PUT',
