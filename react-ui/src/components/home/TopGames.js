@@ -11,7 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
 import Divider from '@material-ui/core/Divider';
 
-import { searchResultHead  } from '../../actions/SearchActions';
+import { searchResultHead, searchResultClicked, searchResultGameScore  } from '../../actions/SearchActions';
+import history from '../../history.js';
 
 const styles = theme => ({
     root: {
@@ -162,6 +163,12 @@ class TopGames extends Component {
         this.setState(state => ({ checked: !state.checked }));
     };
 
+    setClickedGame = (game, id) => {
+        this.props.searchResultGameScore(game)
+        this.props.searchResultClicked(game.games[0])
+        history.push(`/game_details/${id}`)
+    }
+
     render(){
         const filteredGames = this.props.filterResult
         const { classes } = this.props;
@@ -175,6 +182,7 @@ class TopGames extends Component {
             >
                 <Grid
                     className={classes.posterRoot}
+                    onClick={ () => this.setClickedGame(game, game._id) }
                 >
                     <Card className={classes.card}>
                         <CardActionArea>
@@ -289,5 +297,5 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, {searchResultHead})
+  connect(mapStateToProps, {searchResultHead, searchResultClicked, searchResultGameScore})
 )(TopGames);

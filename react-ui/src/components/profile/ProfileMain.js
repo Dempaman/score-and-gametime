@@ -59,7 +59,10 @@ const styles = theme => ({
     },
     image: {
         width: 80,
-        margin: "15px 12px 15px 0px"
+        margin: "15px 12px 15px 0px",
+        [theme.breakpoints.down('xs')]: {
+            width: 100,
+        }
     },
     img: {
         margin: 'auto',
@@ -94,7 +97,7 @@ const styles = theme => ({
         padding: "5px 10px 15px 0",
         fontWeight: 400,
         fontFamily: "Work Sans",
-        color: theme.palette.primary.dark03,
+        color: theme.palette.primary.blue02,
         lineHeight: 1.1,
     },
     leftCont: {
@@ -114,12 +117,28 @@ const styles = theme => ({
     timeWrapper: {
         width: 200,
         marginTop: 25,
+        [theme.breakpoints.down('xs')]: {
+            margin: "25px auto",
+        }
     },
     infoCont: {
         borderRadius: "1px",
         backgroundColor: "#80808017",
         padding: 10,
         marginRight: 10,
+        [theme.breakpoints.down('xs')]: {
+            textAlign: "center"
+        }
+    },
+    autoMid: {
+        [theme.breakpoints.down('xs')]: {
+            margin: "0 auto"
+        }
+    },
+    h3: {
+        [theme.breakpoints.down('xs')]: {
+            textAlign: "center"
+        }
     }
 });
 
@@ -201,7 +220,7 @@ class Profile extends Component {
                                                 alignItems="center"
 
                                             >
-                                                <Grid item>
+                                                <Grid className={classes.autoMid}>
                                                     <ButtonBase className={classes.image}>
                                                         <img alt="complex" className={classes.img} src={game.gameData.cover ? game.gameData.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') } />
                                                     </ButtonBase>

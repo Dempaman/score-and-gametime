@@ -136,6 +136,9 @@ class SearchResult extends Component {
                 container
                 justify="center"
             >
+            <Grid container justify="center">
+                <Typography variant="caption">Search limit is set to 3.</Typography>
+            </Grid>
                 <Grid  className={classes.gameWrapper}>
                     {!this.props.searchResult.loading ?
                         <Grid
