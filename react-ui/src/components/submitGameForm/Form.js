@@ -201,21 +201,180 @@ const styles = theme => ({
 });
 
 const platforms = [
+     // ----Nintendo---- //
+  {
+    value: 'NES',
+    label: 'NES',
+  },
+  {
+    value: 'Game Boy',
+    label: 'Game Boy',
+  },
+  {
+    value: 'Game Boy Color',
+    label: 'Game Boy Color',
+  },
+  {
+    value: 'Game Boy Advance',
+    label: 'Game Boy Advance',
+  },
+  {
+    value: 'Nintendo DS',
+    label: 'Nintendo DS',
+  },
+  {
+    value: 'Nintendo 3DS',
+    label: 'Nintendo 3DS',
+  },
+  {
+    value: 'SNES',
+    label: 'SNES',
+  },
+  {
+    value: 'Nintendo 64',
+    label: 'Nintendo 64',
+  },
+  {
+    value: 'Gamecube',
+    label: 'Gamecube',
+  },
+  {
+    value: 'Wii',
+    label: 'Wii',
+  },
+  {
+    value: 'Wii U',
+    label: 'Wii U',
+  },
   {
     value: 'Nintendo Switch',
     label: 'Nintendo Switch',
+  },
+  // --------------- //
+
+  // ----Sony---- //
+  {
+    value: 'Playstation',
+    label: 'Playstation',
+  },
+  {
+    value: 'Playstation 2',
+    label: 'Playstation 2',
+  },
+  {
+    value: 'Playstation 3',
+    label: 'Playstation 3',
   },
   {
     value: 'Playstation 4',
     label: 'Playstation 4',
   },
   {
+    value: 'Playstation Vita',
+    label: 'Playstation Vita',
+  },
+  {
+    value: 'Playstation VR',
+    label: 'Playstation VR',
+  },
+  // --------------- //
+
+  // ----Microsoft---- //
+  {
     value: 'Xbox One',
     label: 'Xbox One',
   },
   {
+    value: 'Xbox 360',
+    label: 'Xbox 360',
+  },
+  {
+    value: 'Xbox',
+    label: 'Xbox',
+  },
+  // --------------- //
+
+  // ----Sega---- //
+  {
+    value: 'SG-1000',
+    label: 'SG-1000',
+  },
+  {
+    value: 'SG-1000 II',
+    label: 'SG-1000 II',
+  },
+  {
+    value: 'Genesis (Mega Drive)',
+    label: 'Genesis (Mega Drive)',
+  },
+  {
+    value: 'Game Gear',
+    label: 'Game Gear',
+  },
+  {
+    value: 'Sega CD (Mega CD)',
+    label: 'Sega CD (Mega CD)',
+  },
+  {
+    value: '32X',
+    label: '32X',
+  },
+  {
+    value: 'Sega Saturn',
+    label: 'Sega Saturn',
+  },
+  {
+    value: 'Dreamcast',
+    label: 'Dreamcast',
+  },
+  // --------------- //
+
+  // ----Atari---- //
+  {
+    value: 'Atari 2600',
+    label: 'Atari 2600',
+  },
+  {
+    value: 'Atari 5200',
+    label: 'Atari 5200',
+  },
+  {
+    value: 'Atari 8-bit Family',
+    label: 'Atari 8-bit Family',
+  },
+  {
+    value: 'Atari Jaguar',
+    label: 'Atari Jaguar',
+  },
+  {
+    value: 'Atari Jaguar CD',
+    label: 'Atari Jaguar CD',
+  },
+  {
+    value: 'Atari Lynx',
+    label: 'Atari Lynx',
+  },
+  {
+    value: 'Atari ST',
+    label: 'Atari ST',
+  },
+  // --------------- //
+
+  {
     value: 'PC',
     label: 'PC',
+  },
+  {
+    value: 'HTC Vive',
+    label: 'HTC Vive',
+  },
+  {
+    value: 'HTC Vive Pro',
+    label: 'HTC Vive Pro',
+  },
+  {
+    value: 'Oculus Rift VR',
+    label: 'Oculus Rift VR',
   },
   {
     value: 'Other..',
@@ -240,7 +399,9 @@ class Form extends Component {
                 CompletionistMin: null,
                 CompletionistSec: null,
                 open: false,
-                error: ''
+                openMessage: false,
+                error: '',
+                message: '',
             }
     }
 
@@ -250,6 +411,7 @@ class Form extends Component {
       }
       this.setState({
           open: false,
+          openMessage: false,
       });
     };
 
@@ -335,6 +497,10 @@ class Form extends Component {
 
     }
 
+    timeOutHistory() {
+        history.replace('/')
+    }
+
     submitAccount(event) {
         event.preventDefault();
         if (this.props.user.uid && this.state.value >= 10) {
@@ -364,8 +530,11 @@ class Form extends Component {
 
                 }
             this.props.submitGame(submit, uid)
-            history.replace('/')
-
+            this.setState({
+              message: 'Game Submitted',
+              openMessage: true
+            });
+            setTimeout(this.timeOutHistory,2000);
         } else {
             this.setState({
               error: 'You need to login or create an account to submit',
@@ -710,6 +879,24 @@ class Form extends Component {
                                                     onClose={this.handleClose}
                                                     variant="warning"
                                                     message={this.state.error}
+                                                    />
+                                            </Snackbar>)
+                                        }
+                                        {this.state.message &&
+                                            (<Snackbar
+                                                anchorOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'right',
+                                                }}
+                                                open={this.state.openMessage}
+                                                autoHideDuration={4000}
+                                                onClose={this.handleClose}
+
+                                                >
+                                                <SnackbarContentWrapper
+                                                    onClose={this.handleClose}
+                                                    variant="success"
+                                                    message={this.state.message}
                                                     />
                                             </Snackbar>)
                                         }
