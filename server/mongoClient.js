@@ -11,7 +11,6 @@ const users = {
         let status = {
             uid: req.query.uid,
         }
-        console.log(status.uid)
         Client.connect(url, { useNewUrlParser: true }, function(err, client) {
             const db = client.db("scoreandgametime")
             const collection = db.collection("users")
