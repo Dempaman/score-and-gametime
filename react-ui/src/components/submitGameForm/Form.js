@@ -503,9 +503,10 @@ class Form extends Component {
 
     submitAccount(event) {
         event.preventDefault();
-        if (this.props.user.uid && this.state.value >= 10) {
-            const uid = this.props.user.uid
-            const submit =
+        if (this.props.user.uid ) {
+            if(this.state.value >= 10) {
+                const uid = this.props.user.uid
+                const submit =
                 {
                     gameId: this.props.clicked.id,
                     platform: this.state.platform,
@@ -529,12 +530,18 @@ class Form extends Component {
                     gameData: this.props.clicked
 
                 }
-            this.props.submitGame(submit, uid)
-            this.setState({
-              message: 'Game Submitted',
-              openMessage: true
-            });
-            setTimeout(this.timeOutHistory,2000);
+                this.props.submitGame(submit, uid)
+                this.setState({
+                    message: 'Game Submitted',
+                    openMessage: true
+                });
+                setTimeout(this.timeOutHistory,2000);
+            } else {
+                this.setState({
+                  error: 'You can not give games 0 rating..',
+                  open: true
+                });
+            }
         } else {
             this.setState({
               error: 'You need to login or create an account to submit',

@@ -1,6 +1,12 @@
 import { GET_USER, RESET_USER, GET_USER_FROM_MONGO } from '../actions/UserActions'
 
-export default function (state = { loading: false }, action) {
+const initialState = {
+    profile: {
+        games: []
+    }
+}
+
+export default function (state = initialState , action) {
     switch(action.type) {
         case GET_USER:
             return {

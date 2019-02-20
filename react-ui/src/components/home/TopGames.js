@@ -129,7 +129,7 @@ const styles = theme => ({
         color: '#fff',
         marginBottom: 7,
         [theme.breakpoints.down('xs')]: {
-            fontSize: "9px",
+            fontSize: "7px",
         },
     },
     releaseText: {
@@ -188,7 +188,7 @@ class TopGames extends Component {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image={game.games[0].gameData.cover ? game.games[0].gameData.cover.url.replace('t_thumb', 't_cover_big') : require('../../icons/noImage.jpg') }
+                                image={game.games[0].gameData.cover ? game.games[0].gameData.cover.url.replace('t_thumb', 't_720p') : require('../../icons/noImage.jpg') }
                                 title="Contemplative Reptile"
                                 />
                             <CardContent>
@@ -250,14 +250,14 @@ class TopGames extends Component {
                                         <Grid  container direction="row" alignItems="flex-end" justify="space-between">
                                             <Typography className={classes.hoursText} variant="body2">100% the game!</Typography>
                                             <Grid container justify="center" alignItems="center" className={classes.userScoreBox}>
-                                                <Typography className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="h2">
-                                                    {game.completionistHours ?
-                                                        Math.round(game.completionistHours)
+                                                <Typography className={game.avgCompletionistHours < 99  ? classes.textStyle2 : classes.textStyle3} variant="h2">
+                                                    {game.avgCompletionistHours ?
+                                                        Math.round(game.avgCompletionistHours)
                                                         :
                                                         0
                                                     }
                                                 </Typography>
-                                                <Typography variant="h2" className={game.completionistHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
+                                                <Typography variant="h2" className={game.avgCompletionistHours < 99  ? classes.textStyle2 : classes.textStyle3}>h</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider className={classes.divider} light/>

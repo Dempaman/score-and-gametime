@@ -20,7 +20,7 @@ const styles = theme => ({
         maxWidth: 1356,
         backgroundColor: theme.palette.primary.white,
         [theme.breakpoints.down('sm')]: {
-            padding: "30px 10px 70px 10px",
+            padding: "30px 10px 70vh 10px",
         }
     },
     icon: {
@@ -160,6 +160,7 @@ class Profile extends Component {
 
     render(){
         const { classes } = this.props;
+        console.log(this.props.user)
         return (
             <Grid
                 container
@@ -167,7 +168,7 @@ class Profile extends Component {
                 className={classes.root}
             >
                 <Grid>
-                    {this.props.user ?
+
                         <Grid
                             container
                             direction="row"
@@ -206,6 +207,7 @@ class Profile extends Component {
                                     </Grid>
                                 </Grid>
                             </Grid>
+                            {this.props.user.games ?
                             <Grid>
                                 <Typography className={classes.h3} variant="h3" >Your playthroughs</Typography>
                                 {this.props.user.games.map(game => (
@@ -303,10 +305,13 @@ class Profile extends Component {
                                     </Grid>
                                 ))}
                             </Grid>
+                            :
+                            <Grid>
+                                <Typography className={classes.h3} variant="h3" >Your playthroughs</Typography>
+                                <Typography className={classes.h3} variant="caption" >no games added...</Typography>
+                            </Grid>
+                        }
                         </Grid>
-                        :
-                        null
-                    }
                 </Grid>
             </Grid>
         )
