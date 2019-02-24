@@ -92,13 +92,19 @@ const styles = theme => ({
         fontFamily: "Work Sans",
         color: theme.palette.primary.dark03,
         lineHeight: 1.1,
+
     },
     subtitle3: {
-        padding: "5px 10px 15px 0",
+        padding: "0px 10px 0px 0",
         fontWeight: 400,
         fontFamily: "Work Sans",
         color: theme.palette.primary.blue02,
         lineHeight: 1.1,
+    },
+    extraDiv: {
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: "center",
+        }
     },
     leftCont: {
         paddingRight: 60,
@@ -127,7 +133,8 @@ const styles = theme => ({
         padding: 10,
         marginRight: 10,
         [theme.breakpoints.down('xs')]: {
-            textAlign: "center"
+            textAlign: "center",
+            justifyContent: "center",
         }
     },
     autoMid: {
@@ -256,7 +263,16 @@ class Profile extends Component {
                                                                 "No company name found"
                                                             }
                                                         </Typography>
-                                                        <Typography className={classes.subtitle3} variant="subtitle1">Completed on: {game.platform}</Typography>
+                                                        <Grid className={classes.extraDiv} container direction="row">
+                                                            <Typography className={classes.subtitle1} variant="subtitle1">Completed on:</Typography>
+                                                            &nbsp;
+                                                            <Typography className={classes.subtitle3} variant="subtitle1"> {game.platform}</Typography>
+                                                        </Grid>
+                                                        <Grid className={classes.extraDiv} container direction="row">
+                                                            <Typography className={classes.subtitle1} variant="subtitle1">Game added:</Typography>
+                                                            &nbsp;
+                                                            <Typography className={classes.subtitle3} variant="subtitle1"> {game.date.slice(0, 10)}</Typography>
+                                                        </Grid>
                                                     </Grid>
                                                   </Grid>
                                                 </Grid>

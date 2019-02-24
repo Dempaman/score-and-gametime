@@ -76,7 +76,7 @@ class FooterMain extends Component {
                             </Grid>
                         </Grid>
                         <Grid>
-                            <Typography className={classes.emailText} variant="caption">submit your playthrough and share your experience of your games with everyoine else.</Typography>
+                            <Typography className={classes.emailText} variant="caption">submit your playthrough and share your experience of your games with everyone else.</Typography>
                         </Grid>
                         <Button
                             type='submit'

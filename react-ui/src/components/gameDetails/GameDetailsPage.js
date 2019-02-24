@@ -394,11 +394,17 @@ class GameDetailsPage extends Component {
                                         </Grid>
                                         <Grid container direction="row">
                                             <Typography className={classes.textStyle3} variant="caption">Genre(s):</Typography>
-                                            {game.genres.map(genre => (
+                                            {game.genres ?
+                                                game.genres.map(genre => (
                                                 <Typography key={genre.id} className={classes.textStyle2} variant="caption">
                                                     {genre.name},
                                                 </Typography>
-                                            ))}
+                                            ))
+                                            :
+                                            <Typography className={classes.textStyle2} variant="caption">
+                                                "-",
+                                            </Typography>
+                                            }
                                         </Grid>
                                         <Grid container direction="row">
                                             <Typography className={classes.textStyle3} variant="caption">Developer:</Typography>
@@ -563,7 +569,7 @@ class GameDetailsPage extends Component {
                                     <Typography className={classes.textStyle1} variant="h5">Videos </Typography>
                                     <Divider className={classes.divider} light />
                                     <Grid className={classes.videoGrid} container direction="row">
-                                        {
+                                        {this.props.clicked.videos ?
                                             this.props.clicked.videos.slice(0, 3).map(video => (
                                                 <Grid key={video.video_id} className={classes.playerWrapper} item  xs={12} sm={4}>
                                                     <ReactPlayer
@@ -575,6 +581,8 @@ class GameDetailsPage extends Component {
                                                     />
                                                 </Grid>
                                             ))
+                                            :
+                                            null
                                         }
                                     </Grid>
                                 </Grid>

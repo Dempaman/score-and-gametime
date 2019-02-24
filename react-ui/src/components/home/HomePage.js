@@ -148,7 +148,7 @@ class HomePage extends Component {
                         justify="center"
                         alignItems="center"
                     >
-                        <Typography className={classes.textStyle1} variant='subtitle1'>submit your playthrough and share your experience of your games with everyoine else!</Typography>
+                        <Typography className={classes.textStyle1} variant='subtitle1'>submit your playthrough and share your experience of your games with everyone else!</Typography>
                         <Button
                             type='submit'
                             size='large'
